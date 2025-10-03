@@ -29,4 +29,9 @@ class Property extends Model
         return $this->hasMany(ElectricitySettlement::class);
     }
 
+    public function hasMany() : HasMany
+    {
+        return $this->universalSettlements(UniversalSettlement::class);
+    }
+
 }
