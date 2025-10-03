@@ -17,12 +17,17 @@ class Landlord extends Model
 
     public function customServicesSettlements() : hasMany
     {
-        $this->hasMany(CustomServiceSettlement::class);
+        return $this->hasMany(CustomServiceSettlement::class);
     }
 
     public function annualServiceSettlements() : hasMany
     {
-        $this->hasMany(AnnualServiceSettlement::class);
+        return $this->hasMany(AnnualServiceSettlement::class);
+    }
+
+    public function electricitySettlements() : hasMany
+    {
+        return $this->hasMany(ElectricitySettlement::class);
     }
 
 }

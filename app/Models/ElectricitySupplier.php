@@ -9,4 +9,12 @@ class ElectricitySupplier extends Model
 {
     /** @use HasFactory<\Database\Factories\ElectricitySupplierFactory> */
     use HasFactory;
+
+
+    public function electricitySettlements() {
+
+        return $this->hasMany(ElectricitySettlement::class);
+
+    }
+
 }

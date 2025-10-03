@@ -15,13 +15,18 @@ class Property extends Model
 
     public function annualServiceSettlements() : hasMany
     {
-        $this->hasMany(AnnualServiceSettlement::class);
+        return $this->hasMany(AnnualServiceSettlement::class);
     }
 
     public function customServiceSettlements() : hasMany
     {
-        $this->hasMany(CustomServiceSettlement::class);
+        return $this->hasMany(CustomServiceSettlement::class);
 
+    }
+
+    public function electricitySettlements() : hasMany
+    {
+        return $this->hasMany(ElectricitySettlement::class);
     }
 
 }
