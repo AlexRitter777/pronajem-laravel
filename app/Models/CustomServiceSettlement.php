@@ -47,7 +47,6 @@ class CustomServiceSettlement extends Model
         'account_number',
         'due_date',
         'user_id'
-
     ];
 
     protected $casts = [
