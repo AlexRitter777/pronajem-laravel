@@ -26,4 +26,19 @@ class Tenant extends Model
         return $this->hasMany(ElectricitySettlement::class);
     }
 
+    public function universalSettlements() : hasMany
+    {
+        return $this->hasMany(UniversalSettlement::class);
+    }
+
+    public function summarySettlements() : hasMany
+    {
+        return $this->hasMany(SummarySettlement::class);
+    }
+
+    public function depositSettlements() : hasMany
+    {
+        return $this->hasMany(DepositSettlement::class);
+    }
+
 }

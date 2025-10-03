@@ -40,4 +40,9 @@ class Property extends Model
         return $this->hasMany(SummarySettlement::class);
     }
 
+    public function depositSettlements() : HasMany
+    {
+        return $this->hasMany(DepositSettlement::class);
+    }
+
 }
