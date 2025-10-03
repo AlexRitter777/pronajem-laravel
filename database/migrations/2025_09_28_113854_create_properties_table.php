@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->string('description')->nullable();
+            $table->string('address');
+            $table->integer('rent_amount')->nullable();
+            $table->integer('service_charge')->nullable();
+            $table->integer('electricity_charge')->nullable();
+            $table->integer('deposit_amount')->nullable();
+            $table->dateTime('contract_finished_at')->nullable();
+            $table->foreignId('landlord_id')->constrained();
+            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('electricity_supplier_id')->constrained();
+            $table->foreignId('building_manager_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

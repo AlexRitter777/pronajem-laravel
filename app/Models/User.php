@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -45,4 +46,61 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function annualServiceSettlements(): hasMany
+    {
+        $this->hasMany(AnnualServiceSettlement::class);
+    }
+
+    public function customServiceSettlements(): hasMany
+    {
+        $this->hasMany(CustomServiceSettlement::class);
+    }
+
+    public function universalSettlements(): hasMany
+    {
+        $this->hasMany(UniversalSettlement::class);
+    }
+
+    public function electricitySettlements(): hasMany
+    {
+        $this->hasMany(ElectricitySettlement::class);
+    }
+
+    public function depositSettlements(): HasMany
+    {
+        $this->hasMany(DepositSettlement::class);
+    }
+
+    public function summarySettlements(): hasMany
+    {
+        $this->hasMany(SummarySettlement::class);
+    }
+
+    public function tenants(): HasMany
+    {
+        return $this->hasMany(Tenant::class);
+    }
+
+    public function landlords(): HasMany
+    {
+        return $this->hasMany(Landlord::class);
+    }
+
+    public function buildingManagers(): HasMany
+    {
+        return $this->hasMany(BuildingManager::class);
+    }
+
+    public function electricitySuppliers(): HasMany
+    {
+        return $this->hasMany(ElectricitySupplier::class);
+    }
+
+    public function properties(): HasMany
+    {
+        return $this->hasMany(Property::class);
+    }
+
+
 }

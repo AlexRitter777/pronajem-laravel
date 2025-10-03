@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UniversalSettlementType extends Model
+class DepositItemType extends Model
 {
     //
 }

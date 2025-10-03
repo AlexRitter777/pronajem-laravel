@@ -17,7 +17,19 @@ class PropertyFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'type' => fake()->randomElement(['Apartment', 'House', 'Condo', 'Townhouse']),
+            'description' => fake()->realTextBetween(50, 170),
+            'address' => fake()->address(),
+            'rent_amount' => fake()->randomFloat(0, 10000, 25000),
+            'service_charge' => fake()->randomFloat(0, 2500, 7000),
+            'electricity_charge' => fake()->randomFloat(0, 1000, 3000),
+            'deposit_amount' => fake()->randomFloat(0, 10000, 30000),
+            'contract_finished_at' => fake()->dateTimeBetween('now', '+2 years'),
+            'landlord_id' => null,
+            'tenant_id' => null,
+            'electricity_supplier_id' => null,
+            'building_manager_id' => null,
+            'user_id' => null,
         ];
     }
 }

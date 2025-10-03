@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('annual_service_settlements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('property_id')->constrained('properties');
+            $table->foreignId('landlord_id')->constrained('landlords');
+            $table->foreignId('tenant_id')->constrained('tenants');
+            $table->foreignId('building_manager_id')->constrained('building_managers');
+            $table->year('year');
+            $table->json('expenses');
+            $table->decimal('total_annual_expenses', 10, 2);
+            $table->json('payments')->nullable();
+            $table->decimal('total_annual_payments', 10, 2)->default(0);
+            $table->boolean('show_account_number')->default(false);
+            $table->string('account_number')->nullable();
+            $table->date('due_date')->nullable();
             $table->timestamps();
         });
     }

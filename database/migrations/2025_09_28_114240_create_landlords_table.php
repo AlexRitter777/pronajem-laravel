@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('landlords', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('address');
+            $table->date('birthday')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('account_number')->nullable();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
