@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MeterType extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
     ];

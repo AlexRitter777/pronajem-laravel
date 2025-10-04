@@ -17,7 +17,10 @@ class BuildingManagerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'phone' => fake()->phoneNumber(),
+            'email' => fake()->unique()->safeEmail(),
+            'user_id' => 1,
         ];
     }
 }

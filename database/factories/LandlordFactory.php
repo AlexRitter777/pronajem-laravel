@@ -19,6 +19,11 @@ class LandlordFactory extends Factory
         return [
             'name' => fake()->name(),
             'address' => fake()->address(),
+            'birthday' => fake()->date(),
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->phoneNumber(),
+            'account_number' => '111222333/2800',
+            'user_id' => 1
 
         ];
     }

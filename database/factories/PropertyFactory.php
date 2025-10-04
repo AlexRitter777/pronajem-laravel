@@ -17,8 +17,8 @@ class PropertyFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['Apartment', 'House', 'Condo', 'Townhouse']),
-            'description' => fake()->realTextBetween(50, 170),
+            'type' => fake()->randomElement(['Být', 'Rodinný dům', 'Ateliér', 'Garsonka']),
+            'description' => fake()->realTextBetween(50, 70),
             'address' => fake()->address(),
             'rent_amount' => fake()->randomFloat(0, 10000, 25000),
             'service_charge' => fake()->randomFloat(0, 2500, 7000),
@@ -29,7 +29,7 @@ class PropertyFactory extends Factory
             'tenant_id' => null,
             'electricity_supplier_id' => null,
             'building_manager_id' => null,
-            'user_id' => null,
+            'user_id' => 1,
         ];
     }
 }
