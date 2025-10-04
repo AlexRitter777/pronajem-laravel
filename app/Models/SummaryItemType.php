@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SummaryItemType extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+    ];
 }

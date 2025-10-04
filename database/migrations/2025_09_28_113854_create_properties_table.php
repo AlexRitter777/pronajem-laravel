@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('electricity_supplier_id')->constrained();
             $table->foreignId('building_manager_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->index('address');
             $table->timestamps();
         });
     }

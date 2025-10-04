@@ -11,6 +11,17 @@ class Tenant extends Model
     /** @use HasFactory<\Database\Factories\TenantFactory> */
     use HasFactory;
 
+
+    protected $fillable = [
+        'name',
+        'address',
+        'birthday',
+        'email',
+        'phone',
+        'account_number',
+        'user_id'
+    ];
+
     public function customServicesSettlements() : hasMany
     {
         return $this->hasMany(CustomServiceSettlement::class);

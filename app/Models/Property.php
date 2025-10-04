@@ -11,6 +11,21 @@ class Property extends Model
     /** @use HasFactory<\Database\Factories\PropertyFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'type',
+        'description',
+        'address',
+        'rent_amount',
+        'service_charge',
+        'electricity_charge',
+        'deposit_amount',
+        'contract_finished_at',
+        'landlord_id',
+        'tenant_id',
+        'electricity_supplier_id',
+        'building_manager_id',
+        'user_id'
+    ];
 
 
     public function annualServiceSettlements() : hasMany

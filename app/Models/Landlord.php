@@ -12,7 +12,15 @@ class Landlord extends Model
     use HasFactory;
 
 
-
+    protected $fillable = [
+        'name',
+        'address',
+        'birthday',
+        'email',
+        'phone',
+        'account_number',
+        'user_id'
+    ];
 
 
     public function customServicesSettlements() : hasMany

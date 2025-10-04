@@ -10,6 +10,11 @@ class ElectricitySupplier extends Model
     /** @use HasFactory<\Database\Factories\ElectricitySupplierFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'user_id'
+    ];
 
     public function electricitySettlements() {
 

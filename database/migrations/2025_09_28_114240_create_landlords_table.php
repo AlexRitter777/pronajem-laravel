@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('account_number')->nullable();
             $table->foreignId('user_id')->constrained();
+            $table->index('name');
             $table->timestamps();
         });
     }
