@@ -12,9 +12,10 @@ class TenantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ListTenantAction $listTenantAction)
+    public function index(Request $request, ListTenantAction $listTenantAction)
     {
-        $tenants = $listTenantAction->execute();
+
+        $tenants = $listTenantAction->execute($request->only(['search', 'sort', 'order', 'per_page']));
 
         return TenantResource::collection($tenants);
     }

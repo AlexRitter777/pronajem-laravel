@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
 import {ArrowLongLeftIcon, ArrowLongRightIcon} from "@heroicons/vue/20/solid";
-import {ref} from "vue";
 
 
 const props = defineProps({

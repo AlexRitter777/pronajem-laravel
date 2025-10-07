@@ -9,8 +9,22 @@ class ListTenantAction
     public function execute(array $filters = [])
     {
 
-        return Tenant::orderBy('id','desc')->paginate(3);
 
+         $perPage = $filters['per_page'] ?? 5;
+
+         $query = Tenant::query();
+
+         if(!empty($filters['search'])) {
+             $query->where('name','like','%'.$filters['search'].'%');
+         }
+
+         if(!empty($filters['sort'])) {
+             $query->orderBy($filters['sort'],$filters['order'] ?? 'desc');
+         }else{
+             $query->latest();
+         }
+
+         return $query->paginate($perPage);
 
     }
 
