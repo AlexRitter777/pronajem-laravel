@@ -24,7 +24,7 @@ class ListTenantAction
              $query->latest();
          }
 
-         return $query->paginate($perPage);
+         return $query->with('properties')->paginate($perPage);
 
     }
 

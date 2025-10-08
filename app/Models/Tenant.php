@@ -22,6 +22,12 @@ class Tenant extends Model
         'user_id'
     ];
 
+
+    public function properties() : hasMany
+    {
+        return $this->hasMany(Property::class);
+    }
+
     public function customServicesSettlements() : hasMany
     {
         return $this->hasMany(CustomServiceSettlement::class);

@@ -1,19 +1,24 @@
 <script setup lang="ts">
     import { ChevronDownIcon } from '@heroicons/vue/20/solid';
     import { ChevronUpIcon } from '@heroicons/vue/20/solid';
+    import { TrashIcon } from "@heroicons/vue/24/outline"
+
+
+
     import {onMounted, ref} from "vue";
     import axios from "axios";
     import Pagination from "./Pagination.vue";
     import TableSearch from "./TableSearch.vue";
     import PerPage from "./PerPage.vue";
+    import {computed} from "vue";
 
     const tenants = ref([]);
     const pagination = ref({});
     const links = ref([]);
     const search = ref('');
     const perPageValue = ref('');
-    const sort = ref('');
-    const sortDirection = ref('desc');
+    const sort = ref('name');
+    const sortDirection = ref('asc');
 
     let searchTimeout = null;
 
@@ -49,16 +54,33 @@
 
     function toggleSort(col) {
         sort.value = col;
-        if (sortDirection.value === 'desc') {
-            sortDirection.value = 'asc';
-        } else {
-            sortDirection.value = 'desc';
-        }
-        console.log(sortDirection.value);
+        sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
         fetchTenants();
     }
 
+    const properties = computed(() => {
+        let properties = [];
+        tenants.value.forEach(tenant => {
+
+            let propertiesCount = tenant.properties.length;
+            if(propertiesCount > 1){
+               properties[tenant.id] = 'Více nemovitostí';
+            } else if (propertiesCount === 1){
+               properties[tenant.id] = tenant.properties[0].address;
+            } else {
+               properties[tenant.id] = '\u2014';
+            }
+
+        })
+
+        return properties;
+    })
+
     onMounted(fetchTenants);
+
+
+
+
 
 </script>
 
@@ -130,27 +152,42 @@
                                     </th>
                                     <!--End Property-->
 
-                                    <!--Actions: edit-->
+                                    <!--Actions -->
                                     <th scope="col" class="py-3.5 pr-0 pl-3">
-                                        <span class="sr-only">Edit</span>
+                                        <span class="sr-only">Akce</span>
                                     </th>
-                                    <!--End Actions: edit-->
+                                    <!--End Actions-->
                                 </tr>
 
                             </thead>
-
                             <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
-                                <tr v-for="tenant in tenants" :key="tenant.id">
-                                    <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0 dark:text-white">{{ tenant.name }}</td>
-                                    <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">{{ tenant.address }}</td>
-                                    <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400"> - </td>
-                                    <td class="py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
-                                        >Edit<span class="sr-only">, {{ tenant.name }}</span></a
-                                        >
-                                    </td>
-                                </tr>
+                            <tr
+                                v-for="tenant in tenants"
+                                :key="tenant.id"
+                                @click="goToTenant(tenant.id)"
+                                class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                            >
+                                <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0 dark:text-white">
+                                    {{ tenant.name }}
+                                </td>
+                                <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                                    {{ tenant.address }}
+                                </td>
+                                <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                                    {{ properties[tenant.id] }}
+                                </td>
+                                <td class="py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
+                                    <a
+                                        href="#"
+                                        class="text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                        @click.stop="deleteTenant(tenant.id)"
+                                    >
+                                        <TrashIcon class="size-5" />
+                                    </a>
+                                </td>
+                            </tr>
                             </tbody>
+
                         </table>
 
                         <!--Pagination-->

@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/najemnici', [TenantController::class, 'index']) -> name('tenants.index');
+Route::resource('najemnici', TenantController::class);
