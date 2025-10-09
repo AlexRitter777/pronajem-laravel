@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::resource('najemnici', TenantController::class);
+Route::resource('najemnici', TenantController::class)->names('tenants');
