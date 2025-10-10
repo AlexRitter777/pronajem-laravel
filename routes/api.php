@@ -8,4 +8,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //})->middleware('auth:sanctum');
 
-Route::get('najemnici', [TenantController::class, 'index'])->name('api.tenants.list');
+
+    Route::get('najemnici', [TenantController::class, 'index'])->name('api.tenants.list');
+
+
+

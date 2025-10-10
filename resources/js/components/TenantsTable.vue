@@ -1,16 +1,17 @@
 <script setup lang="ts">
-    import { ChevronDownIcon } from '@heroicons/vue/20/solid';
-    import { ChevronUpIcon } from '@heroicons/vue/20/solid';
-    import { TrashIcon } from "@heroicons/vue/24/outline"
-
-
-
     import {onMounted, ref} from "vue";
     import axios from "axios";
+    import Axios from 'axios';
+    import { setupCache } from 'axios-cache-interceptor/dev';
+    import {computed} from "vue";
+
     import Pagination from "./Pagination.vue";
     import TableSearch from "./TableSearch.vue";
     import PerPage from "./PerPage.vue";
-    import {computed} from "vue";
+
+    import { ChevronDownIcon } from '@heroicons/vue/20/solid';
+    import { ChevronUpIcon } from '@heroicons/vue/20/solid';
+    import { TrashIcon } from "@heroicons/vue/24/outline"
 
     const tenants = ref([]);
     const pagination = ref({});
@@ -22,21 +23,31 @@
 
     let searchTimeout = null;
 
+    const api = setupCache(Axios.create(), {
+        debug: console.log,
+        interpretHeader: false,
+        ttl: 1000 * 60 * 5
+    });
+
     async function fetchTenants(url = '/api/najemnici') {
-        const res = await axios.get(url, {
+
+        const res = await api.get(url, {
             params: {
                 search: search.value,
                 per_page: perPageValue.value,
                 sort: sort.value,
                 order: sortDirection.value,
-            }
+            },
+
         });
         tenants.value = res.data.data;
         pagination.value = res.data.meta;
         links.value = res.data.links;
 
-        console.log(res.data);
+        console.log(res);
     }
+
+
 
 
     function searchTenants(arg) {
