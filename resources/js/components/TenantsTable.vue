@@ -1,9 +1,11 @@
 <script setup lang="ts">
-    import {onMounted, ref} from "vue";
+import {onMounted, reactive, ref, toRaw} from "vue";
     import axios from "axios";
     import Axios from 'axios';
-    import { setupCache } from 'axios-cache-interceptor/dev';
+    import {buildKeyGenerator, setupCache} from 'axios-cache-interceptor/dev';
     import {computed} from "vue";
+    import {useApi} from "../composables/api.js"
+
 
     import Pagination from "./Pagination.vue";
     import TableSearch from "./TableSearch.vue";
@@ -13,61 +15,44 @@
     import { ChevronUpIcon } from '@heroicons/vue/20/solid';
     import { TrashIcon } from "@heroicons/vue/24/outline"
 
+    const { fetchItems, deleteItem, invalidateCache, pagination, items, links, loading } = useApi();
+
+
     const tenants = ref([]);
-    const pagination = ref({});
-    const links = ref([]);
-    const search = ref('');
-    const perPageValue = ref('');
-    const sort = ref('name');
-    const sortDirection = ref('asc');
+
+
+    const params = reactive({
+        search: '',
+        per_page: '',
+        sort: 'name',
+        order: 'asc',
+    })
 
     let searchTimeout = null;
 
-    const api = setupCache(Axios.create(), {
-        debug: console.log,
-        interpretHeader: false,
-        ttl: 1000 * 60 * 5
-    });
 
-    async function fetchTenants(url = '/api/najemnici') {
-
-        const res = await api.get(url, {
-            params: {
-                search: search.value,
-                per_page: perPageValue.value,
-                sort: sort.value,
-                order: sortDirection.value,
-            },
-
-        });
-        tenants.value = res.data.data;
-        pagination.value = res.data.meta;
-        links.value = res.data.links;
-
-        console.log(res);
-    }
-
-
-
-
-    function searchTenants(arg) {
-        search.value = arg;
+    async function searchTenants(arg) {
+        params.search = arg;
         clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            fetchTenants();
+        searchTimeout = setTimeout(async () => {
+            await invalidateCache();
+            fetchItems('api/najemnici', params);
         }, 400);
     }
 
-    function perPage(arg) {
-        perPageValue.value = arg;
-        fetchTenants();
+    async function perPage(arg) {
+        params.per_page = arg;
+        await invalidateCache();
+        fetchItems('api/najemnici', params);
     }
 
-    function toggleSort(col) {
-        sort.value = col;
-        sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
-        fetchTenants();
+    async function toggleSort(col) {
+        params.sort = col;
+        params.order = params.order === 'asc' ? 'desc' : 'asc';
+        await invalidateCache();
+        fetchItems('api/najemnici', params);
     }
+
 
     const properties = computed(() => {
         let properties = [];
@@ -87,7 +72,9 @@
         return properties;
     })
 
-    onMounted(fetchTenants);
+    onMounted(async () => {
+        await fetchItems('/api/najemnici', params);
+    });
 
 
 
@@ -105,6 +92,7 @@
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                     <button
+                        @click = "deleteTenant(5)"
                         type="button"
                         class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm
                                font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2
@@ -137,12 +125,12 @@
                                                   dark:group-hover:bg-gray-700"
                                             >
                                                 <ChevronDownIcon
-                                                    v-if="sortDirection === 'desc'"
+                                                    v-if="params.order === 'desc'"
                                                     class="size-5"
                                                     aria-hidden="true"
                                                 />
                                                 <ChevronUpIcon
-                                                    v-if="sortDirection === 'asc'"
+                                                    v-if="params.order === 'asc'"
                                                     class="size-5"
                                                     aria-hidden="true"
                                                 />
@@ -173,25 +161,25 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
                             <tr
-                                v-for="tenant in tenants"
-                                :key="tenant.id"
-                                @click="goToTenant(tenant.id)"
+                                v-for="item in items"
+                                :key="item.id"
+                                @click="goToTenant(item.id)"
                                 class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                             >
                                 <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0 dark:text-white">
-                                    {{ tenant.name }}
+                                    {{ item.name }}
                                 </td>
                                 <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
-                                    {{ tenant.address }}
+                                    {{ item.address }}
                                 </td>
                                 <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
-                                    {{ properties[tenant.id] }}
+                                    {{ properties[item.id] }}
                                 </td>
                                 <td class="py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
                                     <a
                                         href="#"
                                         class="text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
-                                        @click.stop="deleteTenant(tenant.id)"
+                                        @click.stop="deleteTenant(item.id)"
                                     >
                                         <TrashIcon class="size-5" />
                                     </a>
@@ -202,7 +190,7 @@
                         </table>
 
                         <!--Pagination-->
-                        <Pagination :pagination="pagination" :links="links" @paginate="fetchTenants" />
+                        <Pagination :pagination="pagination" :links="links" @paginate="fetchItems( $event, params)" />
                         <!--End Pagination-->
 
                     </div>

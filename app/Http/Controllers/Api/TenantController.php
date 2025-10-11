@@ -14,7 +14,6 @@ class TenantController extends Controller
      */
     public function index(Request $request, ListTenantAction $listTenantAction)
     {
-
         $tenants = $listTenantAction->execute($request->only(['search', 'sort', 'order', 'per_page']));
 
         return TenantResource::collection($tenants);
@@ -49,6 +48,6 @@ class TenantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return response()->json(['message' => 'Not implemented yet. Id: ' . $id]);
     }
 }

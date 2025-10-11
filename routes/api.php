@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::get('najemnici', [TenantController::class, 'index'])->name('api.tenants.list');
+    Route::delete('najemnici/{id}', [TenantController::class, 'destroy'])->name('api.tenants.destroy');
 
 
 
