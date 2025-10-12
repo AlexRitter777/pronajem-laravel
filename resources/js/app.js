@@ -11,4 +11,4 @@ async function mountAsync(selector, importFn) {
 }
 
 
-mountAsync('#tenants-table', './components/TenantsTable.vue');
+mountAsync('#tenants-table', './components/ItemsTable.vue');
