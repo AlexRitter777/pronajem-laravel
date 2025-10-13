@@ -1,10 +1,11 @@
-<x-layout-component>
+<x-vue-layout-component>
 
+    <items-table
+        title="Nájemnici"
+        new-button-title="Nový nájemník"
+        component="TenantsTable"
+    >
+        Spravujte nájemníky jednoduše a přehledně. Přidejte nové nebo upravte stávající.
+    </items-table>
 
-
-    <div id="tenants-table">
-        <tenants-table></tenants-table>
-    </div>
-
-
-</x-layout-component>
+</x-vue-layout-component>

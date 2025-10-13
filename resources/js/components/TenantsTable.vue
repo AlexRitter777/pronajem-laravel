@@ -1,19 +1,21 @@
 <script setup>
 
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/vue/20/solid/index.js";
-import Pagination from "./Pagination.vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
-import {computed} from "vue";
+import {toRef} from "vue";
 import {useProperties} from "../composables/properties.js";
 
-
 const props = defineProps({
-    tenants: {type: Array, required: true},
+    items: {type: Array, required: true},
     order: {type: String, required: true},
 });
 
+const itemsRef = toRef(props, 'items');
 
-const properties = useProperties(props.tenants);
+console.log(props.order);
+
+const properties = useProperties(itemsRef);
+
 
 const emit = defineEmits(['delete', 'toggleSort']);
 
@@ -73,7 +75,7 @@ const emit = defineEmits(['delete', 'toggleSort']);
     </thead>
     <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
     <tr
-        v-for="tenant in tenants"
+        v-for="tenant in items"
         :key="tenant.id"
         @click="goToTenant(tenant.id)"
         class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -100,7 +102,6 @@ const emit = defineEmits(['delete', 'toggleSort']);
     </tbody>
 
 </table>
-
 </template>
 
 <style scoped>

@@ -4,7 +4,7 @@ import {computed} from "vue";
 export function useProperties(items) {
     return computed(() => {
         const map = {};
-        items.forEach((item) => {
+        items.value.forEach((item) => {
             const count = item.properties?.length || 0;
 
             if (count > 1) {
@@ -18,5 +18,8 @@ export function useProperties(items) {
 
         return map;
     });
+
+
+
 
 }
