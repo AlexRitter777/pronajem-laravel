@@ -16,18 +16,27 @@ export function useApi(){
     const pagination = ref({});
     const links = ref([]);
     const loading = ref(false);
+    const error = ref(false);
 
-    async function fetchItems(url = 'api/najemnici' , params = {}) {
+    async function fetchItems(url = 'api/version' , params = {}) {
 
         loading.value = true;
-        const res = await api.get(url, { params:  params  });
-        items.value = res.data.data;
-        pagination.value = res.data.meta;
-        links.value = res.data.links;
-        loading.value = false;
+        try {
+            const res = await api.get(url, { params:  params  });
+            items.value = res.data.data;
+            pagination.value = res.data.meta;
+            links.value = res.data.links;
+            console.log(res);
+        }catch (e) {
+           console.error(e);
+           console.error(e.response.data.message, e.response.status);
+           error.value = true;
+        }finally {
+           loading.value = false;
+        }
 
-        console.log(res);
     }
+
 
     async function deleteItem(url, id) {
 
@@ -51,7 +60,8 @@ export function useApi(){
         loading,
         items,
         pagination,
-        links
+        links,
+        error
     }
 
 }

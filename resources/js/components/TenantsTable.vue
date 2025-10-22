@@ -12,8 +12,6 @@ const props = defineProps({
 
 const itemsRef = toRef(props, 'items');
 
-console.log(props.order);
-
 const properties = useProperties(itemsRef);
 
 

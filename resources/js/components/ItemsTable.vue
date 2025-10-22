@@ -6,10 +6,11 @@
     import TableSearch from "./TableSearch.vue";
     import PerPage from "./PerPage.vue";
     import ConfirmButton from "./ConfirmButton.vue";
+    import SimpleError from "./SimpleError.vue";
     import {useAsyncComponent} from "@/composables/async-component.js";
 
 
-    const { fetchItems, deleteItem, invalidateCache, pagination, items, links, loading } = useApi();
+    const { fetchItems, deleteItem, invalidateCache, pagination, items, links, loading, error } = useApi();
 
     const params = reactive({
         search: '',
@@ -21,8 +22,11 @@
     const props = defineProps({
         component: {type: String, required: true},
         title: {type: String, required: true},
-        newButtonTitle: {type: String, required: true}
+        newButtonTitle: {type: String, required: true},
+        url: {type: String, required: true},
     });
+
+    const url = `api${props.url}`;
 
     let searchTimeout = null;
 
@@ -31,34 +35,39 @@
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(async () => {
             await invalidateCache();
-            await fetchItems('api/najemnici', params);
+            await fetchItems(url, params);
         }, 400);
     }
 
     async function perPage(arg) {
         params.per_page = arg;
         await invalidateCache();
-        await fetchItems('api/najemnici', params);
+        await fetchItems(url, params);
     }
 
     async function toggleSort(col) {
         params.sort = col;
         params.order = params.order === 'asc' ? 'desc' : 'asc';
         await invalidateCache();
-        await fetchItems('api/najemnici', params);
+        await fetchItems(url, params);
     }
 
     const innerTableComponent = useAsyncComponent(props.component);
 
     onMounted(async () => {
-        await fetchItems('/api/najemnici', params);
+        await fetchItems(url, params);
     });
 
 </script>
 
 <template>
     <div>
+
         <div class="px-4 mb-4 sm:px-6 lg:px-8">
+            <SimpleError
+                v-show="error"
+                class="mb-3">Něco se pokazilo. Zkuste to prosím znovu později.
+            </SimpleError>
             <div class="sm:flex sm:items-center mb-4">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold text-gray-900 dark:text-white">{{ title }}</h1>
