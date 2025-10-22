@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Tenant\GetTenantAction;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 
 class TenantController extends Controller
@@ -12,7 +13,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        return view('tenant.index');
+        return view('tenants.index');
     }
 
     /**
@@ -20,7 +21,7 @@ class TenantController extends Controller
      */
     public function create()
     {
-        //
+        return view('tenants.create');
     }
 
     /**
@@ -39,18 +40,25 @@ class TenantController extends Controller
         try {
             $tenant = $getTenantAction->execute($id);
         }catch (\Throwable $e){
-            return redirect()->route('tenant.index')->with('error', 'Nájemník nebyl nalezen.');
+            return redirect()->route('tenants.index')->with('error', 'Nájemník nebyl nalezen.');
         }
 
-        return view('tenant.show', ['tenant' => $tenant]);
+        return view('tenants.show', ['tenant' => $tenant]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, GetTenantAction $getTenantAction)
     {
-        //
+
+        try {
+            $tenant = $getTenantAction->execute($id);
+        }catch (\Throwable $e){
+            return redirect()->route('tenants.index')->with('error', 'Nájemník nebyl nalezen.');
+        }
+
+        return view('tenants.edit', ['tenant' => $tenant]);
     }
 
     /**

@@ -1,21 +1,27 @@
 <script setup>
 
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/vue/20/solid/index.js";
-import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {PencilIcon} from "@heroicons/vue/24/outline/index.js";
+import {EyeIcon} from "@heroicons/vue/24/outline/index.js";
 import {toRef} from "vue";
 import {useProperties} from "../composables/properties.js";
 
 const props = defineProps({
     items: {type: Array, required: true},
     order: {type: String, required: true},
+    show: {type: String, required: true},
+    edit: {type: String, required: true},
 });
 
 const itemsRef = toRef(props, 'items');
 
 const properties = useProperties(itemsRef);
 
+const emit = defineEmits(['toggleSort']);
 
-const emit = defineEmits(['delete', 'toggleSort']);
+function getItemUrl(id, action){
+    return props[action].replace(':id', id);
+}
 
 </script>
 
@@ -26,7 +32,7 @@ const emit = defineEmits(['delete', 'toggleSort']);
         <tr>
             <!--Name-->
             <th scope="col" class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0 dark:text-white">
-                <a href="#"
+                <a href="javascript.void(0)"
                    @click.prevent="emit('toggleSort', 'name')"
                    class="group inline-flex"
                 >
@@ -75,11 +81,14 @@ const emit = defineEmits(['delete', 'toggleSort']);
     <tr
         v-for="tenant in items"
         :key="tenant.id"
-        @click="goToTenant(tenant.id)"
-        class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+        class=" hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
     >
         <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0 dark:text-white">
-            {{ tenant.name }}
+            <a
+                :href="getItemUrl(tenant.id, 'show')"
+            >
+                {{ tenant.name }}
+            </a>
         </td>
         <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
             {{ tenant.address }}
@@ -87,16 +96,22 @@ const emit = defineEmits(['delete', 'toggleSort']);
         <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
             {{ properties[tenant.id] }}
         </td>
-        <td class="py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
+        <td class=" flex py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
             <a
-                href="#"
-                class="text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
-                @click.stop="deleteTenant(tenant.id)"
+                :href="getItemUrl(tenant.id, 'show')"
+                class="mr-3 text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
-                <TrashIcon class="size-5"/>
+                <EyeIcon class="size-5"/>
+            </a>
+            <a
+                :href="getItemUrl(tenant.id, 'edit')"
+                class="text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
+            >
+                <PencilIcon class="size-5"/>
             </a>
         </td>
     </tr>
+
     </tbody>
 
 </table>

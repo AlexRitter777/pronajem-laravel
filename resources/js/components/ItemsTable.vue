@@ -24,6 +24,9 @@
         title: {type: String, required: true},
         newButtonTitle: {type: String, required: true},
         url: {type: String, required: true},
+        create: {type: String, required: true},
+        edit: {type: String, required: true},
+        show: {type: String, default: false},
     });
 
     const url = `api${props.url}`;
@@ -76,7 +79,11 @@
                     </p>
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <ConfirmButton>{{ newButtonTitle }}</ConfirmButton>
+                    <ConfirmButton
+                        :href="create"
+                    >
+                        {{ newButtonTitle }}
+                    </ConfirmButton>
                 </div>
             </div>
 
@@ -90,6 +97,8 @@
                             :is="innerTableComponent"
                             :items="items"
                             :order="params.order"
+                            :show="show"
+                            :edit="edit"
                             @toggleSort="toggleSort"
                         />
 
