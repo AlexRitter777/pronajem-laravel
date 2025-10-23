@@ -19,7 +19,8 @@ class Tenant extends Model
         'email',
         'phone',
         'account_number',
-        'user_id'
+        'user_id',
+        'phone_number'
     ];
 
 

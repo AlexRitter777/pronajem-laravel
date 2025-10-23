@@ -9,7 +9,7 @@ class GetTenantAction
 
     public function execute(string $id){
 
-        return Tenant::find($id)->firstOrFail();
+         return Tenant::findOrFail($id);
 
     }
 
