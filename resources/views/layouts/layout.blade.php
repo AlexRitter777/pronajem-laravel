@@ -53,11 +53,7 @@
                 </a>
             </x-alerts.simple-warning>
             @endif
-            @session('error')
-                <x-alerts.simple-error>
-                    {{ session('error') }}
-                </x-alerts.simple-error>
-            @endsession
+            <x-alerts.alerts-kit/>
             {{ $slot }}
         </div>
     </main>

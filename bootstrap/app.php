@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return redirect()
                     ->back()
                     ->withInput($request->except('_token'))
-                    ->with('error', __('The page is expired. Please refresh the page and try again.'));
+                    ->with('warning', __('The page is expired. Please refresh the page and try again.'));
 
             }
 
