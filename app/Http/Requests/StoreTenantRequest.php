@@ -30,4 +30,8 @@ class StoreTenantRequest extends FormRequest
             'bank_account' => 'nullable|string|max:255',
         ];
     }
+
+
+
+
 }

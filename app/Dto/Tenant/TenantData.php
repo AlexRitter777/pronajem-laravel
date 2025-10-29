@@ -4,7 +4,7 @@ namespace App\Dto\Tenant;
 
 use Illuminate\Support\Arr;
 
-readonly class StoreTenantData
+readonly class TenantData
 {
 
     public string $name;

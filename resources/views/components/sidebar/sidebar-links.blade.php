@@ -19,7 +19,7 @@
 
             <x-sidebar.sidebar-link
                 title="Přehled"
-                href="/"
+                href="{{ route('dashboard') }}"
             >
                 <x-icons.icon-home
                     class="size-6 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-white"

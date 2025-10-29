@@ -6,9 +6,9 @@
 <!doctype html>
 <html
     class="h-full bg-white dark:bg-gray-900"
-    :class="{ 'dark': dark }"
-    x-data="data"
-    lang="cs"
+{{--    :class="{ 'dark': dark }"--}}
+{{--    x-data="data"--}}
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 >
 <head>
     <meta charset="UTF-8">
@@ -42,6 +42,22 @@
 
     <main class="py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            @if( auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail
+                    && ! auth()->user()->hasVerifiedEmail()
+                    && !request()->routeIs('profile.edit')
+                )
+            <x-alerts.simple-warning>
+                {{__('Your email address isn’t verified yet. Some features may be unavailable until you verify it.')}}
+                <a href="{{ route('profile.edit') }}" class="font-medium text-yellow-700 underline hover:text-yellow-600 dark:text-yellow-300 dark:hover:text-yellow-200">
+                    {{ __('Verify email') }}.
+                </a>
+            </x-alerts.simple-warning>
+            @endif
+            @session('error')
+                <x-alerts.simple-error>
+                    {{ session('error') }}
+                </x-alerts.simple-error>
+            @endsession
             {{ $slot }}
         </div>
     </main>

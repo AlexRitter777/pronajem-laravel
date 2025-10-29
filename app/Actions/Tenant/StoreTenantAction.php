@@ -2,13 +2,13 @@
 
 namespace App\Actions\Tenant;
 
-use App\Dto\Tenant\StoreTenantData;
+use App\Dto\Tenant\TenantData;
 use App\Models\Tenant;
 
 class StoreTenantAction
 {
     public function __construct(){}
-    public function execute(StoreTenantData $data){
+    public function execute(TenantData $data){
         return Tenant::create([
             'name' => $data->name,
             'address' => $data->address,

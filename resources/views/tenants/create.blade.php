@@ -86,7 +86,7 @@
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <a href="#" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Zpět</a>
+            <a href="{{ route('tenants.index') }}" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Zpět</a>
             <input
                 type="submit"
                 value="Uložit"

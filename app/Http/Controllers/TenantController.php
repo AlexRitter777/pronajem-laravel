@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Actions\Tenant\GetTenantAction;
 use App\Actions\Tenant\StoreTenantAction;
-use App\Dto\Tenant\StoreTenantData;
+use App\Dto\Tenant\TenantData;
 use App\Http\Requests\StoreTenantRequest;
-use App\Models\Tenant;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Log;
 
 class TenantController extends Controller
 {
@@ -34,17 +33,9 @@ class TenantController extends Controller
     public function store(StoreTenantRequest $request, StoreTenantAction $storeTenantAction)
     {
         $validated = $request->validated();
-        $tenantData =  new StoreTenantData($validated);
-        try {
-            $tenant = $storeTenantAction->execute($tenantData);
-            return redirect()->route('tenants.show', ['tenant' => $tenant->id]);
-        }catch (\Exception $e){
-            Log::error('Tenant creation failed', [
-                'error' => $e->getMessage(),
-            ]);
-            return redirect()->back()->with('error', 'Nepodařilo se uložit nájemníka. Zkuste to prosím později.');
-        }
+        $tenant = $storeTenantAction->execute(new TenantData($validated));
 
+        return redirect()->route('tenants.show', ['tenant' => $tenant->id]);
     }
 
     /**
@@ -54,13 +45,12 @@ class TenantController extends Controller
     {
         try {
             $tenant = $getTenantAction->execute($id);
-
             return view('tenants.show', ['tenant' => $tenant]);
-        }catch (\Throwable $e){
-            return redirect()->route('tenants.index')->with('error', 'Nájemník nebyl nalezen.');
+        }catch (ModelNotFoundException $e){
+            return redirect()
+                ->route('tenants.index')
+                ->with('error', 'Nájemník nebyl nalezen.');
         }
-
-        return view('tenants.show', ['tenant' => $tenant]);
     }
 
     /**

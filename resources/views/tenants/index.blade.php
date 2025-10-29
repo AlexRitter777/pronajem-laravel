@@ -1,4 +1,7 @@
 <x-vue-layout-component>
+    @session('error')
+    <x-alerts.simple-error>{{ session('error') }}</x-alerts.simple-error>
+    @endsession
     <items-table
         title="Nájemnici"
         new-button-title="Nový nájemník"
