@@ -24,7 +24,7 @@
                     autocomplete="email"
                     value="{{ old('email') }}"
                 />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-auth.input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

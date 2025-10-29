@@ -7,8 +7,15 @@
         {id:3, name: '15'},
     ];
 
+    const props = defineProps({
+        perPage: [String, Number]
+    })
+
     const emit = defineEmits(['perPage']);
 
+    function isSelected(perPage, name) {
+        return Number(name) === Number(perPage);
+    }
 
 </script>
 
@@ -29,7 +36,10 @@
 
                 >
                     <template  v-for="item in items" :key="item.id">
-                        <option :value="item.name" >{{item.name}}</option>
+                        <option
+                            :value="item.name"
+                            :selected="isSelected(item.name, props.perPage)"
+                        >{{item.name}}</option>
                     </template>
                 </select>
                 <ChevronDownIcon class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4 dark:text-gray-400" aria-hidden="true" />

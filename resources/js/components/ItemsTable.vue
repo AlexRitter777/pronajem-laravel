@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        <PerPage @perPage="perPage"/>
+        <PerPage :per-page="pagination.per_page" @perPage="perPage"/>
     </div>
 </template>
 

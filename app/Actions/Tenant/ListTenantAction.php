@@ -10,7 +10,7 @@ class ListTenantAction
     {
 
 
-         $perPage = $filters['per_page'] ?? 5;
+         $perPage = $filters['per_page'] ?? 10;
 
          $query = Tenant::query();
 

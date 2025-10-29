@@ -35,7 +35,7 @@
                             from our servers forever. This action cannot be undone.') }}
                         </p>
                     </div>
-                    <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+                    <x-auth.input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
                     <x-auth.text-input
                         id="password"
