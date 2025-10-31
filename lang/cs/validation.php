@@ -34,9 +34,9 @@ return [
     ],
     'boolean' => 'The :attribute field must be true or false.',
     'can' => 'The :attribute field contains an unauthorized value.',
-    'confirmed' => 'The :attribute field confirmation does not match.',
+    'confirmed' => 'Zadaná hesla se neshodují.',
     'contains' => 'The :attribute field is missing a required value.',
-    'current_password' => 'The password is incorrect.',
+    'current_password' => 'Zadané heslo není správné.',
     'date' => 'The :attribute field must be a valid date.',
     'date_equals' => 'The :attribute field must be a date equal to :date.',
     'date_format' => 'The :attribute field must match the format :format.',
@@ -112,7 +112,7 @@ return [
         'array' => 'The :attribute field must have at least :min items.',
         'file' => 'The :attribute field must be at least :min kilobytes.',
         'numeric' => 'The :attribute field must be at least :min.',
-        'string' => 'The :attribute field must be at least :min characters.',
+        'string' => 'Pole „:attribute“ musí mít alespoň 8 znaků.',
     ],
     'min_digits' => 'The :attribute field must have at least :min digits.',
     'missing' => 'The :attribute field must be missing.',
@@ -208,7 +208,9 @@ return [
         'birthday' => 'datum narození',
         'email' => 'e-mail',
         'phone' => 'telefon',
-        'account_number' => 'číslo účtu'
+        'account_number' => 'číslo účtu',
+        'password' => 'heslo',
+        'current_password' => 'současné heslo',
 
     ],
 

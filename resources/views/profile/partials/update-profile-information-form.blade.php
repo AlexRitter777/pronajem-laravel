@@ -64,7 +64,7 @@
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification" class="font-medium text-yellow-700 underline hover:text-yellow-600 dark:text-yellow-300 dark:hover:text-yellow-200">
-                            {{ __('Click here to re-send the verification email.') }}
+                            {{ __('Click here to send the verification email.') }}
                         </button>
                     </p>
                 </div>
@@ -75,16 +75,6 @@
             <x-auth.primary-button>
                 {{ __('Save') }}
             </x-auth.primary-button>
-
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
         </div>
     </form>
 </section>

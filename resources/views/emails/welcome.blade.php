@@ -1,30 +1,30 @@
 
 <x-mail::message>
-# {{ __('Welcome, :name!', ['name' => $user->name]) }}
+# {{ __('mails.welcome', ['name' => $user->name]) }}
 
-{!! __("We're happy to have you on board at :app!", ['app' => config('app.name')]) !!}
+{!! __("mails.happy-to-have", ['app' => config('app.name')]) !!}
 
-{{ __('Your account has been successfully created, and you can now start exploring all features of the platform.') }}
+{{ __('mails.account-created') }}
 
-<x-mail::button :url="$dashboardUrl">
-    {{ __('Open Dashboard') }}
+<x-mail::button :url="$dashboardUrl" color="indigo">
+    {{ __('mails.open-dashboard') }}
 </x-mail::button>
 
 @if (! $user->hasVerifiedEmail())
 ---
 
-### {{ __('Next step') }}
+### {{ __('mails.next-step') }}
 
-{{ __('To unlock all features, please verify your email address when you’re ready.') }}
-{{ __('You can do it anytime from your dashboard.') }}
+{{ __('mails.verify-info') }}
+{{ __('mails.verify-anytime') }}
 
 @endif
 
 ---
 
-{{ __('If you have any questions, feel free to reply to this email — we’re here to help.') }}
+{{ __('mails.help') }}
 
-{{ __('Best regards,') }}
+{{ __('mails.regards') }}
 **{{ config('app.name') }}**
 
 </x-mail::message>

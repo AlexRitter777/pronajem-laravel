@@ -17,7 +17,7 @@
                     autocomplete="name"
                     value="{{ old('name') }}"
                 />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                <x-auth.input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                     autocomplete="email"
                     value="{{ old('email') }}"
                 />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-auth.input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     required
                     autocomplete="new-password"
                 />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-auth.input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
         </div>
 
@@ -71,7 +71,7 @@
                     required
                     autocomplete="new-password"
                 />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                <x-auth.input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
         </div>
 

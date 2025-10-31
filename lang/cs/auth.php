@@ -13,9 +13,10 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'verification-link-sent' => 'A new verification link has been sent to the email address you provided during registration.',
-    "verification-success" => "Your email has been successfully verified."
+    'failed' => 'Tyto přihlašovací údaje neodpovídají našim záznamům.',
+    'password' => 'Zadané heslo není správné.',
+    'throttle' => 'Příliš mnoho pokusů o přihlášení. Zkuste to prosím znovu za :seconds sekund.',
+    'verification-link-sent' => 'Nový ověřovací odkaz byl odeslán na e-mailovou adresu, kterou jste uvedli při registraci.',
+    'verification-success' => 'Váš e-mail byl úspěšně ověřen.'
+
 ];

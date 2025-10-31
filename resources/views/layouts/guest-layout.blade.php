@@ -1,5 +1,5 @@
 @props([
-    'title' => 'PronajemOnline.cz'
+    'title' => 'Vyúčtováno!'
 ])
 
 <!doctype html>
@@ -12,6 +12,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="{{ asset('favicon-96x96.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}" />
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}" />
     <title>{{ $title }}</title>
     <script>
         if (
@@ -27,9 +32,9 @@
 
 <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" class="mx-auto h-10 w-auto dark:hidden" />
-        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="mx-auto h-10 w-auto not-dark:hidden" />
-        <h2 class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
+        <img src="{{ asset('img/logo/logo_transparent.png') }}" alt="Vyuctovano" class="mx-auto h-15 w-auto dark:hidden" />
+        <img src="{{ asset('img/logo/logo_transparent.png') }}" alt="Vyuctovano" class="mx-auto h-15 w-auto not-dark:hidden" />
+        <h2 class="mt-3 text-center text-3xl font-bold tracking-normal text-indigo-900 dark:text-white">Vyúčtováno!</h2>
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
