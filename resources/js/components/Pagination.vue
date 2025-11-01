@@ -28,7 +28,7 @@ const emit = defineEmits(['paginate'])
                     class="mr-3 size-5 text-gray-400 dark:text-gray-500"
                     aria-hidden="true"
                 />
-                Previous
+                {{ $t('pagination.previous') }}
             </a>
         </div>
         <div class="hidden md:-mt-px md:flex">
@@ -125,7 +125,7 @@ const emit = defineEmits(['paginate'])
                                  dark:hover:text-gray-200"
                 :class="links.next ? 'inline-flex' : 'hidden'"
             >
-                Next
+                {{  $t( 'pagination.next' ) }}
                 <ArrowLongRightIcon
                     class="ml-3 size-5 text-gray-400 dark:text-gray-500"
                     aria-hidden="true"

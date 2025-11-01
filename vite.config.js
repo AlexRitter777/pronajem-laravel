@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import vuePlugin from "@vitejs/plugin-vue";
+import i18n from "laravel-vue-i18n/vite";
 import path from 'path';
 
 export default defineConfig({
@@ -11,7 +12,8 @@ export default defineConfig({
             refresh: true,
         }),
         tailwindcss(),
-        vuePlugin()
+        vuePlugin(),
+        i18n()
     ],
     resolve: {
         alias: {

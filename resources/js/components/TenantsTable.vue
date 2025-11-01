@@ -36,7 +36,7 @@ function getItemUrl(id, action){
                    @click.prevent="emit('toggleSort', 'name')"
                    class="group inline-flex"
                 >
-                    Jméno
+                    {{ $t('table.name')}}
                     <span
                         class="ml-2 flex-none rounded-sm bg-gray-100 text-gray-900
                                      group-hover:bg-gray-200 dark:bg-gray-800 dark:text-white
@@ -59,19 +59,19 @@ function getItemUrl(id, action){
 
             <!--Address-->
             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                Adresa
+                {{ $t('table.address')}}
             </th>
             <!--End Address-->
 
             <!--Property-->
             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                Nemovitost
+                {{ $t('table.property')}}
             </th>
             <!--End Property-->
 
             <!--Actions -->
             <th scope="col" class="py-3.5 pr-0 pl-3">
-                <span class="sr-only">Akce</span>
+                <span class="sr-only">{{ $t('table.actions') }}</span>
             </th>
             <!--End Actions-->
         </tr>

@@ -69,9 +69,29 @@
     "Reset Password Again": "Obnovit heslo znovu",
     "Stay safe,": "Zůstaňte v bezpečí,",
     "View notifications" : "Zobrazit oznámení",
-    "Open sidebar" : "Otevřít postranní panel"
+    "Open sidebar" : "Otevřít postranní panel",
+    "Search" : "Hledat",
+    "The page is expired. Please refresh the page and try again." : "Stránka vypršela. Obnovte ji prosím a zkuste to znovu.",
+    "Tenants" : "Nájemnici",
+    "New tenant" : "Nový nájemník",
+    "Manage tenants — view the list, search, add or edit records." : "Spravujte nájemníky – zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
+    "New" : "Nový",
+    "Dashboard" : "Přehled",
+    "dashboard" : "prehled",
+    "Settlements" : "Vyúčtování",
+    "Landlords" : "Pronajímatele",
+    "Tenants" : "Nájemníci",
+    "tenants" : "najemnici",
+    "Properties" : "Nemovitosti",
+    "Building Managers" : "Správci",
+    "Electricity Suppliers" : "Dodavatelé elektřiny",
+    "Templates" : "Šablony",
+    "Documentation" : "Dokumentace",
+    "Help" : "Podpora",
+    "Settings" : "Nastavení",
 
-
+    "create" : "novy",
+    "edit" : "upravit"
 
 
 }

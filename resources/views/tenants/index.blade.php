@@ -3,15 +3,15 @@
     <x-alerts.simple-error>{{ session('error') }}</x-alerts.simple-error>
     @endsession
     <items-table
-        title="Nájemnici"
-        new-button-title="Nový nájemník"
+        title="{{ __('Tenants') }}"
+        new-button-title="{{__('New tenant')}}"
         component="TenantsTable"
         url="/najemnici"
         create="{{ route('tenants.create') }}"
         edit="{{ route('tenants.edit', ':id') }}"
         show="{{ route('tenants.show', ':id') }}"
     >
-        Spravujte nájemníky jednoduše a přehledně. Přidejte nové nebo upravte stávající.
+        {{ __('Manage tenants — view the list, search, add or edit records.') }}
     </items-table>
 
 </x-vue-layout-component>

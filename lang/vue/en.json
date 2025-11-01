@@ -1,0 +1,20 @@
+{
+    "pagination.next" : "Next",
+    "pagination.previous" : "Previous",
+
+    "error.common" : "Something went wrong. Please try again later.",
+
+    "search.placeholder" : "Start typing a name . . .",
+
+    "perpage.title": "Per page",
+
+    "table.name" : "Name",
+    "table.address" : "Address",
+    "table.property" : "Property",
+    "table.actions" : "Actions"
+
+
+
+
+
+}

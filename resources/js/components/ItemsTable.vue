@@ -69,7 +69,7 @@
         <div class="px-4 mb-4 sm:px-6 lg:px-8">
             <SimpleError
                 v-show="error"
-                class="mb-3">Něco se pokazilo. Zkuste to prosím znovu později.
+                class="mb-3">{{ $t('error.common') }}
             </SimpleError>
             <div class="sm:flex sm:items-center mb-4">
                 <div class="sm:flex-auto">

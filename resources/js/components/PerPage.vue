@@ -25,7 +25,7 @@
             for="perPage"
             class="block text-sm/6 font-medium text-gray-900 dark:text-white text-right"
         >
-            Per Page
+            {{ $t('perpage.title')}}
         </label>
         <div class="flex justify-end">
             <div class="mt-1 grid grid-cols-1 w-16 ">

@@ -7,17 +7,14 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/dashboard', function () {
+Route::get('/' . __('dashboard'), function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 
 Route::resourceVerbs([
-    'create' => 'novy',
-    'edit' => 'upravit',
-    'store' => 'ulozit',
-    'update' => 'ulozit',
-    'destroy' => 'smazat',
+    'create' => __('create'),
+    'edit' => __('edit'),
 ]);
 
 
@@ -47,8 +44,8 @@ Route::get('/test-mail/password', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::resource('najemnici', TenantController::class)
-        ->parameters(['najemnici' => 'tenant'])
+    Route::resource(__('tenants'), TenantController::class)
+        ->parameters([__('tenants') => 'tenant'])
         ->names('tenants');
 
 

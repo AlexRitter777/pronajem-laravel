@@ -1,0 +1,17 @@
+{
+    "pagination.next" : "Další",
+    "pagination.previous" : "Předchozí",
+
+    "error.common" : "Něco se pokazilo. Zkuste to prosím znovu později.",
+
+    "search.placeholder" : "Začněte psát jméno . . .",
+
+    "perpage.title": "Na stránku",
+
+    "table.name" : "Jméno",
+    "table.address" : "Adresa",
+    "table.property" : "Nemovitost",
+    "table.actions" : "Akce"
+
+
+}
