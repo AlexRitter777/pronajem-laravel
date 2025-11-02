@@ -22,6 +22,7 @@
             id="{{ $id }}"
             type="{{ $type }}"
             name="{{ $name }}"
+            value="{{ $value }}"
             autocomplete="{{ $autocomplete }}"
             {{ $required }}
             placeholder="{{ $placeholder }}"

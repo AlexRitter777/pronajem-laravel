@@ -4,11 +4,12 @@ namespace App\Actions\Tenant;
 
 use App\Dto\Tenant\TenantData;
 use App\Models\Tenant;
+use App\Models\User;
 
 class StoreTenantAction
 {
     public function __construct(){}
-    public function execute(TenantData $data){
+    public function execute(TenantData $data, User $user){
         return Tenant::create([
             'name' => $data->name,
             'address' => $data->address,
@@ -16,7 +17,7 @@ class StoreTenantAction
             'birthday' => $data->birthday,
             'phone' => $data->phone,
             'account_number' => $data->account,
-            'user_id' => '1'
+            'user_id' => $user->id
         ]);
     }
 }

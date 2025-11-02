@@ -96,7 +96,7 @@ function getItemUrl(id, action){
         <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
             {{ properties[tenant.id] }}
         </td>
-        <td class=" flex py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
+        <td class=" flex justify-end py-4 pr-4 pl-3 text-sm whitespace-nowrap sm:pr-0">
             <a
                 :href="getItemUrl(tenant.id, 'show')"
                 class="mr-3 text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"

@@ -14,8 +14,8 @@ class TenantController extends Controller
      */
     public function index(Request $request, ListTenantAction $listTenantAction)
     {
-        $tenants = $listTenantAction->execute($request->only(['search', 'sort', 'order', 'per_page']));
 
+        $tenants = $listTenantAction->execute($request->user(), $request->only(['search', 'sort', 'order', 'per_page']));
         return TenantResource::collection($tenants);
     }
 

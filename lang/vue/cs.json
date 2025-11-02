@@ -11,7 +11,9 @@
     "table.name" : "Jméno",
     "table.address" : "Adresa",
     "table.property" : "Nemovitost",
-    "table.actions" : "Akce"
+    "table.actions" : "Akce",
+
+    "tenants.empty" : "Zatím žádní nájemníci"
 
 
 }

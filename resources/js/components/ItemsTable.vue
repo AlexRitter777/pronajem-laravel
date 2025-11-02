@@ -59,6 +59,7 @@
 
     onMounted(async () => {
         await fetchItems(url, params);
+        console.log(pagination.value.per_page);
     });
 
 </script>
@@ -87,30 +88,37 @@
                 </div>
             </div>
 
-            <TableSearch @search = "searchItems"/>
 
-            <div class="mt-2 flow-root">
-                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
 
-                        <component
-                            :is="innerTableComponent"
-                            :items="items"
-                            :order="params.order"
-                            :show="show"
-                            :edit="edit"
-                            @toggleSort="toggleSort"
-                        />
+            <div v-if="items.length">
+                <TableSearch @search = "searchItems"/>
+                <div class="mt-2 flow-root">
+                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
 
-                        <!--Pagination-->
-                        <Pagination :pagination="pagination" :links="links" @paginate="fetchItems( $event, params)" />
-                        <!--End Pagination-->
+                            <component
+                                :is="innerTableComponent"
+                                :items="items"
+                                :order="params.order"
+                                :show="show"
+                                :edit="edit"
+                                @toggleSort="toggleSort"
+                            />
 
+
+                            <!--Pagination-->
+                            <Pagination v-if="links.first !== links.last" :pagination="pagination" :links="links" @paginate="fetchItems( $event, params)" />
+                            <!--End Pagination-->
+
+                        </div>
                     </div>
                 </div>
+                <PerPage class="mt-2" :per-page="pagination.per_page" @perPage="perPage"/>
+            </div>
+            <div v-else>
+                <h3 class="text-base mt-10 font-semibold text-gray-900 dark:text-white">{{ $t('tenants.empty')}}</h3>
             </div>
         </div>
-        <PerPage :per-page="pagination.per_page" @perPage="perPage"/>
     </div>
 </template>
 

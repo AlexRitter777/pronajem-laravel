@@ -11,7 +11,9 @@
     "table.name" : "Name",
     "table.address" : "Address",
     "table.property" : "Property",
-    "table.actions" : "Actions"
+    "table.actions" : "Actions",
+
+    "tenants.empty" : "No tenants yet"
 
 
 

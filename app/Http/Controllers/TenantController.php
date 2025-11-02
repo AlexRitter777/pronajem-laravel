@@ -33,7 +33,8 @@ class TenantController extends Controller
     public function store(StoreTenantRequest $request, StoreTenantAction $storeTenantAction)
     {
         $validated = $request->validated();
-        $tenant = $storeTenantAction->execute(new TenantData($validated));
+        $user = $request->user();
+        $tenant = $storeTenantAction->execute(new TenantData($validated), $user);
 
         return redirect()->route('tenants.show', ['tenant' => $tenant->id]);
     }
@@ -58,14 +59,15 @@ class TenantController extends Controller
      */
     public function edit(string $id, GetTenantAction $getTenantAction)
     {
-
         try {
             $tenant = $getTenantAction->execute($id);
-        }catch (\Throwable $e){
-            return redirect()->route('tenants.index')->with('error', 'Nájemník nebyl nalezen.');
+            return view('tenants.edit', ['tenant' => $tenant]);
+        }catch (ModelNotFoundException $e){
+            return redirect()
+                ->route('tenants.index')
+                ->with('error', 'Nájemník nebyl nalezen.');
         }
 
-        return view('tenants.edit', ['tenant' => $tenant]);
     }
 
     /**

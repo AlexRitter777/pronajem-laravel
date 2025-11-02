@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\Api\TenantController as ApiTenantController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,10 @@ Route::get('/test-mail/password', function () {
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('api/najemnici', [ApiTenantController::class, 'index'])->name('api.tenants.list');
+    Route::delete('api/najemnici/{id}', [ApiTenantController::class, 'destroy'])->name('api.tenants.destroy');
+
 
     Route::resource(__('tenants'), TenantController::class)
         ->parameters([__('tenants') => 'tenant'])
