@@ -14,7 +14,7 @@ class ListTenantAction
          $perPage = $filters['per_page'] ?? 10;
 
          $query = Tenant::query()
-            ->where('user_id',$user->id);
+            ->where('user_id', $user->id);
 
          if(!empty($filters['search'])) {
              $query->where('name','like','%'.$filters['search'].'%');

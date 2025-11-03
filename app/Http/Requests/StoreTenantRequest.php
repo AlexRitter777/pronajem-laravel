@@ -26,8 +26,8 @@ class StoreTenantRequest extends FormRequest
             'address' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255',
             'birthday' => 'nullable|date',
-            'phone_number' => 'nullable|string|max:255',
-            'bank_account' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'account_number' => 'nullable|string|max:255',
         ];
     }
 

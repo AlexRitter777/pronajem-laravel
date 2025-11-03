@@ -20,9 +20,11 @@ class Tenant extends Model
         'phone',
         'account_number',
         'user_id',
-        'phone_number'
     ];
 
+    protected $casts = [
+        'birthday' => 'datetime',
+    ];
 
     public function properties() : hasMany
     {
