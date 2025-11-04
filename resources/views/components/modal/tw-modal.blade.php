@@ -2,7 +2,7 @@
 
 <div
     x-data="modal"
-    x-on:open-dialog.window="openModal; debugger"
+    x-on:open-dialog.window="openModal"
     x-on:close-dialog.window="closeModal"
     x-init="isModalOpen = @js($show)"
 >

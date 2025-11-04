@@ -2,7 +2,7 @@
     "pagination.next" : "Next",
     "pagination.previous" : "Previous",
 
-    "error.common" : "Something went wrong. Please try again later.",
+    "errors.common" : "Something went wrong. Please try again later.",
 
     "search.placeholder" : "Start typing a name . . .",
 

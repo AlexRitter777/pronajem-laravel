@@ -2,7 +2,7 @@
     "pagination.next" : "Další",
     "pagination.previous" : "Předchozí",
 
-    "error.common" : "Něco se pokazilo. Zkuste to prosím znovu později.",
+    "errors.common" : "Něco se pokazilo. Zkuste to prosím znovu později.",
 
     "search.placeholder" : "Začněte psát jméno . . .",
 

@@ -39,7 +39,7 @@ class TenantController extends Controller
 
         return redirect()
             ->route('tenants.show', ['tenant' => $tenant->id])
-            ->with('success', 'Tenant has been created.');
+            ->with('success', __('Tenant has been created.'));
     }
 
     /**
@@ -54,7 +54,7 @@ class TenantController extends Controller
         }catch (ModelNotFoundException $e){
             return redirect()
                 ->route('tenants.index')
-                ->with('error', 'Nájemník nebyl nalezen.');
+                ->with('error', __('Tenant was not found.'));
         }
     }
 
@@ -70,7 +70,7 @@ class TenantController extends Controller
         }catch (ModelNotFoundException $e){
             return redirect()
                 ->route('tenants.index')
-                ->with('error', 'Nájemník nebyl nalezen.');
+                ->with('error', __('Tenant was not found.'));
         }
 
     }
@@ -93,7 +93,7 @@ class TenantController extends Controller
         }catch (ModelNotFoundException $e){
             return redirect()
                 ->route('tenants.index')
-                ->with('error', __('Tenant not found.'));
+                ->with('error', __('Tenant was not found.'));
         }
     }
 
@@ -112,7 +112,7 @@ class TenantController extends Controller
         } catch (ModelNotFoundException $e){
             return redirect()
                 ->route('tenants.index')
-                ->with('error', __('Tenant not found.'));
+                ->with('error', __('Tenant was not found.'));
         }
     }
 }

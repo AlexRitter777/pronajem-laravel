@@ -96,6 +96,10 @@
     "Edit tenant details." : "Upravte údaje o nájemníkovi",
     "Back" : "Zpět",
     "Tenant details." : "Detail nájemníka.",
+    "Tenant has been created." : "Nájemník byl vytvořen.",
+    "Tenant was not found." : "Nájemník nebyl nalezen.",
+    "Tenant has been updated." : "Nájemník byl aktualizován.",
+    "Tenant has been deleted." : "Nájemník byl smazán.",
 
     "create" : "novy",
     "edit" : "upravit"

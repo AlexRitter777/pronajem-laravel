@@ -1,7 +1,4 @@
 <x-vue-layout-component>
-    @session('error')
-    <x-alerts.simple-error>{{ session('error') }}</x-alerts.simple-error>
-    @endsession
     <items-table
         title="{{ __('Tenants') }}"
         new-button-title="{{__('New tenant')}}"

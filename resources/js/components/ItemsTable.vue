@@ -59,7 +59,7 @@
 
     onMounted(async () => {
         await fetchItems(url, params);
-        console.log(pagination.value.per_page);
+        console.log(error.value);
     });
 
 </script>
@@ -69,8 +69,10 @@
 
         <div class="px-4 mb-4 sm:px-6 lg:px-8">
             <SimpleError
-                v-show="error"
-                class="mb-3">{{ $t('error.common') }}
+                v-if="error"
+                class="mb-3"
+            >
+                {{ $t('errors.common') }}
             </SimpleError>
             <div class="sm:flex sm:items-center mb-4">
                 <div class="sm:flex-auto">
