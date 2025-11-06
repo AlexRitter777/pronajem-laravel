@@ -12,6 +12,7 @@ class GetTenantAction
 
          return Tenant::where('id', $tenantId)
              ->where('user_id', $user->id)
+             ->with('properties')
              ->firstOrFail();
 
     }

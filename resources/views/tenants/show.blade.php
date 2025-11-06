@@ -46,6 +46,24 @@
                         :dd="$tenant->account_number"
                     />
                 @endif
+                @if(count($tenant->properties) !== 0)
+                    <x-lists.dl-slot-item
+                        :dt="__('Properties')"
+                    >
+                        <ul>
+                            @foreach($tenant->properties as $property)
+                                <li class="mb-2">
+                                    <a href="{{ route('properties.show', $property) }}"
+                                       class="inline-block rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700
+                                        hover:bg-gray-200 hover:text-gray-900 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                                    >
+                                        {{ $property->address }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </x-lists.dl-slot-item>
+                @endif
 
                 <div class="mt-6 flex items-center justify-end gap-x-6">
                     <a href="{{ route('tenants.index') }}" class="text-sm/6 font-semibold text-gray-900 dark:text-white">{{ __('Back') }}</a>
