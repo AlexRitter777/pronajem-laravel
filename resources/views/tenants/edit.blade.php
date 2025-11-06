@@ -120,7 +120,7 @@
                         <h3 id="dialog-title" class="text-base font-semibold text-gray-900 dark:text-white">{{ __('Delete Tenant') }}</h3>
                         <div class="my-2">
                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {!! __('Are you sure you want to delete this tenant - ') .'<b>'. $tenant->name . '</b>?' !!}
+                                {!! __('Are you sure you want to delete this tenant: ') .'<b>'. $tenant->name . '</b>?' !!}
                             </p>
                         </div>
                     </div>

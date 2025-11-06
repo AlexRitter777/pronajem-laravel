@@ -36,6 +36,7 @@
 
             <x-sidebar.sidebar-link
                 :title="__('Landlords')"
+                href="{{ route('landlords.index') }}"
             >
                 <x-icons.icon-two-users
                     class="size-6 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-white"

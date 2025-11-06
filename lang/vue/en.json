@@ -13,7 +13,7 @@
     "table.property" : "Property",
     "table.actions" : "Actions",
 
-    "tenants.empty" : "No tenants yet"
+    "table.empty" : "No records yet"
 
 
 

@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\Cast\Void_;
 
 class UpdateTenantAction
 {
-    public function __construct(protected GetTenantAction $getTenantAction){}
+    public function __construct(protected GetLandlordAction $getTenantAction){}
 
     public function execute(TenantData $data, string $tenantId , User $user) : bool
 

@@ -48,6 +48,6 @@ class TenantController extends Controller
      */
     public function destroy(string $id)
     {
-        return response()->json(['message' => 'Not implemented yet. Id: ' . $id]);
+
     }
 }

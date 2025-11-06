@@ -118,7 +118,7 @@
                 <PerPage class="mt-2" :per-page="pagination.per_page" @perPage="perPage"/>
             </div>
             <div v-else>
-                <h3 class="text-base mt-10 font-semibold text-gray-900 dark:text-white">{{ $t('tenants.empty')}}</h3>
+                <h3 class="text-base mt-10 font-semibold text-gray-900 dark:text-white">{{ $t('table.empty')}}</h3>
             </div>
         </div>
     </div>

@@ -22,6 +22,14 @@ class Landlord extends Model
         'user_id'
     ];
 
+    protected $casts = [
+        'birthday' => 'datetime',
+    ];
+
+    public function properties() : hasMany
+    {
+        return $this->hasMany(Property::class);
+    }
 
     public function customServicesSettlements() : hasMany
     {

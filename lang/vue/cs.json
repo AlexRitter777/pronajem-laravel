@@ -13,7 +13,7 @@
     "table.property" : "Nemovitost",
     "table.actions" : "Akce",
 
-    "tenants.empty" : "Zatím žádní nájemníci"
+    "table.empty" : "Zatím žádné záznamy"
 
 
 }
