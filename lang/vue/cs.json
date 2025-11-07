@@ -12,6 +12,8 @@
     "table.address" : "Adresa",
     "table.property" : "Nemovitost",
     "table.actions" : "Akce",
+    "table.phone" : "Telefon",
+    "table.email" : "E-mail",
 
     "table.empty" : "Zatím žádné záznamy"
 

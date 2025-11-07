@@ -33,14 +33,14 @@
                     />
                 @endif
 
-                @if($tenant->email)
+                @if($tenant->phone)
                     <x-lists.dl-item
                         :dt="__('Phone number')"
                         :dd="$tenant->phone"
                     />
                 @endif
 
-                @if($tenant->email)
+                @if($tenant->account_number)
                     <x-lists.dl-item
                         :dt="__('Bank account number')"
                         :dd="$tenant->account_number"

@@ -103,6 +103,7 @@
     "Tenant has been deleted." : "Nájemník byl smazán.",
     "Delete Tenant" : "Smazat nájemníka",
     "Are you sure you want to delete this tenant: " : "Opravdu chcete smazat tohoto nájemníka: ",
+
     "New landlord" : "Nový pronajímatel",
     "Manage landlords — view the list, search, add or edit records." : "Spravujte pronajímatele– zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
     "Landlord has been created." : "Pronajímatel byl vytvořen.",
@@ -114,6 +115,19 @@
     "Delete Landlord" : "Smazat pronajímatele",
     "Are you sure you want to delete this landlord: " : "Opravdu chcete smazat tohoto pronajímatele: ",
     "Edit landlord details." : "Upravte údaje o pronajímateli.",
+
+    "building-managers" : "spravci",
+    "Building manager has been created." : "Správce byl vytvořen.",
+    "Building manager not found." : "Správce nebyl nalezen.",
+    "Building manager has been updated." : "Správce byl aktualizován.",
+    "Building manager has been deleted." : "Správce byl smazán.",
+    "New building manager" : "Nový správce",
+    "Manage building managers — view the list, search, add or edit records." : "Spravujte správce – zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
+    "Enter the new building manager’s details." : "Vyplňte údaje o novém správci.",
+    "Building manager details." : "Detail správce.",
+    "Edit building manager details." : "Upravte údaje o správci",
+    "Delete Building Manager" : "Smazat správce",
+    "Are you sure you want to delete this building manager: " : "Opravdu chcete smazat tohoto správce:",
 
     "properties" : "nemovitosti",
 

@@ -11,6 +11,8 @@
     "table.name" : "Name",
     "table.address" : "Address",
     "table.property" : "Property",
+    "table.phone" : "Phone",
+    "table.email" : "Email",
     "table.actions" : "Actions",
 
     "table.empty" : "No records yet"

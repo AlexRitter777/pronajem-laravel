@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\BuildingManagerController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\Api\TenantController as ApiTenantController;
 use App\Http\Controllers\Api\LandlordController as ApiLandlordController;
+use App\Http\Controllers\Api\BuildingManagerController as ApiBuildingManagerController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -48,10 +50,11 @@ Route::get('/test-mail/password', function () {
 
 Route::middleware('auth')->group(function () {
 
+    //ToDo: Change this API route to translation
     Route::get('api/najemnici', [ApiTenantController::class, 'index'])->name('api.tenants.list');
 
     Route::get('api/' . __('landlords'), [ApiLandlordController::class, 'index'])->name('api.landlords.list');
-
+    Route::get('api/' . __('building-managers'), [ApiBuildingManagerController::class, 'index'])->name('api.building-managers.list');
 
     Route::resource(__('tenants'), TenantController::class)
         ->parameters([__('tenants') => 'tenant'])
@@ -60,6 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::resource(__('landlords'), LandlordController::class)
         ->parameters([__('landlords') => 'landlord'])
         ->names('landlords');
+
+    Route::resource(__('building-managers'), BuildingManagerController::class)
+        ->parameters([__('building-managers') => 'buildingManager'])
+        ->names('building-managers');
 
     Route::resource(__('properties'), PropertyController::class)
         ->parameters([__('properties') => 'property'])
