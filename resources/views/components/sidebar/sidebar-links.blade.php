@@ -71,6 +71,8 @@
 
             <x-sidebar.sidebar-link
                 :title="__('Electricity Suppliers')"
+                href="{{ route('electricity-suppliers.index') }}"
+
             >
                 <x-icons.icon-light-bulb
                     class="size-6 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-white"

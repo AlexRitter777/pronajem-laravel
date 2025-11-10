@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\BuildingManager\DeleteBuildingManagerAction;
 use App\Actions\BuildingManager\GetBuildingManagerAction;
 use App\Actions\BuildingManager\StoreBuildingManagerAction;
 use App\Actions\BuildingManager\UpdateBuildingManagerAction;
-use App\Actions\Landlord\DeleteLandlordAction;
 use App\Dto\BuildingManager\BuildingManagerData;
 use App\Http\Requests\StoreBuildingManagerRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -98,12 +98,12 @@ class BuildingManagerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, DeleteLandlordAction $deleteLandlordAction)
+    public function destroy(string $id, DeleteBuildingManagerAction $deleteBuildingManagerAction)
     {
         $user = auth()->user();
 
         try {
-            $deleteLandlordAction->execute($id, $user);
+            $deleteBuildingManagerAction->execute($id, $user);
             return redirect()
                 ->route('building-managers.index')
                 ->with('success', __('Building manager has been deleted.'));

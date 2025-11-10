@@ -3,13 +3,11 @@
 namespace App\Actions\Tenant;
 
 use App\Dto\Tenant\TenantData;
-use App\Models\Tenant;
 use App\Models\User;
-use PhpParser\Node\Expr\Cast\Void_;
 
 class UpdateTenantAction
 {
-    public function __construct(protected GetLandlordAction $getTenantAction){}
+    public function __construct(protected GetTenantAction $getTenantAction){}
 
     public function execute(TenantData $data, string $tenantId , User $user) : bool
 

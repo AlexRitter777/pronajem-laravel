@@ -13,6 +13,7 @@
     "table.property" : "Property",
     "table.phone" : "Phone",
     "table.email" : "Email",
+    "table.description" : "Description",
     "table.actions" : "Actions",
 
     "table.empty" : "No records yet"

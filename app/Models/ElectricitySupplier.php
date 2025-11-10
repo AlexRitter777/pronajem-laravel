@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ElectricitySupplier extends Model
 {
@@ -16,6 +17,10 @@ class ElectricitySupplier extends Model
         'user_id'
     ];
 
+    public function properties() : hasMany
+    {
+        return $this->hasMany(Property::class);
+    }
     public function electricitySettlements() {
 
         return $this->hasMany(ElectricitySettlement::class);
