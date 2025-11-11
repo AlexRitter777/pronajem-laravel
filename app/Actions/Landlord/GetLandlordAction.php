@@ -2,19 +2,21 @@
 
 namespace App\Actions\Landlord;
 
+use App\Actions\Base\GetUserOwnedModelAction;
 use App\Models\Landlord;
-use App\Models\User;
 
-class GetLandlordAction
+class GetLandlordAction extends GetUserOwnedModelAction
 {
 
-    public function execute(string $landlordId, User $user){
-
-         return Landlord::where('id', $landlordId)
-             ->where('user_id', $user->id)
-             ->with('properties')
-             ->firstOrFail();
-
+    protected function model(): string
+    {
+        return Landlord::class;
     }
+
+    protected function withRelations(): array
+    {
+        return ['properties'];
+    }
+
 
 }

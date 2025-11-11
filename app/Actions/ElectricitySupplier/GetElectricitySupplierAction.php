@@ -2,19 +2,20 @@
 
 namespace App\Actions\ElectricitySupplier;
 
+use App\Actions\Base\GetUserOwnedModelAction;
 use App\Models\ElectricitySupplier;
-use App\Models\User;
 
-class GetElectricitySupplierAction
+class GetElectricitySupplierAction extends GetUserOwnedModelAction
 {
 
-    public function execute(string $id, User $user){
+    protected function model(): string
+    {
+        return ElectricitySupplier::class;
+    }
 
-         return ElectricitySupplier::where('id', $id)
-             ->where('user_id', $user->id)
-             ->with('properties')
-             ->firstOrFail();
-
+    protected function withRelations(): array
+    {
+        return ['properties'];
     }
 
 }

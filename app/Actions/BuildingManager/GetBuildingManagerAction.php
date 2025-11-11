@@ -2,19 +2,19 @@
 
 namespace App\Actions\BuildingManager;
 
+use App\Actions\Base\GetUserOwnedModelAction;
 use App\Models\BuildingManager;
-use App\Models\User;
 
-class GetBuildingManagerAction
+class GetBuildingManagerAction extends GetUserOwnedModelAction
 {
 
-    public function execute(string $id, User $user){
-
-         return BuildingManager::where('id', $id)
-             ->where('user_id', $user->id)
-             ->with('properties')
-             ->firstOrFail();
-
+    protected function model(): string
+    {
+        return BuildingManager::class;
     }
 
+    protected function withRelations(): array
+    {
+        return ['properties'];
+    }
 }

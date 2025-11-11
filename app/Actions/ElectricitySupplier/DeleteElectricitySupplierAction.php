@@ -2,20 +2,16 @@
 
 namespace App\Actions\ElectricitySupplier;
 
+use App\Actions\Base\DeleteUserOwnedModelAction;
 use App\Models\ElectricitySupplier;
 use App\Models\User;
 
-class DeleteElectricitySupplierAction
+class DeleteElectricitySupplierAction extends DeleteUserOwnedModelAction
 {
 
-    public function execute(string $id, User $user)
+    protected function model(): string
     {
-        $electricitySupplier = ElectricitySupplier::where('id', $id)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
-
-        return $electricitySupplier->delete();
+        return ElectricitySupplier::class;
     }
-
 
 }

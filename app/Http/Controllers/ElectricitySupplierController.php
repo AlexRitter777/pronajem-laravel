@@ -9,7 +9,6 @@ use App\Actions\ElectricitySupplier\UpdateElectricitySupplierAction;
 use App\Dto\ElectricitySupplier\ElectricitySupplierData;
 use App\Http\Requests\StoreElectricitySupplierRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class ElectricitySupplierController extends Controller
 {
@@ -40,7 +39,7 @@ class ElectricitySupplierController extends Controller
 
         return redirect()
             ->route('electricity-suppliers.show', $electricitySupplier->id)
-            ->with('success', 'Electricity Supplier successfully created.');
+            ->with('success', __('Electricity Supplier successfully created.'));
     }
 
     /**
@@ -55,7 +54,7 @@ class ElectricitySupplierController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()
                 ->route('electricity-suppliers.index')
-                ->with('error', 'Electricity Supplier not found.');
+                ->with('error', __('Electricity Supplier not found.'));
         }
 
     }
@@ -73,7 +72,7 @@ class ElectricitySupplierController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()
                 ->route('electricity-suppliers.index')
-                ->with('error', 'Electricity Supplier not found.');
+                ->with('error', __('Electricity Supplier not found.'));
         }
 
     }
@@ -91,11 +90,11 @@ class ElectricitySupplierController extends Controller
             $electricitySupplier = $updateElectricitySupplierAction->execute(new ElectricitySupplierData($validated), $id, $user);
             return redirect()
                 ->back()
-                ->with('success', 'Electricity Supplier has been updated.');
+                ->with('success', __('Electricity Supplier has been updated.'));
         } catch (ModelNotFoundException $e) {
             return redirect()
                 ->route('electricity-suppliers.index')
-                ->with('error', 'Electricity Supplier not found.');
+                ->with('error', __('Electricity Supplier not found.'));
         }
 
 
@@ -112,11 +111,11 @@ class ElectricitySupplierController extends Controller
             $deleteElectricitySupplierAction->execute($id, $user);
             return redirect()
                 ->route('electricity-suppliers.index')
-                ->with('success', 'Electricity Supplier has been deleted.');
+                ->with('success', __('Electricity Supplier has been deleted.'));
         } catch (ModelNotFoundException $e) {
             return redirect()
                 ->route('electricity-suppliers.index')
-                ->with('error', 'Electricity Supplier not found.');
+                ->with('error', __('Electricity Supplier not found.'));
         }
 
     }

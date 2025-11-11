@@ -2,20 +2,15 @@
 
 namespace App\Actions\Tenant;
 
+use App\Actions\Base\DeleteUserOwnedModelAction;
 use App\Models\Tenant;
-use App\Models\User;
 
-class DeleteTenantAction
+class DeleteTenantAction extends DeleteUserOwnedModelAction
 {
 
-    public function execute(string $tenantId, User $user)
+    protected function model(): string
     {
-        $tenant = Tenant::where('id', $tenantId)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
-
-        return $tenant->delete();
+        return Tenant::class;
     }
-
 
 }

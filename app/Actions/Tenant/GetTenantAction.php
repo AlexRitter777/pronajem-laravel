@@ -2,19 +2,20 @@
 
 namespace App\Actions\Tenant;
 
+use App\Actions\Base\GetUserOwnedModelAction;
 use App\Models\Tenant;
-use App\Models\User;
 
-class GetTenantAction
+class GetTenantAction extends GetUserOwnedModelAction
 {
 
-    public function execute(string $tenantId, User $user){
+    protected function model(): string
+    {
+        return Tenant::class;
+    }
 
-         return Tenant::where('id', $tenantId)
-             ->where('user_id', $user->id)
-             ->with('properties')
-             ->firstOrFail();
-
+    protected function withRelations(): array
+    {
+        return ['properties'];
     }
 
 }

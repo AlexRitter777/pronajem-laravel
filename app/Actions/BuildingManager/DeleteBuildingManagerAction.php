@@ -2,20 +2,13 @@
 
 namespace App\Actions\BuildingManager;
 
+use App\Actions\Base\DeleteUserOwnedModelAction;
 use App\Models\BuildingManager;
-use App\Models\User;
 
-class DeleteBuildingManagerAction
+class DeleteBuildingManagerAction extends DeleteUserOwnedModelAction
 {
-
-    public function execute(string $id, User $user)
+    protected function model(): string
     {
-        $buildingManager = BuildingManager::where('id', $id)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
-
-        return $buildingManager->delete();
+        return BuildingManager::class;
     }
-
-
 }
