@@ -2,22 +2,25 @@
 
 namespace App\Actions\Tenant;
 
-use App\Dto\Tenant\TenantData;
+use App\Actions\Base\StoreUserOwnedModelAction;
 use App\Models\Tenant;
-use App\Models\User;
 
-class StoreTenantAction
+class StoreTenantAction extends StoreUserOwnedModelAction
 {
-    public function __construct(){}
-    public function execute(TenantData $data, User $user){
-        return Tenant::create([
+    protected function model(): string
+    {
+        return Tenant::class;
+    }
+
+    protected function toArray(object $data): array
+    {
+        return [
             'name' => $data->name,
             'address' => $data->address,
             'email' => $data->email,
             'birthday' => $data->birthday,
             'phone' => $data->phone,
             'account_number' => $data->account_number,
-            'user_id' => $user->id
-        ]);
+        ];
     }
 }

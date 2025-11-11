@@ -2,28 +2,25 @@
 
 namespace App\Actions\Tenant;
 
-use App\Dto\Tenant\TenantData;
-use App\Models\User;
+use App\Actions\Base\UpdateUserOwnedModelAction;
+use App\Models\Tenant;
 
-class UpdateTenantAction
+class UpdateTenantAction extends UpdateUserOwnedModelAction
 {
-    public function __construct(protected GetTenantAction $getTenantAction){}
-
-    public function execute(TenantData $data, string $tenantId , User $user) : bool
-
+    protected function model(): string
     {
+        return Tenant::class;
+    }
 
-        $tenant = $this->getTenantAction->execute($tenantId, $user);
-
-        return $tenant->update([
+    protected function toArray(object $data): array
+    {
+        return [
             'name' => $data->name,
             'address' => $data->address,
             'email' => $data->email,
             'birthday' => $data->birthday,
             'phone' => $data->phone,
             'account_number' => $data->account_number,
-            'user_id' => $user->id
-        ]);
-
+        ];
     }
 }

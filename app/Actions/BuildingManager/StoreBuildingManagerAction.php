@@ -2,19 +2,24 @@
 
 namespace App\Actions\BuildingManager;
 
+use App\Actions\Base\StoreUserOwnedModelAction;
 use App\Dto\BuildingManager\BuildingManagerData;
 use App\Models\BuildingManager;
-use App\Models\User;
 
-class StoreBuildingManagerAction
+class StoreBuildingManagerAction extends StoreUserOwnedModelAction
 {
-    public function __construct(){}
-    public function execute(BuildingManagerData $data, User $user){
-        return BuildingManager::create([
+    protected function model() : string
+    {
+        return BuildingManager::class;
+    }
+
+    protected function toArray(object $data) : array
+    {
+        return [
             'name' => $data->name,
             'phone' => $data->phone,
             'email' => $data->email,
-            'user_id' => $user->id
-        ]);
+        ];
     }
+
 }

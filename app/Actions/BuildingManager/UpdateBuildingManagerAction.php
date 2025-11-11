@@ -2,25 +2,22 @@
 
 namespace App\Actions\BuildingManager;
 
-use App\Dto\BuildingManager\BuildingManagerData;
-use App\Models\User;
+use App\Actions\Base\UpdateUserOwnedModelAction;
+use App\Models\BuildingManager;
 
-class UpdateBuildingManagerAction
+class UpdateBuildingManagerAction extends UpdateUserOwnedModelAction
 {
-    public function __construct(protected GetBuildingManagerAction $getBuildingManagerAction){}
-
-    public function execute(BuildingManagerData $data, string $id , User $user) : bool
-
+    protected function model(): string
     {
+        return BuildingManager::class;
+    }
 
-        $buildingManager = $this->getBuildingManagerAction->execute($id, $user);
-
-        return $buildingManager->update([
+    protected function toArray(object $data): array
+    {
+        return [
             'name' => $data->name,
             'phone' => $data->phone,
             'email' => $data->email,
-            'user_id' => $user->id
-        ]);
-
+        ];
     }
 }

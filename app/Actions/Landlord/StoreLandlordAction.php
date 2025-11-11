@@ -2,22 +2,27 @@
 
 namespace App\Actions\Landlord;
 
-use App\Dto\Landlord\LandlordData;
+use App\Actions\Base\StoreUserOwnedModelAction;
 use App\Models\Landlord;
-use App\Models\User;
 
-class StoreLandlordAction
+class StoreLandlordAction extends  StoreUserOwnedModelAction
 {
-    public function __construct(){}
-    public function execute(LandlordData $data, User $user){
-        return Landlord::create([
+
+    protected function model(): string
+    {
+        return Landlord::class;
+    }
+
+    protected function toArray(object $data): array
+    {
+        return [
             'name' => $data->name,
             'address' => $data->address,
             'email' => $data->email,
             'birthday' => $data->birthday,
             'phone' => $data->phone,
             'account_number' => $data->account_number,
-            'user_id' => $user->id
-        ]);
+        ];
     }
+
 }

@@ -2,24 +2,21 @@
 
 namespace App\Actions\ElectricitySupplier;
 
-use App\Dto\ElectricitySupplier\ElectricitySupplierData;
-use App\Models\User;
+use App\Actions\Base\UpdateUserOwnedModelAction;
+use App\Models\ElectricitySupplier;
 
-class UpdateElectricitySupplierAction
+class UpdateElectricitySupplierAction extends UpdateUserOwnedModelAction
 {
-    public function __construct(protected GetElectricitySupplierAction $getElectricitySupplierAction){}
-
-    public function execute(ElectricitySupplierData $data, string $id , User $user) : bool
-
+    protected function model(): string
     {
+        return ElectricitySupplier::class;
+    }
 
-        $electricitySupplier = $this->getElectricitySupplierAction->execute($id, $user);
-
-        return $electricitySupplier->update([
+    protected function toArray(object $data): array
+    {
+        return [
             'name' => $data->name,
             'description' => $data->description,
-            'user_id' => $user->id
-        ]);
-
+        ];
     }
 }
