@@ -2,33 +2,26 @@
 
 namespace App\Actions\BuildingManager;
 
+use App\Actions\Base\ListUserOwnedModelAction;
 use App\Models\BuildingManager;
 use App\Models\User;
 
-class ListBuildingManagerAction
+class ListBuildingManagerAction extends ListUserOwnedModelAction
 {
 
-    public function execute(User $user, array $filters = [])
+    protected function model() : string
     {
+        return BuildingManager::class;
+    }
 
+    protected function withRelations(): array
+    {
+        return ['properties'];
+    }
 
-        $perPage = $filters['per_page'] ?? 10;
-
-        $query = BuildingManager::query()
-            ->where('user_id', $user->id);
-
-        if(!empty($filters['search'])) {
-            $query->where('name','like','%'.$filters['search'].'%');
-        }
-
-        if(!empty($filters['sort'])) {
-            $query->orderBy($filters['sort'],$filters['order'] ?? 'desc');
-        }else{
-            $query->latest();
-        }
-
-        return $query->with('properties')->paginate($perPage);
-
+    protected function searchColumns(): array
+    {
+        return ['name'];
     }
 
 }

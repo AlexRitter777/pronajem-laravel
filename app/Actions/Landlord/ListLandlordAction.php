@@ -2,33 +2,29 @@
 
 namespace App\Actions\Landlord;
 
+use App\Actions\Base\ListUserOwnedModelAction;
 use App\Models\Landlord;
 use App\Models\User;
 
-class ListLandlordAction
+class ListLandlordAction extends ListUserOwnedModelAction
 {
 
-    public function execute(User $user, array $filters = [])
+    protected function model(): string
     {
-
-
-        $perPage = $filters['per_page'] ?? 10;
-
-        $query = Landlord::query()
-            ->where('user_id', $user->id);
-
-        if(!empty($filters['search'])) {
-            $query->where('name','like','%'.$filters['search'].'%');
-        }
-
-        if(!empty($filters['sort'])) {
-            $query->orderBy($filters['sort'],$filters['order'] ?? 'desc');
-        }else{
-            $query->latest();
-        }
-
-        return $query->with('properties')->paginate($perPage);
-
+        return Landlord::class;
     }
+
+    protected function withRelations(): array
+    {
+        return ['properties'];
+    }
+
+    protected function searchColumns(): array
+    {
+        return ['name'];
+    }
+
+
+
 
 }

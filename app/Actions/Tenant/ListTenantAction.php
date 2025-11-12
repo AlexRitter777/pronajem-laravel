@@ -2,32 +2,24 @@
 
 namespace App\Actions\Tenant;
 
+use App\Actions\Base\ListUserOwnedModelAction;
 use App\Models\Tenant;
-use App\Models\User;
 
-class ListTenantAction
+class ListTenantAction extends ListUserOwnedModelAction
 {
-    public function execute(User $user, array $filters = [])
+    protected function model(): string
     {
+        return Tenant::class;
+    }
 
+    protected function withRelations(): array
+    {
+        return ['properties'];
+    }
 
-         $perPage = $filters['per_page'] ?? 10;
-
-         $query = Tenant::query()
-            ->where('user_id', $user->id);
-
-         if(!empty($filters['search'])) {
-             $query->where('name','like','%'.$filters['search'].'%');
-         }
-
-         if(!empty($filters['sort'])) {
-             $query->orderBy($filters['sort'],$filters['order'] ?? 'desc');
-         }else{
-             $query->latest();
-         }
-
-         return $query->with('properties')->paginate($perPage);
-
+    protected function searchColumns(): array
+    {
+        return ['name'];
     }
 
 }
