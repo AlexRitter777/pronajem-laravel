@@ -4,7 +4,7 @@
 
     "errors.common" : "Something went wrong. Please try again later.",
 
-    "search.placeholder" : "Start typing a name . . .",
+    "search.placeholder" : "Start typing . . .",
 
     "perpage.title": "Per page",
 
@@ -15,6 +15,13 @@
     "table.email" : "Email",
     "table.description" : "Description",
     "table.actions" : "Actions",
+
+    "table.type" : "Type",
+    "table.tenant" : "Tenant",
+    "table.contract" : "Contract",
+    "table.rent" : "Rent",
+    "table.services" : "Services",
+    "table.electricity" : "Electricity",
 
     "table.empty" : "No records yet"
 

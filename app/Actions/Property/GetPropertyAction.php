@@ -3,15 +3,29 @@
 namespace App\Actions\Property;
 
 
+use App\Actions\Base\GetUserOwnedModelAction;
 use App\Models\Property;
 use App\Models\User;
 
-class GetPropertyAction
+class GetPropertyAction extends GetUserOwnedModelAction
 {
-    public function execute(string $Id, User $user)
+
+
+    protected function model(): string
     {
-        return Property::where('id', $Id)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
+        return Property::class;
     }
+
+    protected function withRelations(): array
+    {
+        return [
+            'tenant',
+            'landlord',
+            'buildingManager',
+            'electricitySupplier'
+        ];
+    }
+
+
+
 }

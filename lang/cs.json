@@ -72,7 +72,7 @@
     "Open sidebar" : "Otevřít postranní panel",
     "Search" : "Hledat",
     "The page is expired. Please refresh the page and try again." : "Stránka vypršela. Obnovte ji prosím a zkuste to znovu.",
-    "Tenants" : "Nájemnici",
+    "Tenants" : "Nájemníci",
     "tenants" : "najemnici",
     "New tenant" : "Nový nájemník",
     "Manage tenants — view the list, search, add or edit records." : "Spravujte nájemníky – zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
@@ -144,6 +144,8 @@
     "Electricity supplier details." : "Detail dodavatele elktřiny.",
 
     "properties" : "nemovitosti",
+    "New property" : "Nová nemovitost",
+    "Manage properties — view the list, search, add or edit records." : "Spravujte nemovitosti – zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
 
     "create" : "novy",
     "edit" : "upravit"

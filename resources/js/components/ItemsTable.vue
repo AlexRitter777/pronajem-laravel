@@ -15,7 +15,7 @@
     const params = reactive({
         search: '',
         per_page: '',
-        sort: 'name',
+        sort: '',
         order: 'asc',
     })
 

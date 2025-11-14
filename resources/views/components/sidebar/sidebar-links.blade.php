@@ -54,6 +54,7 @@
 
             <x-sidebar.sidebar-link
                 :title="__('Properties')"
+                href="{{ route('properties.index') }}"
             >
                 <x-icons.icon-building
                     class="size-6 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-white"

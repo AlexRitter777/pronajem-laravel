@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\TenantController as ApiTenantController;
 use App\Http\Controllers\Api\LandlordController as ApiLandlordController;
 use App\Http\Controllers\Api\BuildingManagerController as ApiBuildingManagerController;
 use App\Http\Controllers\Api\ElectricitySupplierController as ApiElectricitySupplierController;
+use App\Http\Controllers\Api\PropertyController as ApiPropertyController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('api/' . __('landlords'), [ApiLandlordController::class, 'index'])->name('api.landlords.list');
     Route::get('api/' . __('building-managers'), [ApiBuildingManagerController::class, 'index'])->name('api.building-managers.list');
     Route::get('api/' . __('electricity-suppliers'), [ApiElectricitySupplierController::class, 'index'])->name('api.electricity-suppliers.list');
+    Route::get('api/' . __('properties'), [ApiPropertyController::class, 'index'])->name('api.properties.list');
+
 
     Route::resource(__('tenants'), TenantController::class)
         ->parameters([__('tenants') => 'tenant'])

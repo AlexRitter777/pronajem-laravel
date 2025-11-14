@@ -4,7 +4,7 @@
 
     "errors.common" : "Něco se pokazilo. Zkuste to prosím znovu později.",
 
-    "search.placeholder" : "Začněte psát jméno . . .",
+    "search.placeholder" : "Začněte psát . . .",
 
     "perpage.title": "Na stránku",
 
@@ -15,6 +15,14 @@
     "table.phone" : "Telefon",
     "table.description" : "Popis",
     "table.email" : "E-mail",
+
+    "table.type" : "Typ",
+    "table.tenant" : "Nájemník",
+    "table.contract" : "Smlouva",
+    "table.rent" : "Nájemné",
+    "table.services" : "Služby",
+    "table.electricity" : "Elektřina",
+
 
     "table.empty" : "Zatím žádné záznamy"
 
