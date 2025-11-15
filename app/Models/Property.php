@@ -34,6 +34,7 @@ class Property extends Model
         'rent_amount' => MoneyDisplayCast::class,
         'service_charge' => MoneyDisplayCast::class,
         'electricity_charge' => MoneyDisplayCast::class,
+        'deposit_amount' => MoneyDisplayCast::class,
     ];
     public function landlord(): BelongsTo
     {

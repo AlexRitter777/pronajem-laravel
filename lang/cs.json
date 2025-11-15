@@ -145,7 +145,22 @@
 
     "properties" : "nemovitosti",
     "New property" : "Nová nemovitost",
+    "Property details.": "Datail nemovitosi.",
     "Manage properties — view the list, search, add or edit records." : "Spravujte nemovitosti – zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
+    "Property details" : "Detail nemovitosti",
+    "Type" : "Typ",
+    "Property Type" : "Typ nemovitosti",
+    "Rent" : "Nájemné",
+    "Advance payment for services" : "Záloha na služby",
+    "Advance payment for electricity" : "Záloha na elektřinu",
+    "Security Deposit" : "Kauce",
+    "Landlord" : "Pronajímatel",
+    "Tenant" : "Nájemník",
+    "Building Manager" : "Správce budovy",
+    "Electricity Supplier" : "Dodavatel elektřiny",
+    "Contract End Date" : "Datum ukončení smlouvy",
+
+
 
     "create" : "novy",
     "edit" : "upravit"
