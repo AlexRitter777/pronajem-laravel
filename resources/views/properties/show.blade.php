@@ -25,32 +25,32 @@
                     />
                 @endif
 
-                @if($property->rent_amount)
+                @if($property->rent_amount_formatted())
                     <x-lists.dl-item
                         :dt="__('Rent')"
-                        :dd="$property->rent_amount"
+                        :dd="$property->rent_amount_formatted()"
                     />
                 @endif
 
-                @if($property->service_charge)
+                @if($property->service_charge_formatted())
                     <x-lists.dl-item
                         :dt="__('Advance payment for services')"
-                        :dd="$property->service_charge"
+                        :dd="$property->service_charge_formatted()"
                     />
                 @endif
 
-                @if($property->electricity_charge)
+                @if($property->electricity_charge_formatted())
                     <x-lists.dl-item
                         :dt="__('Advance payment for electricity')"
-                        :dd="$property->electricity_charge"
+                        :dd="$property->electricity_charge_formatted()"
                     />
                 @endif
 
 
-                @if($property->deposit_amount)
+                @if($property->deposit_amount_formatted())
                     <x-lists.dl-item
                         :dt="__('Security Deposit')"
-                        :dd="$property->deposit_amount"
+                        :dd="$property->deposit_amount_formatted()"
                     />
                 @endif
 

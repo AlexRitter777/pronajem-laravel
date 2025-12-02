@@ -13,7 +13,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        return view('property.index');
+        return view('properties.index');
     }
 
     /**
@@ -40,18 +40,30 @@ class PropertyController extends Controller
         $user = auth()->user();
         try {
             $property = $getPropertyAction->execute($id, $user);
-            return view('property.show', compact('property'));
+            return view('properties.show', compact('property'));
         } catch (ModelNotFoundException $e) {
-            abort(404); //change later
+            return redirect()
+                ->route('properties.index')
+                ->with('error', __('Property was not found.'));
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, GetPropertyAction $getPropertyAction)
     {
-        //
+        $user = auth()->user();
+        try {
+            $property = $getPropertyAction->execute($id, $user);
+            return view('properties.edit', compact('property'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()
+                ->route('properties.index')
+                ->with('error', __('Property was not found.'));
+        }
+
+
     }
 
     /**

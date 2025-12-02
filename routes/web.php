@@ -57,9 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::get('api/najemnici', [ApiTenantController::class, 'index'])->name('api.tenants.list');
 
     Route::get('api/' . __('landlords'), [ApiLandlordController::class, 'index'])->name('api.landlords.list');
+    Route::post('api/' . __('landlords'), [ApiLandlordController::class, 'store'])->name('api.landlords.store');
     Route::get('api/' . __('building-managers'), [ApiBuildingManagerController::class, 'index'])->name('api.building-managers.list');
     Route::get('api/' . __('electricity-suppliers'), [ApiElectricitySupplierController::class, 'index'])->name('api.electricity-suppliers.list');
     Route::get('api/' . __('properties'), [ApiPropertyController::class, 'index'])->name('api.properties.list');
+    Route::get('api/' . __('landlords-list'), [ApiLandlordController::class, 'getSelectList'])->name('api.landlords.light.list');
 
 
     Route::resource(__('tenants'), TenantController::class)

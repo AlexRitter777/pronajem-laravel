@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\MoneyDisplayCast;
+use App\Traits\FormatsMoney;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +12,7 @@ class Property extends Model
 {
     /** @use HasFactory<\Database\Factories\PropertyFactory> */
     use HasFactory;
+    use FormatsMoney;
 
     protected $fillable = [
         'type',
@@ -31,11 +32,8 @@ class Property extends Model
 
     protected $casts = [
         'contract_finished_at' => 'datetime',
-        'rent_amount' => MoneyDisplayCast::class,
-        'service_charge' => MoneyDisplayCast::class,
-        'electricity_charge' => MoneyDisplayCast::class,
-        'deposit_amount' => MoneyDisplayCast::class,
     ];
+
     public function landlord(): BelongsTo
     {
         return $this->belongsTo(Landlord::class);
@@ -87,5 +85,27 @@ class Property extends Model
     {
         return $this->hasMany(DepositSettlement::class);
     }
+
+    public function rent_amount_formatted() : string
+    {
+        return $this->formatMoney($this->rent_amount, 'Kč');
+    }
+
+    public function service_charge_formatted() : string
+    {
+        return $this->formatMoney($this->service_charge, 'Kč');
+    }
+
+    public function electricity_charge_formatted() : string
+    {
+        return $this->formatMoney($this->electricity_charge, 'Kč');
+    }
+
+    public function deposit_amount_formatted() : string
+    {
+        return $this->formatMoney($this->deposit_amount, 'Kč');
+    }
+
+
 
 }

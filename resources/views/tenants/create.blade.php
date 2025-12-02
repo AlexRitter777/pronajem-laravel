@@ -1,7 +1,4 @@
 <x-layout-component>
-    @session('error')
-        <x-alerts.simple-error>{{ session('error') }}</x-alerts.simple-error>
-    @endsession
     <form
         method="POST"
         action="{{ route('tenants.store') }}"
