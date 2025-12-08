@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::post('api/' . __('landlords'), [ApiLandlordController::class, 'store'])->name('api.landlords.store');
     Route::get('api/' . __('building-managers'), [ApiBuildingManagerController::class, 'index'])->name('api.building-managers.list');
     Route::post('api/' . __('building-managers'), [ApiBuildingManagerController::class, 'store'])->name('api.building-managers.store');
-
     Route::get('api/' . __('electricity-suppliers'), [ApiElectricitySupplierController::class, 'index'])->name('api.electricity-suppliers.list');
+    Route::post('api/' . __('electricity-suppliers'), [ApiElectricitySupplierController::class, 'store'])->name('api.electricity-suppliers.store');
     Route::get('api/' . __('properties'), [ApiPropertyController::class, 'index'])->name('api.properties.list');
     Route::get('api/' . __('landlords-list'), [ApiLandlordController::class, 'getSelectList'])->name('api.landlords.light.list');
 

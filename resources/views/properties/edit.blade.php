@@ -117,6 +117,13 @@
                         {{ __('Building Manager') }}
                     </x-forms.input-combobox>
 
+                    <x-forms.input-combobox
+                        :selected-item="$property->electricitySupplier?->name"
+                        :selected-item-id="$property->electricitySupplier?->id"
+                        component-name="forms.electricity-supplier-form-alpine"
+                    >
+                        {{ __('Electricity Supplier') }}
+                    </x-forms.input-combobox>
 
 
 
