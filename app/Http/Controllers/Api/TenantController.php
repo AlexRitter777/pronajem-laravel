@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Tenant\ListTenantAction;
+use App\Actions\Tenant\StoreTenantAction;
+use App\Dto\Tenant\TenantData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTenantRequest;
 use App\Http\Resources\TenantResource;
 use Illuminate\Http\Request;
 
@@ -22,9 +25,10 @@ class TenantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTenantRequest $request, StoreTenantAction $action)
     {
-        //
+        $tenant = $action->execute(new TenantData($request->validated()), $request->user());
+        return new TenantResource($tenant);
     }
 
     /**

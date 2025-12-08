@@ -1,6 +1,12 @@
 
 <x-layout-component>
 
+    @php
+    /**
+     * @var  \App\Models\Property $property
+     */
+    @endphp
+
     <form
         method="POST"
         action="{{ route('properties.update', ['property' => $property]) }}"
@@ -95,7 +101,21 @@
                         {{ __('Landlord') }}
                     </x-forms.input-combobox>
 
+                    <x-forms.input-combobox
+                        :selected-item="$property->tenant?->name"
+                        :selected-item-id="$property->tenant?->id"
+                        component-name="forms.tenant-form-alpine"
+                    >
+                        {{ __('Tenant') }}
+                    </x-forms.input-combobox>
 
+                    <x-forms.input-combobox
+                        :selected-item="$property->buildingManager?->name"
+                        :selected-item-id="$property->buildingManager?->id"
+                        component-name="forms.building-manager-form-alpine"
+                    >
+                        {{ __('Building Manager') }}
+                    </x-forms.input-combobox>
 
 
 

@@ -75,13 +75,9 @@ export default (options= {}) => ({
         this.isModalOpen = false;
     },
 
-    async save(options = {}){
+    async save(formData, entity){
 
         this.errors = {};
-
-        const entity = options.entity;
-
-        const formData =  options.form;
 
         this.isLoading = true;
 
