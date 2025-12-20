@@ -1,13 +1,15 @@
 @props([
     'name' => '',
     'componentName' => '',
-    'selectedItem' => ''
+    'selectedItem' => '',
+    'url' => ''
 ])
 
 <div
     x-data="combobox({
         selectedItem: @js($selectedItem),
-        selectedItemId: @js($selectedItemId)
+        selectedItemId: @js($selectedItemId),
+        url: @js($url)
         })"
     class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6">
     <div class="flex items-center  sm:pt-1.5  ">

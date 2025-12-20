@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Tenant\LightListTenantAction;
 use App\Actions\Tenant\ListTenantAction;
 use App\Actions\Tenant\StoreTenantAction;
 use App\Dto\Tenant\TenantData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenantRequest;
+use App\Http\Resources\LightListTenantResource;
 use App\Http\Resources\TenantResource;
 use Illuminate\Http\Request;
 
@@ -31,27 +33,12 @@ class TenantController extends Controller
         return new TenantResource($tenant);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function getSelectList(Request $request, LightListTenantAction $action)
     {
-        //
-    }
+        $tenants = $action->execute($request->user());
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
+        return LightListTenantResource::collection($tenants);
 
     }
 }

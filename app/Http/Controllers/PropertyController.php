@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Property\GetPropertyAction;
+use App\Actions\Property\UpdatePropertyAction;
+use App\Dto\Property\PropertyData;
+use App\Http\Requests\StorePropertyRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -56,22 +59,38 @@ class PropertyController extends Controller
         $user = auth()->user();
         try {
             $property = $getPropertyAction->execute($id, $user);
-            return view('properties.edit', compact('property'));
         } catch (ModelNotFoundException $e) {
             return redirect()
                 ->route('properties.index')
                 ->with('error', __('Property was not found.'));
         }
 
+        return view('properties.edit', compact('property'));
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StorePropertyRequest $request, string $id, UpdatePropertyAction $updatePropertyAction)
     {
-        //
+        dd($request->all());
+        $validated = $request->validated();
+
+        $user = $request->user();
+
+        try {
+            $updatePropertyAction->execute(new PropertyData($validated), $id,  $user);
+        }catch (ModelNotFoundException $e){
+            return redirect()
+                ->route('properties.index')
+                ->with('error', __('Property was not found.'));
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', __('Property has been updated.'));
+
     }
 
     /**

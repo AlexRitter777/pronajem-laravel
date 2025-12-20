@@ -6,8 +6,9 @@ export default (options= {}) => ({
 
     async init() {
         console.log('Hi from the combobox!');
-        const items = await getItems();
-        // console.log(items);
+        console.log(options.url)
+        const items = await getItems(options.url);
+        console.log(items);
 
         if(items.data.length === 0) {
             this.disabled = true;

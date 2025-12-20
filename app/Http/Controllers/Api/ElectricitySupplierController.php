@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\ElectricitySupplier\LightListElectricitySupplierAction;
 use App\Actions\ElectricitySupplier\ListElectricitySupplierAction;
 use App\Actions\ElectricitySupplier\StoreElectricitySupplierAction;
 use App\Dto\ElectricitySupplier\ElectricitySupplierData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreElectricitySupplierRequest;
 use App\Http\Resources\ElectricitySupplierResource;
+use App\Http\Resources\LightListTenantResource;
 use Illuminate\Http\Request;
 
 class ElectricitySupplierController extends Controller
@@ -24,5 +26,12 @@ class ElectricitySupplierController extends Controller
     {
         $electricitySupplier = $action->execute(new ElectricitySupplierData($request->validated()), $request->user());
         return new ElectricitySupplierResource($electricitySupplier);
+    }
+
+    public function getSelectList(Request $request, LightListElectricitySupplierAction $action)
+    {
+        $suppliers = $action->execute($request->user());
+
+        return LightListTenantResource::collection($suppliers);
     }
 }

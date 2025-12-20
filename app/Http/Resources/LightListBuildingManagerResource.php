@@ -2,14 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\BuildingManager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * @mixin BuildingManager
- */
-class BuildingManagerResource extends JsonResource
+class LightListBuildingManagerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,11 +16,7 @@ class BuildingManagerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'email' => $this->phone,
-            'properties' => $this->properties,
-            'created_at' => $this->created_at->format('Y-m-d'),
+            'name' => $this->name
         ];
     }
 }

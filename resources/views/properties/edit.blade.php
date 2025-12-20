@@ -96,7 +96,9 @@
                     <x-forms.input-combobox
                         :selected-item="$property->landlord?->name"
                         :selected-item-id="$property->landlord?->id"
+                        :url="route('api.landlords.light.list')"
                         component-name="forms.landlord-form-alpine"
+                        name="landlord_id"
                     >
                         {{ __('Landlord') }}
                     </x-forms.input-combobox>
@@ -104,7 +106,9 @@
                     <x-forms.input-combobox
                         :selected-item="$property->tenant?->name"
                         :selected-item-id="$property->tenant?->id"
+                        :url="route('api.tenants.light.list')"
                         component-name="forms.tenant-form-alpine"
+                        name="tenant_id"
                     >
                         {{ __('Tenant') }}
                     </x-forms.input-combobox>
@@ -112,7 +116,9 @@
                     <x-forms.input-combobox
                         :selected-item="$property->buildingManager?->name"
                         :selected-item-id="$property->buildingManager?->id"
+                        :url="route('api.building-managers.light.list')"
                         component-name="forms.building-manager-form-alpine"
+                        name="building_manager_id"
                     >
                         {{ __('Building Manager') }}
                     </x-forms.input-combobox>
@@ -120,7 +126,9 @@
                     <x-forms.input-combobox
                         :selected-item="$property->electricitySupplier?->name"
                         :selected-item-id="$property->electricitySupplier?->id"
+                        :url="route('api.electricity-suppliers.light.list')"
                         component-name="forms.electricity-supplier-form-alpine"
+                        name="electricity_supplier_id"
                     >
                         {{ __('Electricity Supplier') }}
                     </x-forms.input-combobox>

@@ -19,7 +19,7 @@ abstract class LightListUserOwnedModelAction
 
         $query = $this->findOwnedModelQuery($modelClass, $user);
 
-        return $query->get();
+        return $query->get()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
 
     }
 

@@ -1,6 +1,6 @@
 export async function getItems(url) {
 
-    const resp = await axios.get(url= '/api/seznam-pronajimatelu');
+    const resp = await axios.get(url);
 
     return resp.data;
 

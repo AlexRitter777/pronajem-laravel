@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\BuildingManager\LightListBuildingManagerAction;
 use App\Actions\BuildingManager\ListBuildingManagerAction;
 use App\Actions\BuildingManager\StoreBuildingManagerAction;
 use App\Dto\BuildingManager\BuildingManagerData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBuildingManagerRequest;
 use App\Http\Resources\BuildingManagerResource;
+use App\Http\Resources\LightListBuildingManagerResource;
 use Illuminate\Http\Request;
 
 class BuildingManagerController extends Controller
@@ -23,4 +25,13 @@ class BuildingManagerController extends Controller
         $buildingManager = $action->execute(new BuildingManagerData($request->validated()), $request->user());
         return new BuildingManagerResource($buildingManager);
     }
+
+    public function getSelectList(Request $request, LightListBuildingManagerAction $action)
+    {
+        $buildingManagers = $action->execute($request->user());
+
+        return LightListBuildingManagerResource::collection($buildingManagers);
+
+    }
+
 }

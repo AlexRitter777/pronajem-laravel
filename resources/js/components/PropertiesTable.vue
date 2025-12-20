@@ -121,7 +121,7 @@ function getItemUrl(id, action){
                 {{ property.tenant?.name ?? '\u2014' }}
             </td>
             <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
-                {{ property.contract_finished_at }}
+                {{ property.contract_finished_at ?? '\u2014' }}
             </td>
             <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
                 {{ property.rent_amount }}
