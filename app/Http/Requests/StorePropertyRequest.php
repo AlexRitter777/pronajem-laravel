@@ -30,9 +30,13 @@ class StorePropertyRequest extends FormRequest
             'electricity_charge' => 'nullable|integer|min:0',
             'deposit_amount' => 'nullable|integer|min:0',
             'contract_finished_at' => 'nullable|date',
+            'landlord_name' => 'nullable|string|max:255',
             'landlord_id' => 'nullable|exists:App\Models\Landlord,id',
+            'tenant_name' => 'nullable|string|max:255',
             'tenant_id' => 'nullable|exists:App\Models\Tenant,id',
+            'building_manager_name' => 'nullable|string|max:255',
             'building_manager_id' => 'nullable|exists:App\Models\BuildingManager,id',
+            'electricity_supplier_name' => 'nullable|string|max:255',
             'electricity_supplier_id' => 'nullable|exists:App\Models\ElectricitySupplier,id',
         ];
     }

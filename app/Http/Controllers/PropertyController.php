@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Property\GetPropertyAction;
+use App\Actions\Property\StorePropertyAction;
 use App\Actions\Property\UpdatePropertyAction;
 use App\Dto\Property\PropertyData;
 use App\Http\Requests\StorePropertyRequest;
@@ -24,15 +25,22 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        //
+        return view('properties.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePropertyRequest $request, StorePropertyAction $storePropertyAction)
     {
-        //
+        $validated = $request->validated();
+        $user = $request->user();
+        $property = $storePropertyAction->execute(new PropertyData($validated), $user);
+
+        return redirect()
+            ->route('properties.show', $property->id)
+            ->with('success', __('Property has been created.'));
+
     }
 
     /**
@@ -74,7 +82,6 @@ class PropertyController extends Controller
      */
     public function update(StorePropertyRequest $request, string $id, UpdatePropertyAction $updatePropertyAction)
     {
-        dd($request->all());
         $validated = $request->validated();
 
         $user = $request->user();

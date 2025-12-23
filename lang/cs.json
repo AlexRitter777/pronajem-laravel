@@ -143,12 +143,14 @@
     "Delete Electricity Supplier" : "Smazat dodavatele elktřiny",
     "Are you sure you want to delete this electricity supplier:" : "Opravdu chcete smazat tohoto dodavatele elektřiny:",
     "Electricity supplier details." : "Detail dodavatele elktřiny.",
-
+    "Edit property details." : "Upravte údaje o nemovitosti",
     "properties" : "nemovitosti",
     "New property" : "Nová nemovitost",
     "Property details.": "Datail nemovitosi.",
+    "Enter details for the new property." : "Zadejte údaje o nové nemovitosti.",
     "Manage properties — view the list, search, add or edit records." : "Spravujte nemovitosti – zobrazujte seznam, vyhledávejte, přidávejte nebo upravujte záznamy.",
     "Property details" : "Detail nemovitosti",
+
     "Type" : "Typ",
     "Property Type" : "Typ nemovitosti",
     "Rent" : "Nájemné",
@@ -161,11 +163,15 @@
     "Electricity Supplier" : "Dodavatel elektřiny",
     "Contract End Date" : "Datum ukončení smlouvy",
     "Property was not found." : "Nemovitost nebyla nalezena.",
+    "Property has been created." : "Nemovitost byla vytvořena.",
     "Property has been updated." : "Nemovitost byla aktualizována.",
 
 
     "create" : "novy",
-    "edit" : "upravit"
+    "edit" : "upravit",
+
+    "There are no items yet" : "Zatím zde nejsou žádné položky",
+    "Select an item" : "Vyberte položku"
 
 
 }

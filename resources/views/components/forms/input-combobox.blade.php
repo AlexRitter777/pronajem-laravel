@@ -1,5 +1,6 @@
 @props([
-    'name' => '',
+    'itemName' => '',
+    'itemId' => '',
     'componentName' => '',
     'selectedItem' => '',
     'url' => ''
@@ -35,7 +36,7 @@
                 @focus="showItems=true"
                 @focusout="refreshInput"
                 x-bind:disabled="disabled"
-                x-bind:placeholder="disabled ? 'There are no items yet' : 'Select an item'"
+                x-bind:placeholder="disabled ? '{{ __('There are no items yet') }}' : '{{ __('Select an item') }}'"
             />
             <template x-if="selectedItem">
                 <button
@@ -78,10 +79,17 @@
             </el-options>
 
         </el-autocomplete>
-        <input type="hidden" name="{{ $name }}" x-model="selectedItemId" />
-        @error($name)
+        <input type="hidden" name="{{ $itemName }}" x-model="selectedItem" />
+        <input type="hidden" name="{{ $itemId }}" x-model="selectedItemId" />
+        @error($itemName)
         <p
-{{--            id="{{ $id }}-error"--}}
+            class="mt-2 text-sm text-red-600 dark:text-red-400"
+        >
+            {{ $message }}
+        </p>
+        @enderror
+        @error($itemId)
+        <p
             class="mt-2 text-sm text-red-600 dark:text-red-400"
         >
             {{ $message }}
