@@ -14,3 +14,7 @@
 [x-cloak] {
     display: none !important;
 }
+
+[id^="headlessui-dialog-v-"] {
+    z-index: 50 !important;
+}

@@ -4,7 +4,7 @@ import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/vue/20/solid/index.js";
 import {PencilIcon} from "@heroicons/vue/24/outline/index.js";
 import {EyeIcon} from "@heroicons/vue/24/outline/index.js";
 import {toRef} from "vue";
-import {useProperties} from "../composables/properties.js";
+import {useProperties} from "../../composables/properties.js";
 
 const props = defineProps({
     items: {type: Array, required: true},
@@ -59,7 +59,7 @@ function getItemUrl(id, action){
 
             <!--Address-->
             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                {{ $t('table.address')}}
+                {{ $t('table.phone')}}
             </th>
             <!--End Address-->
 
@@ -79,32 +79,32 @@ function getItemUrl(id, action){
     </thead>
     <tbody class="divide-y divide-gray-200 bg-white dark:divide-white/10 dark:bg-gray-900">
     <tr
-        v-for="tenant in items"
-        :key="tenant.id"
+        v-for="buildingManager in items"
+        :key="buildingManager.id"
         class=" hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
     >
         <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0 dark:text-white">
             <a
-                :href="getItemUrl(tenant.id, 'show')"
+                :href="getItemUrl(buildingManager.id, 'show')"
             >
-                {{ tenant.name }}
+                {{ buildingManager.name }}
             </a>
         </td>
         <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
-            {{ tenant.address }}
+            {{ buildingManager.phone }}
         </td>
         <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
-            {{ properties[tenant.id] }}
+            {{ properties[buildingManager.id] }}
         </td>
         <td class=" flex justify-end py-4 pr-4 pl-3 text-sm whitespace-nowrap sm:pr-0">
             <a
-                :href="getItemUrl(tenant.id, 'show')"
+                :href="getItemUrl(buildingManager.id, 'show')"
                 class="mr-3 text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
                 <EyeIcon class="size-5"/>
             </a>
             <a
-                :href="getItemUrl(tenant.id, 'edit')"
+                :href="getItemUrl(buildingManager.id, 'edit')"
                 class="text-gray-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
                 <PencilIcon class="size-5"/>

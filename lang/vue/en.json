@@ -23,9 +23,18 @@
     "table.services" : "Services",
     "table.electricity" : "Electricity",
 
-    "table.empty" : "No records yet"
+    "table.empty" : "No records yet",
 
+    "form.modal.landlord.title" : "New landlord",
+    "form.modal.landlord.subtitle" : "Enter the new landlord’s details.",
+    "form.name" : "Name",
 
+    "service-settlement.title": "Property Service Settlement",
+    "service-settlement.subtitle": "Interactive form",
+    "service-settlement.property-address": "Property address",
+
+    "service-settlement.tenant" : "Tenant",
+    "service-settlement.landlord" : "Landlord"
 
 
 

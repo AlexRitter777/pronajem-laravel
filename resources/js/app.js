@@ -1,7 +1,8 @@
 import './bootstrap';
 import '@tailwindplus/elements'
 import { createApp } from 'vue';
-import ItemsTable from "./components/ItemsTable.vue";
+import ItemsTable from "./components/Tables/ItemsTable.vue";
+import ServiceSettlement from "./components/ServiceSettlement/ServiceSettlement.vue";
 import modal from "./alpine-components/modal.js";
 import scrollIntoView from "./utilites/srcroll-into-view.js";
 import { i18nVue} from "laravel-vue-i18n";
@@ -10,6 +11,7 @@ import focus from '@alpinejs/focus';
 
 
 import Alpine from 'alpinejs';
+
 
 window.Alpine = Alpine;
 
@@ -34,5 +36,19 @@ if(el){
     })
     app.mount(el);
 }
+
+const serviceSettlement = document.getElementById('service-settlement');
+if(serviceSettlement){
+    const app = createApp({});
+    app.component('service-settlement', ServiceSettlement);
+    app.use(i18nVue, {
+        resolve: async lang => {
+            const langs = import.meta.glob('../../lang/vue/*.json');
+            return await langs[`../../lang/vue/${lang}.json`]();
+        }
+    })
+    app.mount(serviceSettlement);
+}
+
 
 scrollIntoView();

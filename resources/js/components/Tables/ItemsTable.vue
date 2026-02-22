@@ -1,12 +1,12 @@
-<script setup>
+    <script setup>
 
     import { onMounted, reactive } from "vue";
-    import {useApi} from "../composables/api.js"
+    import {useApi} from "../../composables/api.js"
     import Pagination from "./Pagination.vue";
     import TableSearch from "./TableSearch.vue";
     import PerPage from "./PerPage.vue";
-    import ConfirmButton from "./ConfirmButton.vue";
-    import SimpleError from "./SimpleError.vue";
+    import ConfirmButton from "../UiElements/ConfirmButton.vue";
+    import SimpleError from "../UiElements/SimpleError.vue";
     import {useAsyncComponent} from "@/composables/async-component.js";
 
 

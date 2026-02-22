@@ -122,7 +122,7 @@
                         name="phone"
                         id="phone"
                         type="text"
-                        autocomplete="bday"
+                        autocomplete="phone"
                         x-model="form.phone"
                         placeholder="+420 777 888 999"
                         x-bind:class="{ 'outline-red-500': errors.phone }"

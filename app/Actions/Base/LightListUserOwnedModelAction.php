@@ -12,6 +12,11 @@ abstract class LightListUserOwnedModelAction
 
     protected abstract function model(): string;
 
+    protected function withRelations() : array
+    {
+        return [];
+    }
+
     public function execute(User $user) : Collection
     {
 
@@ -19,7 +24,7 @@ abstract class LightListUserOwnedModelAction
 
         $query = $this->findOwnedModelQuery($modelClass, $user);
 
-        return $query->get()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
+        return $query->with($this->withRelations())->get()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
 
     }
 

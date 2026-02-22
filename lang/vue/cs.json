@@ -23,8 +23,16 @@
     "table.services" : "Služby",
     "table.electricity" : "Elektřina",
 
+    "form.modal.landlord.title" : "Nový pronajímatel",
+    "form.modal.landlord.subtitle" : "Vyplňte údaje o novém pronajímateli.",
+    "form.name" : "Jméno",
 
-    "table.empty" : "Zatím žádné záznamy"
+    "table.empty" : "Zatím žádné záznamy",
 
+    "service-settlement.title" : "Vyúčtování služeb spojených s užíváním bytu.",
+    "service-settlement.subtitle" : "Interaktivní formulář.",
 
+    "service-settlement.property-address" : "Adresa nemovitosti",
+    "service-settlement.tenant" : "Nájemník",
+    "service-settlement.landlord" : "Pronajímatel"
 }

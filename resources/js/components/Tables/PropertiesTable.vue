@@ -4,7 +4,7 @@ import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/vue/20/solid/index.js";
 import {PencilIcon} from "@heroicons/vue/24/outline/index.js";
 import {EyeIcon} from "@heroicons/vue/24/outline/index.js";
 import {toRef} from "vue";
-import {useProperties} from "../composables/properties.js";
+import {useProperties} from "../../composables/properties.js";
 
 const props = defineProps({
     items: {type: Array, required: true},

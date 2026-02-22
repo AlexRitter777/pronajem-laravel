@@ -12,7 +12,9 @@
         selectedItemId: @js($selectedItemId),
         url: @js($url)
         })"
-    class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6">
+    class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6"
+>
+
     <div class="flex items-center  sm:pt-1.5  ">
         <label
             for="autocomplete"
@@ -25,6 +27,7 @@
             class="hover: cursor-pointer"
         />
     </div>
+
     <div class="mt-2 sm:col-span-2 sm:mt-0">
 
         <el-autocomplete class="relative mt-2 block sm:max-w-md">

@@ -5,6 +5,7 @@ use App\Http\Controllers\ElectricitySupplierController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\ServiceSettlementController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\Api\TenantController as ApiTenantController;
 use App\Http\Controllers\Api\LandlordController as ApiLandlordController;
@@ -67,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('api/' . __('tenants-list'), [ApiTenantController::class, 'getSelectList'])->name('api.tenants.light.list');
     Route::get('api/' . __('electricity-suppliers-list'), [ApiElectricitySupplierController::class, 'getSelectList'])->name('api.electricity-suppliers.light.list');
     Route::get('api/' . __('building-managers-list'), [ApiBuildingManagerController::class, 'getSelectList'])->name('api.building-managers.light.list');
+    Route::get('api/' . __('properties-list'), [ApiPropertyController::class, 'getSelectList'])->name('api.properties.light.list');
 
 
     Route::resource(__('tenants'), TenantController::class)
@@ -89,6 +91,9 @@ Route::middleware('auth')->group(function () {
         ->parameters([__('properties') => 'property'])
         ->names('properties');
 
+    Route::resource(__('service-settlements'), ServiceSettlementController::class)
+        ->parameters([__('service-settlements') => 'serviceSettlement'])
+        ->names('service-settlements');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

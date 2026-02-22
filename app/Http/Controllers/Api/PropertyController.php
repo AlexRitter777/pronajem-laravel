@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Property\LightListPropertyAction;
 use App\Actions\Property\ListPropertyAction;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LightListPropertyResource;
 use App\Http\Resources\PropertyResource;
 use Illuminate\Http\Request;
 
@@ -15,6 +17,13 @@ class PropertyController extends Controller
 
         return PropertyResource::collection($properties);
 
+    }
+
+    public function getSelectList(Request $request, LightListPropertyAction $action)
+    {
+        $properties = $action->execute($request->user());
+
+        return LightListPropertyResource::collection($properties);
     }
 
 }
