@@ -23,7 +23,7 @@ const formData = ref({
 
 
 function submitForm() {
-    emit('submitted', formData.value, '/api/pronajimatele', 'landlord')
+    emit('submitted', formData.value, '/api/najemnici', 'tenant')
 }
 
 
@@ -33,11 +33,11 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
 
 <template>
 
-    <modal :open="open" @close-modal="emit('close-modal', 'landlord')">
+    <modal :open="open" @close-modal="emit('close-modal', 'tenant')">
 
 
-        <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white"> {{ $t('form.modal.landlord.title')}}</h2>
-        <p class="mt-1 max-w-2xl text-sm/6 text-gray-600 dark:text-gray-400">{{ $t('form.modal.landlord.subtitle') }}</p>
+        <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white"> {{ $t('form.modal.tenant.title')}}</h2>
+        <p class="mt-1 max-w-2xl text-sm/6 text-gray-600 dark:text-gray-400">{{ $t('form.modal.tenant.subtitle') }}</p>
 
         <form @submit.prevent="submitForm">
 
@@ -137,7 +137,7 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button
                     type="button"
-                    @click="emit('close-modal', 'landlord')"
+                    @click="emit('close-modal', 'tenant')"
                     class="text-sm/6 font-semibold text-gray-900 dark:text-white"
                 >
                     {{ $t('form.cancel') }}

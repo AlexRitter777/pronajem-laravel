@@ -19,6 +19,7 @@ class PropertyResource extends JsonResource
             'type'  => $this->type,
             'address' => $this->address,
             'tenant' => $this->tenant,
+            'landlord' => $this->landlord,
             'contract_finished_at' => $this->contract_finished_at?->format('d.m.Y'),
             'rent_amount' => $this->rent_amount,
             'service_charge' => $this->service_charge,

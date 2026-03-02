@@ -1,6 +1,6 @@
 <script setup>
 import ComboBox from "../formsElements/ComboBox.vue";
-import {computed} from "vue";
+import {computed, onMounted, watch} from "vue";
 
 const props = defineProps({
     properties: {type: Array, required: true},
@@ -8,15 +8,16 @@ const props = defineProps({
     modelValue: {type: [Object, null], default: null, required: true}
 })
 
-const emit = defineEmits(['update:modelValue', 'property-selected'])
+const emit = defineEmits(['update:modelValue', 'property-selected', 'open-modal'])
+
 
 const selectedProperty = computed({
     get: () => props.modelValue,
     set: value => {
         emit('update:modelValue', value)
-        emit('property-selected', value)
     },
 })
+
 
 </script>
 
@@ -26,6 +27,7 @@ const selectedProperty = computed({
         :title="$t('service-settlement.property-address')"
         :search-by="searchBy"
         v-model="selectedProperty"
+        @open-modal="$emit('open-modal', 'property')"
     >
     </ComboBox>
 

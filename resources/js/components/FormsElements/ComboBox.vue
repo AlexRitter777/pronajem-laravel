@@ -1,5 +1,5 @@
 <script setup xmlns="http://www.w3.org/1999/html">
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/20/solid'
 import {
     Combobox,
@@ -20,21 +20,22 @@ const props = defineProps({
 
 })
 
+
 const emit = defineEmits(['update:modelValue', 'open-modal'])
 
 const selectedItem = computed({
     get: () => props.modelValue,
     set: value => {
         emit('update:modelValue', value)
-        isDisabled(value?.id ?? null )
-        removeNotCompletedItem(value?.id)
     },
 })
+
 
 watch(
     () => props.modelValue,
     (value) => {
         isDisabled(value?.id ?? null )
+        removeNotCompletedItem(value?.id)
     }
 )
 

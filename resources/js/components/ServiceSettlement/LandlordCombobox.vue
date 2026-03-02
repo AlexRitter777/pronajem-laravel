@@ -1,7 +1,7 @@
 <script setup>
 
 import ComboBox from "../formsElements/ComboBox.vue";
-import {computed} from "vue";
+import {computed, watch} from "vue";
 
 const props = defineProps({
     landlords: {type: Array, required: true},
@@ -15,9 +15,9 @@ const selectedLandlord = computed({
     get: () => props.modelValue,
     set: value => {
         emit('update:modelValue', value)
-        emit('landlord-selected', value)
     },
 })
+
 </script>
 
 <template>

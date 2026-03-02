@@ -1,75 +1,67 @@
 <script setup>
 
-import {onMounted, reactive, ref, toRaw} from "vue";
+import {onMounted, reactive, ref, toRaw, watchEffect} from "vue";
 import {getArrayOfItems, getItems} from "../../utilites/api.js";
-import PropertyCombobox from "./PropertyCombobox.vue";
-import TenantCombobox from "./TenantCombobox.vue";
-import LandlordCombobox from "./LandlordCombobox.vue";
-import LandlordModal from "./LandlordModal.vue";
+import SettlementParticipants from "./SettlementParticipants.vue";
+import useSaveItem from "../../composables/saveItem.js";
+import Meters from "./Meters.vue";
 
+const {saveItem, loading, errors} = useSaveItem();
 
 const properties = ref([]);
 const tenants = ref([]);
 const landlords = ref([]);
+const meterTypes=ref([]);
 
-const selectedProperty = ref(null);
-const selectedTenant = ref(null);
-const selectedLandlord = ref(null);
-const showModal = ref(false);
+//use snapshots for displaying entities, id is only reference, for editing
 
-const data = ref({
-    landlord: {
-        name: '',
-        address: '',
-        email: ''
-    }
+const settlement = reactive({
+    landlord: {id : null, name : null},
+    tenant: {id : null, name : null},
+    property: {id : null, address : null, tenant : null, landlord : null},
+    meters: []
+    // add all data
+
+
 });
 
+watchEffect(()=> console.log(settlement.property, settlement.landlord, settlement.tenant, settlement.meters));
+
 onMounted(async () => {
-    // await fetchItems('/api/properties-list');
+    // error handling
     properties.value = await getArrayOfItems('/api/properties-list');
     tenants.value = await getArrayOfItems('/api/tenants-list');
     landlords.value = await getArrayOfItems('/api/seznam-pronajimatelu');
-
-    // console.log(properties.value);
-    // console.log(tenants.value);
-    // console.log(landlords.value);
-    // console.log(error.value);
-    // console.log(items.value);
+    meterTypes.value = await getArrayOfItems('/api/meter-types-list');
+    console.log(meterTypes.value)
 });
 
-function onPropertySelected(property) {
-    // console.log(property);
-    if(!property) return;
 
-    selectedProperty.value = property;
+async function createAndInsertPerson(data, url, entity) {
 
-    selectedTenant.value = property.tenant
-        ? structuredClone(toRaw(property.tenant))
-        : null;
+    const res = await saveItem(url, data)
 
-    selectedLandlord.value = property.landlord
-        ? structuredClone(toRaw(property.landlord))
-        : null;
+    settlement[entity] = {
+        id: res.data.data.id,
+        name: res.data.data.name,
+    };
 
 }
 
-function showModalWindow(arg) {
-    console.log(arg);
-    showModal.value = true;
+
+async function createAndInsertProperty(data, url) {
+
+    const res = await saveItem(url, data)
+
+    settlement.property = {
+        id: res.data.data.id,
+        address: res.data.data.address,
+    }
 }
 
-function closeModal() {
-    showModal.value = false;
-}
 
-function createAndInsertEntity(arg1, arg2) {
-    console.log(arg1, arg2);
 
-}
-function getProperty(arg) {
-    console.log(arg);
-}
+
 
 
 </script>
@@ -86,30 +78,18 @@ function getProperty(arg) {
                     <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:border-t-gray-900/10 sm:pb-0 dark:border-white/10 dark:sm:divide-white/10 dark:sm:border-t-white/10">
 
 
+                        <settlement-participants
+                            v-model:selected-property="settlement.property"
+                            v-model:selected-landlord="settlement.landlord"
+                            v-model:selected-tenant="settlement.tenant"
+                            :properties="properties"
+                            :landlords="landlords"
+                            :tenants="tenants"
+                            @modal-form-submitted="createAndInsertPerson"
+                            @property-form-submitted="createAndInsertProperty"
+                        />
 
-                    <property-combobox
-                        :properties="properties"
-                        search-by="address"
-                        v-model="selectedProperty"
-                        @property-selected="onPropertySelected"
-                    />
-
-                    <landlord-combobox
-                        :landlords="landlords"
-                        search-by="name"
-                        v-model="selectedLandlord"
-                        @landlord-selected="selectedLandlord = $event"
-                        @open-modal="showModalWindow"
-                    />
-
-
-                    <tenant-combobox
-                        :tenants="tenants"
-                        search-by="name"
-                        v-model="selectedTenant"
-                        @tenant-selected="selectedTenant = $event"
-                    />
-
+                        <meters/>
 
                     </div>
                 </div>
@@ -118,11 +98,7 @@ function getProperty(arg) {
     </div>
 
 
-<landlord-modal
-    :open="showModal"
-    @submitted="createAndInsertEntity"
-    @close-modal="closeModal"
- />
+
 
 
 </template>
