@@ -10,6 +10,12 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+.input-style {
+    @apply block w-full rounded-md bg-white py-1.5 px-3 text-sm text-gray-900
+    outline-1 -outline-offset-1 outline-gray-300
+    focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
+    dark:bg-white/5 dark:text-white dark:outline-white/10;
+}
 
 [x-cloak] {
     display: none !important;

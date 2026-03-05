@@ -5,6 +5,7 @@ import {getArrayOfItems, getItems} from "../../utilites/api.js";
 import SettlementParticipants from "./SettlementParticipants.vue";
 import useSaveItem from "../../composables/saveItem.js";
 import Meters from "./Meters.vue";
+import DateRange from "../FormsElements/DateRange.vue";
 
 const {saveItem, loading, errors} = useSaveItem();
 
@@ -19,13 +20,16 @@ const settlement = reactive({
     landlord: {id : null, name : null},
     tenant: {id : null, name : null},
     property: {id : null, address : null, tenant : null, landlord : null},
+    invoicingStartDate: null,
+    invoicingEndDate: null,
+    tenantOccupancyStartDate: null,
+    tenantOccupancyEndDate: null,
     meters: []
     // add all data
 
 
 });
 
-watchEffect(()=> console.log(settlement.property, settlement.landlord, settlement.tenant, settlement.meters));
 
 onMounted(async () => {
     // error handling
@@ -67,36 +71,178 @@ async function createAndInsertProperty(data, url) {
 </script>
 
 <template>
-    <div>
-        <form>
-            <div class="space-y-12 sm:space-y-16">
-                <div>
 
-                    <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">{{ $t('service-settlement.title')}}</h2>
-                    <p class="mt-1 text-sm/6 text-gray-600 dark:text-gray-400">{{ $t('service-settlement.subtitle')}}</p>
-
-                    <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:border-t-gray-900/10 sm:pb-0 dark:border-white/10 dark:sm:divide-white/10 dark:sm:border-t-white/10">
+    <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">{{ $t('service-settlement.title')}}</h2>
+    <p class="mt-1 text-sm/6 text-gray-600 dark:text-gray-400">{{ $t('service-settlement.subtitle')}}</p>
 
 
-                        <settlement-participants
-                            v-model:selected-property="settlement.property"
-                            v-model:selected-landlord="settlement.landlord"
-                            v-model:selected-tenant="settlement.tenant"
-                            :properties="properties"
-                            :landlords="landlords"
-                            :tenants="tenants"
-                            @modal-form-submitted="createAndInsertPerson"
-                            @property-form-submitted="createAndInsertProperty"
-                        />
+    <div class="w-[85%] mt-10 border-t border-gray-900/10 dark:border-white/10">
 
-                        <meters/>
+        <!-- PARTICIPANTS -->
+        <SettlementParticipants
+            v-model:selected-property="settlement.property"
+            v-model:selected-landlord="settlement.landlord"
+            v-model:selected-tenant="settlement.tenant"
+            :properties="properties"
+            :landlords="landlords"
+            :tenants="tenants"
+            @modal-form-submitted="createAndInsertPerson"
+            @property-form-submitted="createAndInsertProperty"
+        />
 
+        <!-- INVOICING PERIOD -->
+        <DateRange
+            v-model:start-date="settlement.invoicingStartDate"
+            v-model:end-date="settlement.invoicingEndDate"
+            :label="$t('form.invoicing.period')"
+        />
+
+        <!-- TENANT OCCUPANCY -->
+        <DateRange
+            v-model:start-date="settlement.tenantOccupancyStartDate"
+            v-model:end-date="settlement.tenantOccupancyEndDate"
+            :label="$t('form.tenant.occupancy')"
+        />
+
+
+
+
+
+        <!-- METERS -->
+        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
+                Meters
+            </label>
+
+            <div class="mt-2 sm:col-span-2 sm:mt-0">
+                <div class="sm:max-w-2xl w-full space-y-3">
+
+                    <!-- row -->
+                    <div class="flex gap-3 items-center">
+                        <div class="flex-1 grid grid-cols-3 gap-3">
+                            <select class="input-style"><option>Type</option></select>
+                            <input type="number" placeholder="Start" class="input-style"/>
+                            <input type="number" placeholder="End" class="input-style"/>
+                        </div>
+                        <button class="text-red-500 shrink-0">🗑</button>
                     </div>
+
+                    <!-- row -->
+                    <div class="flex gap-3 items-center">
+                        <div class="flex-1 grid grid-cols-3 gap-3">
+                            <select class="input-style"><option>Type</option></select>
+                            <input type="number" placeholder="Start" class="input-style"/>
+                            <input type="number" placeholder="End" class="input-style"/>
+                        </div>
+                        <button class="text-red-500 shrink-0">🗑</button>
+                    </div>
+
+                    <button class="text-indigo-600 text-sm">＋ Add meter</button>
                 </div>
             </div>
-        </form>
+        </div>
+
+
+        <!-- COSTS -->
+        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
+                Costs
+            </label>
+
+            <div class="mt-2 sm:col-span-2 sm:mt-0">
+                <div class="sm:max-w-2xl w-full space-y-3">
+
+                    <div v-for="i in 4" :key="i" class="flex gap-3 items-center">
+                        <div class="flex-1 grid grid-cols-2 gap-3">
+                            <select class="input-style"><option>Type</option></select>
+                            <input type="number" placeholder="Amount" class="input-style"/>
+                        </div>
+                        <button class="text-red-500 shrink-0">🗑</button>
+                    </div>
+
+                    <button class="text-indigo-600 text-sm">＋ Add cost</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ADVANCED PAYMENTS -->
+        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
+                Advanced Payments
+            </label>
+
+            <div class="mt-2 sm:col-span-2 sm:mt-0">
+                <div class="sm:max-w-2xl w-full space-y-3">
+
+                    <div v-for="i in 3" :key="i" class="flex gap-3 items-center">
+                        <div class="flex-1 grid grid-cols-3 gap-3">
+                            <input type="date" class="input-style"/>
+                            <input type="date" class="input-style"/>
+                            <input type="number" placeholder="Amount" class="input-style"/>
+                        </div>
+                        <button class="text-red-500 shrink-0">🗑</button>
+                    </div>
+
+                    <button class="text-indigo-600 text-sm">＋ Add payment</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ACTIONS -->
+        <div class="flex justify-end gap-3 py-8">
+            <button type="button"
+                    class="px-4 py-2 text-sm rounded-md bg-gray-200 dark:bg-gray-700 dark:text-white">
+                Back
+            </button>
+
+            <button type="button"
+                    class="px-4 py-2 text-sm rounded-md bg-gray-200 dark:bg-gray-700 dark:text-white">
+                Refresh
+            </button>
+
+            <button type="submit"
+                    class="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+                Calculate
+            </button>
+        </div>
+
     </div>
 
+
+
+
+<!--    <div>-->
+<!--        <form>-->
+<!--            <div class="space-y-12 sm:space-y-16">-->
+<!--                <div>-->
+
+
+
+<!--                    <div class="w-[85%] mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:border-t-gray-900/10 sm:pb-0 dark:border-white/10 dark:sm:divide-white/10 dark:sm:border-t-white/10">-->
+
+
+<!--                        <settlement-participants-->
+<!--                            v-model:selected-property="settlement.property"-->
+<!--                            v-model:selected-landlord="settlement.landlord"-->
+<!--                            v-model:selected-tenant="settlement.tenant"-->
+<!--                            :properties="properties"-->
+<!--                            :landlords="landlords"-->
+<!--                            :tenants="tenants"-->
+<!--                            @modal-form-submitted="createAndInsertPerson"-->
+<!--                            @property-form-submitted="createAndInsertProperty"-->
+<!--                        />-->
+
+<!--                        <settlement-dates/>-->
+
+<!--&lt;!&ndash;                        <meters/>&ndash;&gt;-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
 
 
 
