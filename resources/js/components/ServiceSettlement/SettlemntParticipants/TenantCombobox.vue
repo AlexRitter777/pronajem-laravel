@@ -1,40 +1,37 @@
 <script setup>
-import ComboBox from "../formsElements/ComboBox.vue";
-import {computed, onMounted, watch} from "vue";
-import {ComboboxLabel} from "@headlessui/vue";
-import PlusIcon from "../Icons/PlusIcon.vue";
+
+import ComboBox from "../../FormsElements/ComboBox.vue";
+import {computed, watch} from "vue";
+import PlusIcon from "../../Icons/PlusIcon.vue";
 
 const props = defineProps({
-    properties: {type: Array, required: true},
+    tenants: {type: Array, required: true},
     searchBy: {type: String, required: true},
     modelValue: {type: [Object, null], default: null, required: true}
-})
+});
 
-const emit = defineEmits(['update:modelValue', 'property-selected', 'open-modal'])
+const emit = defineEmits(['update:modelValue', 'tenant-selected', 'open-modal'])
 
-
-const selectedProperty = computed({
+const selectedTenant = computed({
     get: () => props.modelValue,
     set: value => {
         emit('update:modelValue', value)
     },
 })
 
-
 </script>
 
 <template>
-
     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6">
 
         <div class="flex items-center">
             <label class="block text-sm font-medium text-gray-900 dark:text-white ">
-                {{ $t('service-settlement.property-address') }}
+                {{ $t('service-settlement.tenant') }}
             </label>
 
             <!--button plus-->
             <PlusIcon
-                @click="emit('open-modal', 'property')"
+                @click="emit('open-modal', 'tenant')"
             />
         </div>
 
@@ -42,9 +39,9 @@ const selectedProperty = computed({
             <div class="sm:max-w-2xl w-full grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
                 <div class="grid grid-cols-1 gap-3">
                     <ComboBox
-                        :items="properties"
+                        :items="tenants"
                         :search-by="searchBy"
-                        v-model="selectedProperty"
+                        v-model="selectedTenant"
                     >
                     </ComboBox>
                     <div class="h-8 w-8 invisible" aria-hidden="true"></div>
@@ -54,8 +51,8 @@ const selectedProperty = computed({
         </div>
 
     </div>
-
-
-
 </template>
 
+<style scoped>
+
+</style>

@@ -1,10 +1,10 @@
 <script setup>
 
 import {ref} from "vue";
-import Modal from "../UiElements/Modal.vue";
-import LightInputGroup from "../FormsElements/LightInput/LightInputGroup.vue";
-import LightLabel from "../FormsElements/LightInput/LightLabel.vue";
-import LightInput from "../FormsElements/LightInput/LightInput.vue";
+import Modal from "../../UiElements/Modal.vue";
+import LightInputGroup from "../../FormsElements/LightInput/LightInputGroup.vue";
+import LightLabel from "../../FormsElements/LightInput/LightLabel.vue";
+import LightInput from "../../FormsElements/LightInput/LightInput.vue";
 
 const props = defineProps({
     open: {type: Boolean, required: true},

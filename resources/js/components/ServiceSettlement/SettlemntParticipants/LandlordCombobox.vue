@@ -1,8 +1,8 @@
 <script setup>
 
-import ComboBox from "../formsElements/ComboBox.vue";
+import ComboBox from "../../FormsElements/ComboBox.vue";
 import {computed, watch} from "vue";
-import PlusIcon from "../Icons/PlusIcon.vue";
+import PlusIcon from "../../Icons/PlusIcon.vue";
 
 const props = defineProps({
     landlords: {type: Array, required: true},
