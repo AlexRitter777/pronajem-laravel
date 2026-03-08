@@ -6,6 +6,8 @@ import SettlementParticipants from "./SettlementParticipants.vue";
 import useSaveItem from "../../composables/saveItem.js";
 import Meters from "./Meters.vue";
 import DateRange from "../FormsElements/DateRange.vue";
+import {getUid} from "../../utilites/uid.js";
+import TrashIcon from "../Icons/TrashIcon.vue";
 
 const {saveItem, loading, errors} = useSaveItem();
 
@@ -24,7 +26,15 @@ const settlement = reactive({
     invoicingEndDate: null,
     tenantOccupancyStartDate: null,
     tenantOccupancyEndDate: null,
-    meters: []
+    meters: [
+        {
+            id : getUid(),
+            typeId : null,
+            typeName : null,
+            startValue : null,
+            EndValue : null
+        },
+    ]
     // add all data
 
 
@@ -40,6 +50,10 @@ onMounted(async () => {
     console.log(meterTypes.value)
 });
 
+
+watchEffect(() => {
+    console.log(settlement.meters)
+})
 
 async function createAndInsertPerson(data, url, entity) {
 
@@ -104,43 +118,16 @@ async function createAndInsertProperty(data, url) {
             :label="$t('form.tenant.occupancy')"
         />
 
-
-
-
-
         <!-- METERS -->
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
-            <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
-                Meters
-            </label>
+        <Meters
+            :invoicing-start-date="settlement.invoicingStartDate"
+            :invoicing-end-date="settlement.invoicingEndDate"
+            :occupancy-start-date="settlement.tenantOccupancyStartDate"
+            :occupancy-end-date="settlement.tenantOccupancyEndDate"
+            :meter-types="meterTypes"
+        />
 
-            <div class="mt-2 sm:col-span-2 sm:mt-0">
-                <div class="sm:max-w-2xl w-full space-y-3">
 
-                    <!-- row -->
-                    <div class="flex gap-3 items-center">
-                        <div class="flex-1 grid grid-cols-3 gap-3">
-                            <select class="input-style"><option>Type</option></select>
-                            <input type="number" placeholder="Start" class="input-style"/>
-                            <input type="number" placeholder="End" class="input-style"/>
-                        </div>
-                        <button class="text-red-500 shrink-0">🗑</button>
-                    </div>
-
-                    <!-- row -->
-                    <div class="flex gap-3 items-center">
-                        <div class="flex-1 grid grid-cols-3 gap-3">
-                            <select class="input-style"><option>Type</option></select>
-                            <input type="number" placeholder="Start" class="input-style"/>
-                            <input type="number" placeholder="End" class="input-style"/>
-                        </div>
-                        <button class="text-red-500 shrink-0">🗑</button>
-                    </div>
-
-                    <button class="text-indigo-600 text-sm">＋ Add meter</button>
-                </div>
-            </div>
-        </div>
 
 
         <!-- COSTS -->
@@ -157,7 +144,7 @@ async function createAndInsertProperty(data, url) {
                             <select class="input-style"><option>Type</option></select>
                             <input type="number" placeholder="Amount" class="input-style"/>
                         </div>
-                        <button class="text-red-500 shrink-0">🗑</button>
+                        <button class="text-red-500 shrink-0"><TrashIcon/></button>
                     </div>
 
                     <button class="text-indigo-600 text-sm">＋ Add cost</button>
