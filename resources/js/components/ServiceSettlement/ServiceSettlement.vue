@@ -4,7 +4,7 @@ import {onMounted, reactive, ref, toRaw, watchEffect} from "vue";
 import {getArrayOfItems, getItems} from "../../utilites/api.js";
 import SettlementParticipants from "./SettlementParticipants.vue";
 import useSaveItem from "../../composables/saveItem.js";
-import Meters from "./Meters.vue";
+import Meters from "./Meters/Meters.vue";
 import DateRange from "../FormsElements/DateRange.vue";
 import {getUid} from "../../utilites/uid.js";
 import TrashIcon from "../Icons/TrashIcon.vue";

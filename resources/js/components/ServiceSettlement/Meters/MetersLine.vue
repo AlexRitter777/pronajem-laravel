@@ -1,9 +1,9 @@
 <script setup>
 
 
-import Listbox from "../FormsElements/Listbox.vue";
+import Listbox from "../../FormsElements/Listbox.vue";
 import {ref, watch} from "vue";
-import SimpleInput from "../FormsElements/SimpleInput.vue";
+import SimpleInput from "../../FormsElements/SimpleInput.vue";
 
 
 const props = defineProps({
@@ -88,4 +88,3 @@ watch(selectedEndValue, (value) => {
     />
 
 </template>
-

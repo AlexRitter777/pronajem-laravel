@@ -1,8 +1,7 @@
 <script setup >
 
-import {computed, reactive, ref, watchEffect} from "vue";
-import TrashIcon from "../Icons/TrashIcon.vue";
-import Listbox from "../FormsElements/Listbox.vue";
+import {computed} from "vue";
+import TrashIcon from "../../Icons/TrashIcon.vue";
 import MetersLine from "./MetersLine.vue";
 
 const props = defineProps({
