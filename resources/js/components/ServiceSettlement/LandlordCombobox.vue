@@ -2,6 +2,7 @@
 
 import ComboBox from "../formsElements/ComboBox.vue";
 import {computed, watch} from "vue";
+import PlusIcon from "../Icons/PlusIcon.vue";
 
 const props = defineProps({
     landlords: {type: Array, required: true},
@@ -21,14 +22,35 @@ const selectedLandlord = computed({
 </script>
 
 <template>
-    <ComboBox
-        :items="landlords"
-        :title="$t('service-settlement.landlord')"
-        :search-by="searchBy"
-        v-model="selectedLandlord"
-        @open-modal="emit('open-modal', 'landlord')"
-    >
-    </ComboBox>
+    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6">
+
+        <div class="flex items-center">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white ">
+                {{ $t('service-settlement.landlord') }}
+            </label>
+
+            <!--button plus-->
+            <PlusIcon
+                @click="emit('open-modal', 'landlord')"
+            />
+        </div>
+
+        <div class="mt-2 sm:col-span-2 sm:mt-0">
+            <div class="sm:max-w-2xl w-full grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+                <div class="grid grid-cols-1 gap-3">
+                    <ComboBox
+                        :items="landlords"
+                        :search-by="searchBy"
+                        v-model="selectedLandlord"
+                    >
+                    </ComboBox>
+                    <div class="h-8 w-8 invisible" aria-hidden="true"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <style scoped>

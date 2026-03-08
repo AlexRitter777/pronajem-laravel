@@ -7,7 +7,7 @@
         type="button"
         class = "ml-2 inline-flex items-center justify-center rounded-md
         text-indigo-600 dark:text-indigo-400
-        hover:text-indigo-700 dark:hover:text-indigo-300"
+        hover:text-indigo-700 dark:hover:text-indigo-300 hover:cursor-pointer"
     >
         <svg xmlns="http://www.w3.org/2000/svg"
              viewBox="0 0 24 24"

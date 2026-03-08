@@ -13,7 +13,7 @@ import CrossIcon from "../icons/crossIcon.vue";
 import PlusIcon from "../icons/PlusIcon.vue";
 
 const props = defineProps({
-    title: {type: String, required:true},
+    title: {type: String, default: '', required:false},
     items: {type: Array, required: true},
     searchBy: {type: String, required: true},
     modelValue: {type: [Object, null], default: null, required: true}
@@ -84,19 +84,12 @@ function isDisabled(id){
     <Combobox
         as="div"
         v-model="selectedItem"
-        class="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6"
     >
-        <div class="flex items-center sm:pt-1.5">
-            <ComboboxLabel
-                class="block text-sm/6 font-medium text-gray-900 dark:text-white"
-            >
-                {{ title }}
-            </ComboboxLabel>
-             <!--button plus-->
-            <PlusIcon
-                @click="emit('open-modal')"
-            />
-        </div>
+        <ComboboxLabel
+            class="block text-sm/6 font-medium text-gray-900 dark:text-white"
+        >
+            {{ title }}
+        </ComboboxLabel>
 
         <div class="mt-2 sm:col-span-2 sm:mt-0">
             <div class="sm:max-w-2xl relative w-full">

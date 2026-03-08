@@ -1,6 +1,8 @@
 <script setup>
 import ComboBox from "../formsElements/ComboBox.vue";
 import {computed, onMounted, watch} from "vue";
+import {ComboboxLabel} from "@headlessui/vue";
+import PlusIcon from "../Icons/PlusIcon.vue";
 
 const props = defineProps({
     properties: {type: Array, required: true},
@@ -22,14 +24,38 @@ const selectedProperty = computed({
 </script>
 
 <template>
-    <ComboBox
-        :items="properties"
-        :title="$t('service-settlement.property-address')"
-        :search-by="searchBy"
-        v-model="selectedProperty"
-        @open-modal="$emit('open-modal', 'property')"
-    >
-    </ComboBox>
+
+    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6">
+
+        <div class="flex items-center">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white ">
+                {{ $t('service-settlement.property-address') }}
+            </label>
+
+            <!--button plus-->
+            <PlusIcon
+                @click="emit('open-modal', 'property')"
+            />
+        </div>
+
+        <div class="mt-2 sm:col-span-2 sm:mt-0">
+            <div class="sm:max-w-2xl w-full grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+                <div class="grid grid-cols-1 gap-3">
+                    <ComboBox
+                        :items="properties"
+                        :search-by="searchBy"
+                        v-model="selectedProperty"
+                    >
+                    </ComboBox>
+                    <div class="h-8 w-8 invisible" aria-hidden="true"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
 
 </template>
 

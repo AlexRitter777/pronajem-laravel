@@ -25,7 +25,22 @@
 
     "form.modal.landlord.title" : "Nový pronajímatel",
     "form.modal.landlord.subtitle" : "Vyplňte údaje o novém pronajímateli.",
+    "form.modal.tenant.title" : "Nový nájemník",
+    "form.modal.tenant.subtitle" : "Vyplňte údaje o novém nájemníkovi.",
+    "form.modal.property.title" : "Nová nemovitost",
+    "form.modal.property.subtitle" : "Vyplňte údaje o nové nemovitosti.",
     "form.name" : "Jméno",
+    "form.address" : "Adresa",
+    "form.email" : "E-mail",
+    "form.birthday" : "Datum narození",
+    "form.phone" : "Telefon",
+    "form.account_number" : "Číslo účtu",
+    "form.type" : "Typ",
+    "form.description" : "Popis",
+    "form.cancel" : "Zrušit",
+    "form.save" : "Uložit",
+    "form.invoicing.period" : "Zúčtovací období",
+    "form.tenant.occupancy" : "Doba užívání nájemníkem",
 
     "table.empty" : "Zatím žádné záznamy",
 
@@ -34,5 +49,10 @@
 
     "service-settlement.property-address" : "Adresa nemovitosti",
     "service-settlement.tenant" : "Nájemník",
-    "service-settlement.landlord" : "Pronajímatel"
+    "service-settlement.landlord" : "Pronajímatel",
+    "service-settlement.add-meter" : "Přidat měřidlo",
+    "service-settlement.meter-type" : "Typ měřidla",
+    "service-settlement.meter-number" : "Číslo měřidla",
+    "service-settlement.meter-start" : "Počáteční stav",
+    "service-settlement.meter-end" : "Konečný stav"
 }

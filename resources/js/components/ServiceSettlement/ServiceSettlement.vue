@@ -32,7 +32,7 @@ const settlement = reactive({
             typeId : null,
             typeName : null,
             startValue : null,
-            EndValue : null
+            endValue : null
         },
     ]
     // add all data
@@ -74,6 +74,26 @@ async function createAndInsertProperty(data, url) {
     settlement.property = {
         id: res.data.data.id,
         address: res.data.data.address,
+    }
+}
+
+function addMeterLine() {
+    settlement.meters.push({
+        id : getUid(),
+        typeId : null,
+        typeName : null,
+        startValue : null,
+        endValue : null
+    });
+    console.log(settlement.meters);
+}
+
+function removeMeterLine(id) {
+
+    const index = settlement.meters.findIndex(meter => meter.id === id)
+
+    if (index !== -1) {
+        settlement.meters.splice(index, 1)
     }
 }
 
@@ -125,6 +145,9 @@ async function createAndInsertProperty(data, url) {
             :occupancy-start-date="settlement.tenantOccupancyStartDate"
             :occupancy-end-date="settlement.tenantOccupancyEndDate"
             :meter-types="meterTypes"
+            :meters="settlement.meters"
+            @add-meter-line="addMeterLine"
+            @remove-meter-line="removeMeterLine"
         />
 
 
@@ -139,12 +162,14 @@ async function createAndInsertProperty(data, url) {
             <div class="mt-2 sm:col-span-2 sm:mt-0">
                 <div class="sm:max-w-2xl w-full space-y-3">
 
-                    <div v-for="i in 4" :key="i" class="flex gap-3 items-center">
-                        <div class="flex-1 grid grid-cols-2 gap-3">
+                    <div v-for="i in 4" :key="i" class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+                        <div class="grid grid-cols-2 gap-3">
                             <select class="input-style"><option>Type</option></select>
                             <input type="number" placeholder="Amount" class="input-style"/>
                         </div>
-                        <button class="text-red-500 shrink-0"><TrashIcon/></button>
+                        <button class="flex h-8 w-8 items-center justify-center text-red-500 shrink-0">
+                            <TrashIcon/>
+                        </button>
                     </div>
 
                     <button class="text-indigo-600 text-sm">＋ Add cost</button>
@@ -162,13 +187,15 @@ async function createAndInsertProperty(data, url) {
             <div class="mt-2 sm:col-span-2 sm:mt-0">
                 <div class="sm:max-w-2xl w-full space-y-3">
 
-                    <div v-for="i in 3" :key="i" class="flex gap-3 items-center">
-                        <div class="flex-1 grid grid-cols-3 gap-3">
+                    <div v-for="i in 3" :key="i" class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+                        <div class="grid grid-cols-3 gap-3">
                             <input type="date" class="input-style"/>
                             <input type="date" class="input-style"/>
                             <input type="number" placeholder="Amount" class="input-style"/>
                         </div>
-                        <button class="text-red-500 shrink-0">🗑</button>
+                        <button class="flex h-8 w-8 items-center justify-center text-red-500 shrink-0">
+                            <TrashIcon/>
+                        </button>
                     </div>
 
                     <button class="text-indigo-600 text-sm">＋ Add payment</button>

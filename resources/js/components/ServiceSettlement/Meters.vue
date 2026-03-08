@@ -11,11 +11,11 @@ const props = defineProps({
     occupancyStartDate: {type: [String, null], required: false},
     occupancyEndDate: {type: [String, null], required: false},
     meterTypes: {type: Array, required: true},
-    // modelValue: {type: Array, required: true},
+    meters: {type: Array, required: true},
 })
 
 
-const emits = defineEmits(['update:modelValue'])
+defineEmits(['add-meter-line', 'remove-meter-line']);
 
 const needMeters = computed(() => {
 
@@ -36,16 +36,11 @@ const needMeters = computed(() => {
 
 })
 
+const maxMeters = 6;
 
-const meter = ref({
-    id: null,
-    typeId: null,
-    typeName: null,
-    startValue: null,
-    endValue: null,
-    number: null,
-});
-
+const canAddMeters = computed(() => {
+    return props.meters.length < maxMeters;
+})
 
 </script>
 
@@ -57,20 +52,33 @@ const meter = ref({
         </label>
 
         <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div class="sm:max-w-2xl w-full space-y-3">
+            <div class="sm:max-w-2xl w-full space-y-7">
 
                 <!-- row -->
-                <div class="flex gap-3 items-center">
-                    <div class="flex-1 grid grid-cols-2 gap-3">
-                        <MetersLine :meter="meter" :meter-types="meterTypes"/>
+                <template v-for="(meter, index) in meters" :key="meter.id">
+                    <div class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+                        <div class="grid grid-cols-2 gap-3">
+                            <MetersLine :meter="meter" :meter-types="meterTypes"/>
+                        </div>
+                        <button
+                            :class="[
+                                'flex h-8 w-8 items-center justify-center text-indigo-600 shrink-0 hover:cursor-pointer hover:text-indigo-400',
+                                index === 0 ? 'invisible pointer-events-none' : ''
+                            ]"
+                            @click="$emit('remove-meter-line', meter.id)"
+                        >
+                            <TrashIcon/>
+                        </button>
                     </div>
-                    <button class="text-indigo-600 shrink-0 hover:cursor-pointer hover:text-indigo-400">
-                        <TrashIcon/>
-                    </button>
-                </div>
+                </template>
 
-
-                <button class="text-indigo-600 text-sm hover:cursor-pointer hover:text-indigo-400">＋ Add meter</button>
+                <button
+                    v-if="canAddMeters"
+                    class="text-indigo-600 text-sm hover:cursor-pointer hover:text-indigo-400"
+                    @click="$emit('add-meter-line')"
+                >
+                    ＋ {{ $t('service-settlement.add-meter') }}
+                </button>
             </div>
         </div>
     </div>
