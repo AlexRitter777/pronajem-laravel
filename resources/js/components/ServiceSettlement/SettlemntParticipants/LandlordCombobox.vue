@@ -41,6 +41,7 @@ const selectedLandlord = computed({
                     <ComboBox
                         :items="landlords"
                         :search-by="searchBy"
+                        :placeholder="$t('service-settlement.placeholder-landlord')"
                         v-model="selectedLandlord"
                     >
                     </ComboBox>

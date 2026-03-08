@@ -44,6 +44,7 @@ const selectedProperty = computed({
                     <ComboBox
                         :items="properties"
                         :search-by="searchBy"
+                        :placeholder="$t('service-settlement.placeholder-property')"
                         v-model="selectedProperty"
                     >
                     </ComboBox>

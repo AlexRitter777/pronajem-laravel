@@ -54,5 +54,8 @@
     "service-settlement.meter-type" : "Typ měřidla",
     "service-settlement.meter-number" : "Číslo měřidla",
     "service-settlement.meter-start" : "Počáteční stav",
-    "service-settlement.meter-end" : "Konečný stav"
+    "service-settlement.meter-end" : "Konečný stav",
+    "service-settlement.placeholder-property" : "Začněte psát adresu nemovitosti . . .",
+    "service-settlement.placeholder-landlord" : "Začněte psát jméno pronajímatele . . .",
+    "service-settlement.placeholder-tenant" : "Začněte psát jméno nájemníka . . ."
 }

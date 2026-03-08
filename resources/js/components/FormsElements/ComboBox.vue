@@ -14,6 +14,7 @@ import PlusIcon from "../icons/PlusIcon.vue";
 
 const props = defineProps({
     title: {type: String, default: '', required:false},
+    placeholder: {type: String, required: false, default: ''},
     items: {type: Array, required: true},
     searchBy: {type: String, required: true},
     modelValue: {type: [Object, null], default: null, required: true}
@@ -101,7 +102,7 @@ function isDisabled(id){
                     @focusout="clearQuery"
                     :display-value="(item) => item?.[searchBy]"
                     :disabled="disabled"
-                    placeholder="Adjust me later"
+                    :placeholder="placeholder"
                 />
                 <ComboboxButton
                     :disabled="disabled"
@@ -141,5 +142,4 @@ function isDisabled(id){
 
     </Combobox>
 </template>
-
 

@@ -54,7 +54,10 @@
     "service-settlement.meter-type" : "Meter type",
     "service-settlement.meter-number" : "Meter number",
     "service-settlement.meter-start" : "Start reading",
-    "service-settlement.meter-end" : "End reading"
+    "service-settlement.meter-end" : "End reading",
+    "service-settlement.placeholder-property" : "Start typing property address . . .",
+    "service-settlement.placeholder-landlord" : "Start typing landlord name . . .",
+    "service-settlement.placeholder-tenant" : "Start typing tenant name . . ."
 
 
 
