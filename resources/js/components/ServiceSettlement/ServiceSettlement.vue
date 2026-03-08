@@ -110,7 +110,7 @@ function removeMeterLine(id) {
     <p class="mt-1 text-sm/6 text-gray-600 dark:text-gray-400">{{ $t('service-settlement.subtitle')}}</p>
 
 
-    <div class="w-[85%] mt-10 border-t border-gray-900/10 dark:border-white/10">
+    <div class="w-full mt-10 border-t border-gray-900/10 dark:border-white/10">
 
         <!-- PARTICIPANTS -->
         <SettlementParticipants

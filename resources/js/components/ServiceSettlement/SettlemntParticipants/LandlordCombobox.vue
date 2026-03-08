@@ -45,7 +45,6 @@ const selectedLandlord = computed({
                         v-model="selectedLandlord"
                     >
                     </ComboBox>
-                    <div class="h-8 w-8 invisible" aria-hidden="true"></div>
 
                 </div>
             </div>

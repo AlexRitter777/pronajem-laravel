@@ -51,7 +51,7 @@ const canAddMeters = computed(() => {
         </label>
 
         <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div class="sm:max-w-2xl w-full space-y-7">
+            <div class="sm:max-w-2xl w-full space-y-10">
 
                 <!-- row -->
                 <template v-for="(meter, index) in meters" :key="meter.id">

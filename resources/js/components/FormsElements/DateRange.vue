@@ -34,7 +34,7 @@ const endDate = computed({
             {{ label }}
         </label>
 
-        <div class="mt-2 sm:col-span-2 sm:mt-0">
+        <div class="mt-2 mb-4 sm:col-span-2 sm:mt-0 sm:mb-0">
             <div class="sm:max-w-2xl w-full grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
                 <div class="grid grid-cols-2 gap-3">
                     <SimpleInput
