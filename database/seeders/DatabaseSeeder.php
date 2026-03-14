@@ -50,13 +50,10 @@ class DatabaseSeeder extends Seeder
             });
 
         $this->call([
-            ExpenseSeeder::class,
+//            ExpenseSeeder::class,
             MeterTypeSeeder::class,
         ]);
 
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
+
     }
 }

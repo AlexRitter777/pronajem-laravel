@@ -9,6 +9,22 @@ const props = defineProps({
     modelValue: {type: [Object, null], required: true},
 });
 
+
+const years = computed(
+    () => {
+        const currentYear = new Date().getFullYear();
+        const years = [];
+        const difference = currentYear - 5;
+        for (let year = currentYear; year >= difference; year--) {
+            years.push({id: year, name: year.toString()});
+        }
+        return  years;
+    }
+
+);
+
+console.log(years.value.currentYear)
+
 const emit = defineEmits(['update:modelValue'])
 
 
@@ -34,7 +50,7 @@ const selectedInvoicingYear = computed({
                     <div aria-hidden="true"></div>
                     <Listbox
                         v-model="selectedInvoicingYear"
-                        :items="[{id: 1, name: '2024'}, { id: 2, name: '2025'}]"
+                        :items="years"
                     />
                 </div>
                 <div class="h-8 w-8 invisible" aria-hidden="true"></div>
