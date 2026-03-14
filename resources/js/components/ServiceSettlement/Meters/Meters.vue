@@ -1,12 +1,11 @@
-<script setup >
+<script setup>
 
-import {computed} from "vue";
+import {computed, watchEffect} from "vue";
 import TrashIcon from "../../Icons/TrashIcon.vue";
 import MetersLine from "./MetersLine.vue";
 
 const props = defineProps({
-    invoicingStartDate: {type: [String, null], required: true},
-    invoicingEndDate: {type: [String, null], required: false},
+    invoicingYear: {type: [Object, null], required: true},
     occupancyStartDate: {type: [String, null], required: false},
     occupancyEndDate: {type: [String, null], required: false},
     meterTypes: {type: Array, required: true},
@@ -16,24 +15,18 @@ const props = defineProps({
 
 defineEmits(['add-meter-line', 'remove-meter-line']);
 
-const needMeters = computed(() => {
+const showMeters = computed(() => {
 
-    if (!props.invoicingStartDate || !props.invoicingEndDate || !props.occupancyStartDate || !props.occupancyEndDate) {
-        return false;
-    }
+    if(!props.invoicingYear) return true;
 
-    if (
-        (props.invoicingStartDate === props.occupancyStartDate &&
-        props.invoicingEndDate === props.occupancyEndDate) ||
-        props.occupancyStartDate > props.occupancyEndDate ||
-        props.invoicingStartDate > props.invoicingEndDate
-    ) {
+    if(props.occupancyStartDate === `${props.invoicingYear.name}-01-01` && props.occupancyEndDate === `${props.invoicingYear.name}-12-31`) {
         return false;
     }
 
     return true;
-
 })
+
+
 
 const maxMeters = 6;
 
@@ -50,7 +43,7 @@ const canAddMeters = computed(() => {
             Meters
         </label>
 
-        <div class="mt-2 sm:col-span-2 sm:mt-0">
+        <div v-if="showMeters" class="mt-2 sm:col-span-2 sm:mt-0">
             <div class="sm:max-w-2xl w-full space-y-10">
 
                 <!-- row -->
@@ -79,6 +72,15 @@ const canAddMeters = computed(() => {
                     ＋ {{ $t('service-settlement.add-meter') }}
                 </button>
             </div>
+        </div>
+
+        <div v-else class="rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
+            <p class="font-medium">
+                Meter readings are not required
+            </p>
+            <p class="mt-1">
+                The tenant occupied the property for the entire invoicing period, so meter readings do not need to be provided.
+            </p>
         </div>
     </div>
 

@@ -103,7 +103,6 @@ function submitForm() {
             </div>
         </form>
     </modal>
-
 </template>
 
 <style scoped>

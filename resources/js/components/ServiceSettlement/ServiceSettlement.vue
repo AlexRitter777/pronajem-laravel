@@ -8,6 +8,8 @@ import Meters from "./Meters/Meters.vue";
 import DateRange from "../FormsElements/DateRange.vue";
 import {getUid} from "../../utilites/uid.js";
 import TrashIcon from "../Icons/TrashIcon.vue";
+import Listbox from "../FormsElements/Listbox.vue";
+import ListOfYears from "./ListOfYears.vue";
 
 const {saveItem, loading, errors} = useSaveItem();
 
@@ -22,8 +24,7 @@ const settlement = reactive({
     landlord: {id : null, name : null},
     tenant: {id : null, name : null},
     property: {id : null, address : null, tenant : null, landlord : null},
-    invoicingStartDate: null,
-    invoicingEndDate: null,
+    invoicingYear: null,
     tenantOccupancyStartDate: null,
     tenantOccupancyEndDate: null,
     meters: [
@@ -97,6 +98,7 @@ function removeMeterLine(id) {
     }
 }
 
+const year = ref(null);
 
 
 
@@ -125,11 +127,11 @@ function removeMeterLine(id) {
         />
 
         <!-- INVOICING PERIOD -->
-        <DateRange
-            v-model:start-date="settlement.invoicingStartDate"
-            v-model:end-date="settlement.invoicingEndDate"
-            :label="$t('form.invoicing.period')"
+        <ListOfYears
+            :label="$t('form.invoicing-period')"
+            v-model="settlement.invoicingYear"
         />
+
 
         <!-- TENANT OCCUPANCY -->
         <DateRange
@@ -140,8 +142,7 @@ function removeMeterLine(id) {
 
         <!-- METERS -->
         <Meters
-            :invoicing-start-date="settlement.invoicingStartDate"
-            :invoicing-end-date="settlement.invoicingEndDate"
+            :invoicing-year="settlement.invoicingYear"
             :occupancy-start-date="settlement.tenantOccupancyStartDate"
             :occupancy-end-date="settlement.tenantOccupancyEndDate"
             :meter-types="meterTypes"
