@@ -107,6 +107,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Property::class);
     }
 
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(Expense::class);
+    }
 
     public function sendPasswordResetNotification($token): void
     {

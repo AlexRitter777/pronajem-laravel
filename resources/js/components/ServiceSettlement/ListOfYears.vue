@@ -46,8 +46,8 @@ const selectedInvoicingYear = computed({
 
         <div class="mt-2 sm:col-span-2 sm:mt-0">
             <div class="sm:max-w-2xl w-full grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
-                <div class="grid grid-cols-2 gap-3">
-                    <div aria-hidden="true"></div>
+                <div class="grid grid-cols-1 gap-3">
+<!--                    <div aria-hidden="true"></div>-->
                     <Listbox
                         v-model="selectedInvoicingYear"
                         :items="years"

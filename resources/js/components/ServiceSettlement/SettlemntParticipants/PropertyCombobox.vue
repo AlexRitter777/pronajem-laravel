@@ -25,7 +25,7 @@ const selectedProperty = computed({
 
 <template>
 
-    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6">
+    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 sm:my-0 my-4">
 
         <div class="flex items-center">
             <label class="block text-sm font-medium text-gray-900 dark:text-white ">

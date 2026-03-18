@@ -92,7 +92,7 @@ function isDisabled(id){
             {{ title }}
         </ComboboxLabel>
 
-        <div class="mt-2 sm:col-span-2 sm:mt-0">
+        <div class="sm:col-span-2 ">
             <div class="sm:max-w-2xl relative w-full">
                 <ComboboxInput
                     class="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base text-gray-900 outline-1 -outline-offset-1

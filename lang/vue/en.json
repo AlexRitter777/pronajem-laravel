@@ -57,8 +57,16 @@
     "service-settlement.meter-end" : "End reading",
     "service-settlement.placeholder-property" : "Start typing property address . . .",
     "service-settlement.placeholder-landlord" : "Start typing landlord name . . .",
-    "service-settlement.placeholder-tenant" : "Start typing tenant name . . ."
+    "service-settlement.placeholder-tenant" : "Start typing tenant name . . .",
 
+    "service-settlement.enter-utility-costs": "Please enter the water and heating costs in the fields below.",
+    "service-settlement.enter-utility-costs-description": "Copy the amounts from the annual settlement provided by your building manager or property management company. If some items are not included in the settlement, simply leave the fields empty.",
+
+    "service-settlement.enter-expenses" : "Enter the remaining costs",
+    "service-settlement.enter-expenses-description": "Please enter the remaining costs from the settlement provided by your building manager. Only include the costs that are transferred to the tenant.",
+    "service-settlement.enter-expenses-link" : "See which costs can be transferred to the tenant."
 
 
 }
+
+
