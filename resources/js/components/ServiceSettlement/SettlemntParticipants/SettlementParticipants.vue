@@ -4,7 +4,7 @@ import TenantCombobox from "./TenantCombobox.vue";
 import LandlordCombobox from "./LandlordCombobox.vue";
 import PropertyCombobox from "./PropertyCombobox.vue";
 import LandlordModal from "./LandlordModal.vue";
-import {computed, reactive, ref, toRaw, watch} from "vue";
+import {computed, onMounted, reactive, ref, toRaw, watch} from "vue";
 import TenantModal from "./TenantModal.vue";
 import PropertyModal from "./PropertyModal.vue";
 
@@ -16,6 +16,11 @@ const props = defineProps({
     selectedProperty: {type: [Object, null], default: null, required: true},
     selectedLandlord: {type: [Object, null], default: null, required: true},
     selectedTenant: {type: [Object, null], default: null, required: true},
+    modals: {type: Object, required: true},
+})
+
+onMounted(() => {
+    console.log(props.modals)
 })
 
 const emit = defineEmits(
@@ -48,11 +53,7 @@ const selectedTenant = computed({
     },
 })
 
-const modals = reactive({
-    landlord: false,
-    tenant: false,
-    property: false
-})
+
 
 
 
@@ -72,11 +73,13 @@ watch(selectedProperty, (property) => {
 })
 
 function showModalWindow(entity) {
-    modals[entity] = true;
+    props.modals[entity].show = true;
 }
 
 function closeModal(entity) {
-    modals[entity] = false;
+    props.modals[entity].show = false;
+    props.modals[entity].loading = false;
+    props.modals[entity].errors = {};
 }
 
 
@@ -109,19 +112,25 @@ function closeModal(entity) {
     />
 
     <landlord-modal
-        :open="modals.landlord"
+        :open="props.modals.landlord.show"
+        :loading="props.modals.landlord.loading"
+        :errors="props.modals.landlord.errors"
         @submitted="(data, url, entity) => $emit('modal-form-submitted', data, url, entity)"
         @close-modal="closeModal"
     />
 
     <tenant-modal
-        :open="modals.tenant"
+        :open="props.modals.tenant.show"
+        :loading="props.modals.tenant.loading"
+        :errors="props.modals.tenant.errors"
         @submitted="(data, url, entity) => $emit('modal-form-submitted', data, url, entity)"
         @close-modal="closeModal"
     />
 
     <property-modal
-        :open="modals.property"
+        :open="props.modals.property.show"
+        :loading="props.modals.property.loading"
+        :errors="props.modals.property.errors"
         @submitted="(data, url) => $emit('property-form-submitted', data, url)"
         @close-modal="closeModal"
     />

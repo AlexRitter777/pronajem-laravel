@@ -5,10 +5,14 @@ import LightInputGroup from "../../FormsElements/LightInput/LightInputGroup.vue"
 import LightLabel from "../../FormsElements/LightInput/LightLabel.vue";
 import LightInput from "../../FormsElements/LightInput/LightInput.vue";
 import {computed, ref, watch} from "vue";
+import SubmitButton from "../../UiElements/SubmitButton.vue";
+import SimpleError from "../../FormsElements/SimpleError.vue";
 
 
 const props = defineProps({
     open: {type: Boolean, required: true},
+    loading: {type: Boolean, required: true},
+    errors: {type: Object, required: true},
 })
 
 
@@ -32,8 +36,8 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
 </script>
 
 <template>
-
-    <modal :open="open" @close-modal="emit('close-modal', 'tenant')">
+    <Teleport to="body">
+        <modal :open="open" @close-modal="emit('close-modal', 'tenant')">
 
 
         <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white"> {{ $t('form.modal.tenant.title')}}</h2>
@@ -54,6 +58,11 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                     autocomplete="name"
                     placeholder="Jan Novák"
                     v-model="formData.name"
+                    :class="{'outline-red-500': errors.name}"
+
+                />
+                <SimpleError
+                    :error="errors.name ?? null"
                 />
             </light-input-group>
 
@@ -69,6 +78,10 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                     autocomplete="street-address"
                     placeholder="Rybná 1223/3, 110 00 Praha 1"
                     v-model="formData.address"
+                    :class="{'outline-red-500': errors.address}"
+                />
+                <SimpleError
+                    :error="errors.address ?? null"
                 />
             </light-input-group>
 
@@ -84,6 +97,10 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                     autocomplete="email"
                     placeholder="email@example.com"
                     v-model="formData.email"
+                    :class="{'outline-red-500': errors.email}"
+                />
+                <SimpleError
+                    :error="errors.email ?? null"
                 />
             </light-input-group>
 
@@ -98,6 +115,10 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                     type="date"
                     autocomplete="bday"
                     v-model="formData.birthday"
+                    :class="{'outline-red-500': errors.birthday}"
+                />
+                <SimpleError
+                    :error="errors.birthday ?? null"
                 />
             </light-input-group>
 
@@ -113,6 +134,10 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                     autocomplete="phone"
                     placeholder="+420 777 888 999"
                     v-model="formData.phone"
+                    :class="{'outline-red-500': errors.phone}"
+                />
+                <SimpleError
+                    :error="errors.phone ?? null"
                 />
             </light-input-group>
 
@@ -128,6 +153,10 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                         autocomplete="phone"
                         placeholder="1234567890/2010"
                         v-model="formData.account_number"
+                        :class="{'outline-red-500': errors.account_number}"
+                    />
+                    <SimpleError
+                        :error="errors.account_number ?? null"
                     />
                 </light-input-group>
 
@@ -143,17 +172,20 @@ const emit = defineEmits(['update:modelValue', 'submitted', 'close-modal'])
                     {{ $t('form.cancel') }}
 
                 </button>
-                <button
-                    type="submit"
-                    class="inline-flex items-center justify-center gap-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:shadow-none dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
-                    ref="cancelButtonRef"
+                <SubmitButton
+                    :loading="loading"
                 >
-                    {{ $t('form.save') }}
-                </button>
+                    <template #main-label>
+                        {{ $t('form.save') }}
+                    </template>
+                    <template #loading-label>
+                        {{ $t('form.loading') }}
+                    </template>
+                </SubmitButton>
             </div>
         </form>
     </modal>
-
+    </Teleport>
 </template>
 
 <style scoped>

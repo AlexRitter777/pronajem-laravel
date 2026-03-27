@@ -68,6 +68,9 @@ Route::middleware('auth')->group(function () {
     Route::post('api/' . __('electricity-suppliers'), [ApiElectricitySupplierController::class, 'store'])->name('api.electricity-suppliers.store');
     Route::get('api/' . __('properties'), [ApiPropertyController::class, 'index'])->name('api.properties.list');
     Route::post('api/' . __('properties'), [ApiPropertyController::class, 'store'])->name('api.properties.store');
+    Route::get('api/' .__('expense-types'), [ApiExpenseController::class, 'index'])->name('api.expense-types.list');
+    Route::post('api/' .__('expense-types'), [ApiExpenseController::class, 'store'])->name('api.expense-types.store');
+
     Route::get('api/' . __('landlords-list'), [ApiLandlordController::class, 'getSelectList'])->name('api.landlords.light.list');
     Route::get('api/' . __('tenants-list'), [ApiTenantController::class, 'getSelectList'])->name('api.tenants.light.list');
     Route::get('api/' . __('electricity-suppliers-list'), [ApiElectricitySupplierController::class, 'getSelectList'])->name('api.electricity-suppliers.light.list');

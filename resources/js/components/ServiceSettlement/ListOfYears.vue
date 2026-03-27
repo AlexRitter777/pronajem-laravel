@@ -1,7 +1,7 @@
 <script setup>
 
 import Listbox from "../FormsElements/Listbox.vue";
-import {computed, ref, watch} from "vue";
+import {computed} from "vue";
 
 
 const props = defineProps({
@@ -18,12 +18,11 @@ const years = computed(
         for (let year = currentYear; year >= difference; year--) {
             years.push({id: year, name: year.toString()});
         }
-        return  years;
+        return years;
     }
 
 );
 
-console.log(years.value.currentYear)
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -51,6 +50,7 @@ const selectedInvoicingYear = computed({
                     <Listbox
                         v-model="selectedInvoicingYear"
                         :items="years"
+                        :placeholder="$t('service-settlement.placeholder-year')"
                     />
                 </div>
                 <div class="h-8 w-8 invisible" aria-hidden="true"></div>

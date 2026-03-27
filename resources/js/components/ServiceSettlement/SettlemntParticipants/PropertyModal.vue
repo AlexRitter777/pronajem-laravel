@@ -5,9 +5,13 @@ import Modal from "../../UiElements/Modal.vue";
 import LightInputGroup from "../../FormsElements/LightInput/LightInputGroup.vue";
 import LightLabel from "../../FormsElements/LightInput/LightLabel.vue";
 import LightInput from "../../FormsElements/LightInput/LightInput.vue";
+import SubmitButton from "../../UiElements/SubmitButton.vue";
+import SimpleError from "../../FormsElements/SimpleError.vue";
 
 const props = defineProps({
     open: {type: Boolean, required: true},
+    loading: {type: Boolean, required: true},
+    errors: {type: [Object, null], required: true},
 })
 
 const formData = ref({
@@ -47,6 +51,10 @@ function submitForm() {
                         autocomplete="street-address"
                         placeholder="Rybná 1223/3, 110 00 Praha 1"
                         v-model="formData.address"
+                        :class="{'outline-red-500': errors.type}"
+                    />
+                    <SimpleError
+                        :error="errors.address ?? null"
                     />
                 </light-input-group>
 
@@ -62,6 +70,10 @@ function submitForm() {
                         autocomplete="on"
                         placeholder="Byt 1kk"
                         v-model="formData.type"
+                        :class="{'outline-red-500': errors.type}"
+                    />
+                    <SimpleError
+                        :error="errors.type ?? null"
                     />
                 </light-input-group>
 
@@ -77,7 +89,11 @@ function submitForm() {
                         type="text"
                         autocomplete="on"
                         placeholder="Číslo jednotky 2231, sklep S81, garažové stání P123"
-                        v-model="formData.type"
+                        v-model="formData.description"
+                        :class="{'outline-red-500': errors.description}"
+                    />
+                    <SimpleError
+                        :error="errors.description ?? null"
                     />
                 </light-input-group>
 
@@ -93,13 +109,16 @@ function submitForm() {
                     {{ $t('form.cancel') }}
 
                 </button>
-                <button
-                    type="submit"
-                    class="inline-flex items-center justify-center gap-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:shadow-none dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
-                    ref="cancelButtonRef"
+                <SubmitButton
+                    :loading="loading"
                 >
-                    {{ $t('form.save') }}
-                </button>
+                    <template #main-label>
+                        {{ $t('form.save') }}
+                    </template>
+                    <template #loading-label>
+                        {{ $t('form.loading') }}
+                    </template>
+                </SubmitButton>
             </div>
         </form>
     </modal>

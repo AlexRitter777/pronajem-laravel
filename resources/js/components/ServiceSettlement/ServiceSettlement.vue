@@ -1,6 +1,6 @@
 <script setup>
 
-import {onMounted, reactive, ref, toRaw, watchEffect} from "vue";
+import {onMounted, reactive, ref, toRaw, watch, watchEffect} from "vue";
 import {getArrayOfItems, getItems} from "../../utilites/api.js";
 import SettlementParticipants from "./SettlemntParticipants/SettlementParticipants.vue";
 import useSaveItem from "../../composables/saveItem.js";
@@ -14,8 +14,9 @@ import ExpenseCombobox from "./Expenses/ExpenseCombobox.vue";
 import SimpleInput from "../FormsElements/SimpleInput.vue";
 import Expenses from "./Expenses/Expenses.vue";
 import Utilities from "./Expenses/Utilities.vue";
+import {data} from "autoprefixer";
 
-const {saveItem, loading, errors} = useSaveItem();
+const {saveItem, loading, savedItem, errors} = useSaveItem();
 
 const properties = ref([]);
 const tenants = ref([]);
@@ -23,7 +24,7 @@ const landlords = ref([]);
 const meterTypes=ref([]);
 const expensesTypes=ref([]);
 
-//use snapshots for displaying entities, id is only reference, for editing
+//use snapshots for displaying entities; id is only a reference for editing
 
 const settlement = reactive({
     landlord: {id : null, name : null},
@@ -61,6 +62,18 @@ const settlement = reactive({
 
 });
 
+const modals = reactive({
+    landlord: { show: false, loading: false, errors: {} },
+    tenant: { show: false, loading: false, errors: {} },
+    property: { show: false, loading: false, errors: {} },
+})
+
+const expenseModal = reactive(
+{ show: false, loading: false, errors: {} },
+)
+
+
+
 
 onMounted(async () => {
     // error handling
@@ -79,25 +92,80 @@ watchEffect(() => {
 
 async function createAndInsertPerson(data, url, entity) {
 
-    const res = await saveItem(url, data)
+    modals[entity].loading = true;
 
-    settlement[entity] = {
-        id: res.data.data.id,
-        name: res.data.data.name,
-    };
+
+    try{
+        const res = await saveItem(url, data)
+
+        settlement[entity] = {
+            id: res.data.data.id,
+            name: res.data.data.name,
+        };
+
+        if(entity === 'landlord') { //TODO refactor later, api urls make in english
+            landlords.value = await getArrayOfItems('/api/seznam-pronajimatelu');
+        }else if(entity === 'tenant') {
+            tenants.value = await getArrayOfItems('/api/tenants-list');
+        }
+
+        modals[entity].show = false;
+        modals[entity].errors = {};
+    }catch (e){
+        console.log(e)
+        modals[entity].errors = e.response.data.errors;
+    }finally {
+        modals[entity].loading = false;
+    }
 
 }
 
 
 async function createAndInsertProperty(data, url) {
 
-    const res = await saveItem(url, data)
+    modals.property.loading = true;
 
-    settlement.property = {
-        id: res.data.data.id,
-        address: res.data.data.address,
+    try {
+        const res = await saveItem(url, data);
+
+        settlement.property = {
+            id: res.data.data.id,
+            address: res.data.data.address,
+
+         }
+
+        properties.value = await getArrayOfItems('/api/properties-list');
+
+        modals.property.show = false;
+        modals.property.errors = {};
+
+    }catch (e){
+        modals.property.errors = e.response.data.errors;
+    }finally {
+        modals.property.loading = false;
     }
+
+
 }
+
+
+async function createAndInsertExpense(data, url) {
+    expenseModal.loading = true;
+
+    try {
+        await saveItem(url, data);
+        expensesTypes.value = await getArrayOfItems('/api/expenses-list');
+        expenseModal.show = false;
+        expenseModal.errors = {};
+    }catch (e) {
+        expenseModal.errors = e.response.data.errors;
+    }finally {
+        expenseModal.loading = false;
+    }
+
+
+}
+
 
 function addMeterLine() {
     settlement.meters.push({
@@ -161,6 +229,7 @@ function removeExpenseLine(id) {
             :properties="properties"
             :landlords="landlords"
             :tenants="tenants"
+            :modals="modals"
             @modal-form-submitted="createAndInsertPerson"
             @property-form-submitted="createAndInsertProperty"
         />
@@ -196,13 +265,15 @@ function removeExpenseLine(id) {
         />
 
 
-        <!-- COSTS -->
+        <!-- EXPENSES -->
         <Expenses
             :expenses-types="expensesTypes"
             :expenses="settlement.expenses"
             :label="$t('service-settlement.expenses')"
+            :modal="expenseModal"
             @add-expense-line="addExpenseLine"
             @remove-expense-line="removeExpenseLine"
+            @modal-form-submitted="createAndInsertExpense"
         />
 
         <!-- ADVANCED PAYMENTS -->
@@ -254,36 +325,7 @@ function removeExpenseLine(id) {
 
 
 
-<!--    <div>-->
-<!--        <form>-->
-<!--            <div class="space-y-12 sm:space-y-16">-->
-<!--                <div>-->
 
-
-
-<!--                    <div class="w-[85%] mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:border-t-gray-900/10 sm:pb-0 dark:border-white/10 dark:sm:divide-white/10 dark:sm:border-t-white/10">-->
-
-
-<!--                        <settlement-participants-->
-<!--                            v-model:selected-property="settlement.property"-->
-<!--                            v-model:selected-landlord="settlement.landlord"-->
-<!--                            v-model:selected-tenant="settlement.tenant"-->
-<!--                            :properties="properties"-->
-<!--                            :landlords="landlords"-->
-<!--                            :tenants="tenants"-->
-<!--                            @modal-form-submitted="createAndInsertPerson"-->
-<!--                            @property-form-submitted="createAndInsertProperty"-->
-<!--                        />-->
-
-<!--                        <settlement-dates/>-->
-
-<!--&lt;!&ndash;                        <meters/>&ndash;&gt;-->
-
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
 
 
 

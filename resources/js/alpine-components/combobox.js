@@ -108,7 +108,7 @@ export default (options= {}) => ({
                 await this.wait(minTime - diff);
             }
 
-            if(e.response.status === 422) {
+            if(e.response?.status === 422) {
                 this.errors = e.response.data.errors;
                 console.log(this.errors.name[0])
 

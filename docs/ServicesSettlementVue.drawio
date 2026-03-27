@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.6.4">
+  <diagram name="Stránka-1" id="GTPjUe8XQf_c7CMPZsdn">
+    <mxGraphModel dx="2411" dy="1125" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="ServicesSettlement" vertex="1">
+          <mxGeometry height="60" width="170" x="-290" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SettlementParticipants" vertex="1">
+          <mxGeometry height="60" width="170" x="-30" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="LandlordCombobox" vertex="1">
+          <mxGeometry height="60" width="170" x="220" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="TenantCombobox" vertex="1">
+          <mxGeometry height="60" width="170" x="220" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="PropertyCombobox" vertex="1">
+          <mxGeometry height="60" width="170" x="220" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="PropertyModal" vertex="1">
+          <mxGeometry height="60" width="170" x="220" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="TenantModal" vertex="1">
+          <mxGeometry height="60" width="170" x="220" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="LandlordModal" vertex="1">
+          <mxGeometry height="60" width="170" x="220" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Conbobox" vertex="1">
+          <mxGeometry height="60" width="170" x="510" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="Am6PsR7Z08V0LPkBQ7jA-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Modal" vertex="1">
+          <mxGeometry height="60" width="170" x="510" y="370" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

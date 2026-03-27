@@ -3,6 +3,10 @@
 import ExpenseCombobox from "./ExpenseCombobox.vue";
 import TrashIcon from "../../Icons/TrashIcon.vue";
 import SimpleInput from "../../FormsElements/SimpleInput.vue";
+import PlusIcon from "../../Icons/PlusIcon.vue";
+import {ref} from "vue";
+import ExpenseModal from "./ExpenseModal.vue";
+import LandlordModal from "../SettlemntParticipants/LandlordModal.vue";
 
 const maxExpenses = 10;
 
@@ -10,17 +14,37 @@ const props = defineProps({
     label: {type: String, required: true},
     expenses: {type: Array, required: true},
     expensesTypes: {type: Array, required: true},
+    modal: {type: Object, required: true},
 })
 
-defineEmits(['add-expense-line', 'remove-expense-line']);
+
+const emit = defineEmits([
+    'add-expense-line',
+    'remove-expense-line',
+    'open-modal',
+    'modal-form-submitted'
+]);
+
+function closeModal() {
+    props.modal.show = false;
+    props.modal.errors = {};
+}
+
 
 </script>
 
 <template>
     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
-        <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
-            {{ label }}
-        </label>
+
+        <div class="flex items-center">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white">
+                {{ label }}
+            </label>
+            <!--button plus-->
+            <PlusIcon
+                @click="modal.show = true"
+            />
+        </div>
 
         <div class="mt-2 sm:col-span-2 sm:mt-0">
             <div class="sm:max-w-2xl w-full space-y-3">
@@ -88,6 +112,13 @@ defineEmits(['add-expense-line', 'remove-expense-line']);
                 </button>
             </div>
         </div>
+        <ExpenseModal
+            :open="modal.show"
+            :errors="modal.errors"
+            :loading="modal.loading"
+            @close-modal="closeModal"
+            @submitted="(data, url) => $emit('modal-form-submitted', data, url)"
+        />
     </div>
 
 </template>

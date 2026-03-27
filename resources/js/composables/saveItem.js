@@ -6,12 +6,12 @@ export default function useSaveItem() {
     //const selectedItem = ref(null);
     const errors = ref({});
 
-    async function saveItem(url, data) {
+    async function saveItem(url, data, timeout = 500) {
         errors.value = {};
 
         loading.value = true;
 
-        const minTime = 500;
+        const minTime = timeout;
 
         const start = performance.now();
 
@@ -25,15 +25,26 @@ export default function useSaveItem() {
 
             return res;
 
-
         }catch (e) {
+
+            const diff = performance.now() - start;
+
+            if(diff < minTime) {
+                await wait(minTime - diff);
+            }
+
+            if(e.response?.status === 422) {
+                errors.value = e.response.data.errors;
+            }
+
             console.error(e);
+
+            throw e;
         }
 
         finally {
             loading.value = false;
         }
-
 
     }
 
