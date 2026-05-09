@@ -1,7 +1,9 @@
 <script setup>
 
 import SimpleInput from "../FormsElements/SimpleInput.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import FakeInput from "../FormsElements/FakeInput.vue";
+import {trans} from "laravel-vue-i18n";
 
 const props = defineProps({
     coefficients: {type: Object, required: true},
@@ -13,7 +15,41 @@ const coefficient = ref('one-coefficient');
 
 const emit = defineEmits(['coefficients-removed']);
 
-
+const coefficientRows = computed(() => {
+    if(coefficient.value === 'one-coefficient'){
+        return [
+            {
+                label: trans('coefficients.all-costs'),
+                model: 'expensesCoefficient',
+                group: 'one-coefficient',
+            }
+        ]
+    }
+    if(coefficient.value === 'many-coefficients'){
+        return [
+            {
+                label: trans('coefficients.housing-costs'),
+                model: 'expensesCoefficient',
+                group: 'many-coefficients',
+            },
+            {
+                label: trans('coefficients.hot-water'),
+                model: 'hotWaterCoefficient',
+                group: 'many-coefficients',
+            },
+            {
+                label: trans('coefficients.heating'),
+                model: 'heatingCoefficient',
+                group: 'many-coefficients',
+            },
+            {
+                label: trans('coefficients.cold-water'),
+                model: 'coldWaterAndWasteCoefficient',
+                group: 'many-coefficients',
+            },
+        ]
+    }
+})
 
 
 
@@ -26,6 +62,7 @@ function showCoefficientsUpdated(){
 </script>
 
 <template>
+
     <div  class="rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
         {{ $t('coefficients.info') }}
     </div>
@@ -33,9 +70,11 @@ function showCoefficientsUpdated(){
 
 
     <div class="flex items-center justify-between">
+
         <span class="flex grow flex-col">
           <label class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">{{ $t('coefficients.use') }}</label>
         </span>
+
         <div class="group relative inline-flex w-11 shrink-0 rounded-full bg-gray-200 p-0.5 inset-ring inset-ring-gray-900/5 outline-offset-2 outline-indigo-600 transition-colors duration-200 ease-in-out has-checked:bg-indigo-600 has-focus-visible:outline-2 dark:bg-white/5 dark:inset-ring-white/10 dark:outline-indigo-500 dark:has-checked:bg-indigo-500">
             <span class="size-5 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition-transform duration-200 ease-in-out group-has-checked:translate-x-5"></span>
             <input
@@ -48,6 +87,7 @@ function showCoefficientsUpdated(){
                 aria-describedby="coefficients-description"
             />
         </div>
+
     </div>
 
         <div
@@ -96,75 +136,24 @@ function showCoefficientsUpdated(){
 
             <div class="grid gap-3 items-center mt-4">
                 <div
-                    v-if="coefficient === 'one-coefficient'"
+                    v-for="row in coefficientRows"
                     class="grid grid-cols-2 gap-3"
                 >
-                    <SimpleInput
-                        :value="$t('coefficients.all-costs')"
-                        disabled
-                    />
+
+                    <FakeInput>
+                        {{ row.label }}
+                    </FakeInput>
+
                     <SimpleInput
                         type="number"
                         :placeholder="$t('coefficients.enter')"
-                    />
-                </div>
-
-                <div
-                    v-if="coefficient === 'many-coefficients'"
-                    class="grid grid-cols-2 gap-3"
-                >
-                    <SimpleInput
-                        :value="coefficient.name"
-                        :placeholder="$t('coefficients.housing-costs')"
-                        disabled
-                    />
-                    <SimpleInput
-                        type="number"
-                        :placeholder="$t('coefficients.enter')"
-                        v-model="coefficients.manyCoefficients.expensesCoefficient"
-                    />
-
-                    <SimpleInput
-                        :value="coefficient.name"
-                        :placeholder="$t('coefficients.hot-water')"
-                        disabled
-                    />
-                    <SimpleInput
-                        type="number"
-                        :placeholder="$t('coefficients.enter')"
-                        v-model="coefficients.manyCoefficients.hotWaterCoefficient"
-
-                    />
-
-                    <SimpleInput
-                        :value="coefficient.name"
-                        :placeholder="$t('coefficients.heating')"
-                        disabled
-                    />
-                    <SimpleInput
-                        type="number"
-                        :placeholder="$t('coefficients.enter')"
-                        v-model="coefficients.manyCoefficients.heatingCoefficient"
-                    />
-
-                    <SimpleInput
-                        :value="coefficient.name"
-                        :placeholder="$t('coefficients.cold-water')"
-                        disabled
-                    />
-                    <SimpleInput
-                        type="number"
-                        :placeholder="$t('coefficients.enter')"
-                        v-model="coefficients.manyCoefficients.coldWaterAndWasteCoefficient"
+                        v-model="coefficients[row.group][row.model]"
                     />
 
                 </div>
 
             </div>
         </div>
-
-
-
 
 </template>
 

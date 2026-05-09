@@ -41,7 +41,9 @@ function createInitialSettlement(){
         tenantOccupancyStartDate: null,
         tenantOccupancyEndDate: null,
         coefficients: {
-            oneCoefficient: null,
+            oneCoefficient: {
+                expensesCoefficient: null,
+            },
             manyCoefficients: {
                 expensesCoefficient: null,
                 hotWaterCoefficient: null,
