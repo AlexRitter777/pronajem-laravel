@@ -19,9 +19,9 @@ const props = defineProps({
     modals: {type: Object, required: true},
 })
 
-onMounted(() => {
-    console.log(props.modals)
-})
+// onMounted(() => {
+//     console.log(props.modals)
+// })
 
 const emit = defineEmits(
     [

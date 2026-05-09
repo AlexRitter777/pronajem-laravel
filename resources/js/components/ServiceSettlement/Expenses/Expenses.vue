@@ -90,6 +90,7 @@ function closeModal() {
 
                     </div>
                     <button
+                        type="button"
                         @click="$emit('remove-expense-line', expense.id)"
                         :class="[
                                 'flex h-8 w-8 items-center justify-center text-indigo-600 shrink-0 hover:cursor-pointer hover:text-indigo-400',
@@ -101,6 +102,7 @@ function closeModal() {
                 </div>
 
                 <button
+                    type="button"
                     v-if="expenses.length < maxExpenses"
                     class="text-indigo-600 text-sm hover:cursor-pointer hover:text-indigo-400"
                     @click="$emit('add-expense-line')"

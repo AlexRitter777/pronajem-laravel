@@ -6,7 +6,7 @@ import {computed} from "vue";
 
 const props = defineProps({
     label: {type: String, required: false},
-    modelValue: {type: [Object, null], required: true},
+    modelValue: {type: [Number, null], required: true},
 });
 
 
@@ -27,9 +27,11 @@ const emit = defineEmits(['update:modelValue', 'year-selected'])
 
 
 const selectedInvoicingYear = computed({
-    get: () =>props.modelValue,
+    get: () => {
+        return years.value.find(year => year.id === props.modelValue) ?? null;
+    },
     set: value => {
-        emit('update:modelValue', value)
+        emit('update:modelValue', value?.id ?? null)
     }
 });
 

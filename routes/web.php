@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\ElectricitySupplierController as ApiElectricitySupp
 use App\Http\Controllers\Api\PropertyController as ApiPropertyController;
 use App\Http\Controllers\Api\MeterTypeController as ApiMeterTypeController;
 use App\Http\Controllers\Api\ExpenseController as ApiExpenseController;
+use App\Http\Controllers\Api\ServiceSettlementController as ApiServiceSettlementController;
+
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::get('api/' . __('properties-list'), [ApiPropertyController::class, 'getSelectList'])->name('api.properties.light.list');
     Route::get('api/' .__('meter-types-list'), ApiMeterTypeController::class)->name('api.meter-types.light.list');
     Route::get('api/' .__('expenses-list'), ApiExpenseController::class)->name('api.expenses.light.list');
+
+    Route::post('api/service-settlement', [ApiServiceSettlementController::class, 'store'])->name('api.service-settlements.store');
 
 
     Route::resource(__('tenants'), TenantController::class)

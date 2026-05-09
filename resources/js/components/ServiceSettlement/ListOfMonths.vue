@@ -8,19 +8,20 @@ const {months} = useMonths();
 
 const props = defineProps({
     label: {type: String, required: false},
-    modelValue: {type: [Object, null], required: true},
+    modelValue: {type: [Number, null], required: true},
 });
 
 
 const emit = defineEmits(['update:modelValue'])
 
-
-const selectedInvoicingYear = computed({
-    get: () =>props.modelValue,
+const selectedPaymentMonth = computed({
+    get: () => {
+        return months.value.find(month => month.id === props.modelValue) ?? null;
+    },
     set: value => {
-        emit('update:modelValue', value)
+        emit('update:modelValue', value?.id ?? null)
     }
-});
+})
 
 
 </script>
@@ -28,7 +29,7 @@ const selectedInvoicingYear = computed({
 <template>
 
     <Listbox
-        v-model="selectedInvoicingYear"
+        v-model="selectedPaymentMonth"
         :items="months"
         :placeholder="$t('service-settlement.placeholder-month')"
     />

@@ -1,7 +1,7 @@
 <script setup>
 
-import {onMounted, reactive, ref, watch, watchEffect} from "vue";
-import {getArrayOfItems} from "../../utilites/api.js";
+import {onMounted, reactive, ref} from "vue";
+import {getArrayOfItems, saveItems} from "../../utilites/api.js";
 import SettlementParticipants from "./SettlemntParticipants/SettlementParticipants.vue";
 import useSaveItem from "../../composables/saveItem.js";
 import Meters from "./Meters/Meters.vue";
@@ -19,9 +19,7 @@ import dayjs from "dayjs";
 import BorderLine from "../UiElements/BorderLine.vue";
 
 const {saveItem, loading, errors} = useSaveItem();
-
 const {months} = useMonths();
-
 const properties = ref([]);
 const tenants = ref([]);
 const landlords = ref([]);
@@ -88,7 +86,6 @@ function createInitialSettlement(){
 }
 
 const settlement = reactive(createInitialSettlement());
-
 
 function resetSettlement() {
     Object.assign(settlement, createInitialSettlement())
@@ -242,20 +239,14 @@ function addPaymentLine() {
 
     let newPaymentMonth = null;
 
-    let lastPaymentMonthId;
-
     if(lastPaymentMonth) {
 
-        if(lastPaymentMonth.id < 12){
-            lastPaymentMonthId  = lastPaymentMonth.id + 1;
+        if(lastPaymentMonth < 12){
+            newPaymentMonth  = lastPaymentMonth + 1;
         } else {
-            lastPaymentMonthId  = 1;
+            newPaymentMonth  = 1;
         }
 
-        newPaymentMonth = {
-            id: lastPaymentMonthId,
-            name: months.value.find(month => lastPaymentMonthId === month.id).name,
-        };
     }
 
     settlement.payments.push(
@@ -278,7 +269,7 @@ function removePaymentLine(id) {
 }
 
 function checkCoefficients() {
-    const invoicingYear = settlement.invoicingYear.name;
+    const invoicingYear = settlement.invoicingYear.toString();
     const tenantOccupancyStartDate = settlement.tenantOccupancyStartDate;
     const tenantOccupancyEndDate = settlement.tenantOccupancyEndDate;
 
@@ -314,11 +305,27 @@ function clearCoefficients() {
 
 }
 
-watch(settlement, (newValue, oldValue) => {
-    console.log('Settlement changed', newValue);
-}, {
-    deep: true
-});
+
+
+// watch(settlement, (newValue, oldValue) => {
+//     console.log('Settlement changed', newValue);
+// }, {
+//     deep: true
+// });
+
+
+async function calculateServiceSettlement() {
+    console.log(settlement)
+
+    try {
+        const resp = await saveItems('/api/service-settlement', settlement);
+        console.log(resp)
+    }catch (e){
+        console.log(e)
+    }
+
+}
+
 
 </script>
 
@@ -330,125 +337,129 @@ watch(settlement, (newValue, oldValue) => {
 
     <div class="w-full mt-10 border-t border-gray-900/10 dark:border-white/10">
 
-        <!-- PARTICIPANTS -->
-        <SettlementParticipants
-            v-model:selected-property="settlement.property"
-            v-model:selected-landlord="settlement.landlord"
-            v-model:selected-tenant="settlement.tenant"
-            :properties="properties"
-            :landlords="landlords"
-            :tenants="tenants"
-            :modals="modals"
-            @modal-form-submitted="createAndInsertPerson"
-            @property-form-submitted="createAndInsertProperty"
-        />
-
-        <BorderLine/>
-        <!-- INVOICING PERIOD -->
-        <OneInputRowWrapper
-            :label="$t('service-settlement.invoicing-period')"
+        <form
+            @submit.prevent="calculateServiceSettlement"
         >
-            <ListOfYears
-                @year-selected="
-                    $nextTick(() => {
-                        checkCoefficients();
-                    });
-                "
-                v-model="settlement.invoicingYear"
+
+            <!-- PARTICIPANTS -->
+            <SettlementParticipants
+                v-model:selected-property="settlement.property"
+                v-model:selected-landlord="settlement.landlord"
+                v-model:selected-tenant="settlement.tenant"
+                :properties="properties"
+                :landlords="landlords"
+                :tenants="tenants"
+                :modals="modals"
+                @modal-form-submitted="createAndInsertPerson"
+                @property-form-submitted="createAndInsertProperty"
             />
-        </OneInputRowWrapper>
+
+            <BorderLine/>
+            <!-- INVOICING PERIOD -->
+            <OneInputRowWrapper
+                :label="$t('service-settlement.invoicing-period')"
+            >
+                <ListOfYears
+                    @year-selected="
+                        $nextTick(() => {
+                            checkCoefficients();
+                        });
+                    "
+                    v-model="settlement.invoicingYear"
+                />
+            </OneInputRowWrapper>
 
 
-        <!-- TENANT OCCUPANCY -->
-        <DateRange
-            @update:end-date=" $nextTick(() => {
-                        checkCoefficients();
-                    });"
-            @update:start-date=" $nextTick(() => {
-                        checkCoefficients();
-                    });"
-            v-model:start-date="settlement.tenantOccupancyStartDate"
-            v-model:end-date="settlement.tenantOccupancyEndDate"
-            :label="$t('service-settlement.tenant-occupancy')"
-        />
-
-
-        <OneInputRowWrapper
-            :label="$t('service-settlement.coefficients')"
-            v-if="showCoefficients"
-        >
-            <Coefficients
-                :coefficients="settlement.coefficients"
-                @coefficients-removed="clearCoefficients"
+            <!-- TENANT OCCUPANCY -->
+            <DateRange
+                @update:end-date=" $nextTick(() => {
+                            checkCoefficients();
+                        });"
+                @update:start-date=" $nextTick(() => {
+                            checkCoefficients();
+                        });"
+                v-model:start-date="settlement.tenantOccupancyStartDate"
+                v-model:end-date="settlement.tenantOccupancyEndDate"
+                :label="$t('service-settlement.tenant-occupancy')"
             />
-        </OneInputRowWrapper>
 
-        <BorderLine/>
 
-        <!-- METERS -->
-        <ComponentWrapper>
-            <Meters
-                :label="$t('service-settlement.meters')"
-                :invoicing-year="settlement.invoicingYear"
-                :occupancy-start-date="settlement.tenantOccupancyStartDate"
-                :occupancy-end-date="settlement.tenantOccupancyEndDate"
-                :meter-types="meterTypes"
-                :meters="settlement.meters"
-                @add-meter-line="addMeterLine"
-                @remove-meter-line="removeMeterLine"
-            />
-        </ComponentWrapper>
+            <OneInputRowWrapper
+                :label="$t('service-settlement.coefficients')"
+                v-if="showCoefficients"
+            >
+                <Coefficients
+                    :coefficients="settlement.coefficients"
+                    @coefficients-removed="clearCoefficients"
+                />
+            </OneInputRowWrapper>
 
-        <!-- UTILITIES -->
-        <ComponentWrapper>
-            <Utilities
-                :label="$t('service-settlement.utilities')"
-                :utilities="settlement.utilities"
-            />
-        </ComponentWrapper>
+            <BorderLine/>
 
-        <!-- EXPENSES -->
-        <ComponentWrapper>
-            <Expenses
-                :expenses-types="expensesTypes"
-                :expenses="settlement.expenses"
-                :label="$t('service-settlement.expenses')"
-                :modal="expenseModal"
-                @add-expense-line="addExpenseLine"
-                @remove-expense-line="removeExpenseLine"
-                @modal-form-submitted="createAndInsertExpense"
-            />
-        </ComponentWrapper>
+            <!-- METERS -->
+            <ComponentWrapper>
+                <Meters
+                    :label="$t('service-settlement.meters')"
+                    :invoicing-year="settlement.invoicingYear"
+                    :occupancy-start-date="settlement.tenantOccupancyStartDate"
+                    :occupancy-end-date="settlement.tenantOccupancyEndDate"
+                    :meter-types="meterTypes"
+                    :meters="settlement.meters"
+                    @add-meter-line="addMeterLine"
+                    @remove-meter-line="removeMeterLine"
+                />
+            </ComponentWrapper>
 
-        <!-- ADVANCED PAYMENTS -->
-        <ComponentWrapper>
-            <Payments
-                :payments="settlement.payments"
-                :label="$t('service-settlement.advanced-payments')"
-                @remove-payments-line="removePaymentLine"
-                @add-payment-line="addPaymentLine"
-            />
-        </ComponentWrapper>
+            <!-- UTILITIES -->
+            <ComponentWrapper>
+                <Utilities
+                    :label="$t('service-settlement.utilities')"
+                    :utilities="settlement.utilities"
+                />
+            </ComponentWrapper>
 
-        <!-- ACTIONS -->
-        <div class="flex justify-end gap-3 py-8">
-            <button type="button"
-                    class="px-4 py-2 text-sm rounded-md bg-gray-200 cursor-pointer hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
-                {{ $t('button.back') }}
-            </button>
+            <!-- EXPENSES -->
+            <ComponentWrapper>
+                <Expenses
+                    :expenses-types="expensesTypes"
+                    :expenses="settlement.expenses"
+                    :label="$t('service-settlement.expenses')"
+                    :modal="expenseModal"
+                    @add-expense-line="addExpenseLine"
+                    @remove-expense-line="removeExpenseLine"
+                    @modal-form-submitted="createAndInsertExpense"
+                />
+            </ComponentWrapper>
 
-            <button type="button"
-                    @click="resetSettlement"
-                    class="px-4 py-2 text-sm rounded-md bg-gray-200 cursor-pointer hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
-                {{ $t('button.refresh') }}
-            </button>
+            <!-- ADVANCED PAYMENTS -->
+            <ComponentWrapper>
+                <Payments
+                    :payments="settlement.payments"
+                    :label="$t('service-settlement.advanced-payments')"
+                    @remove-payments-line="removePaymentLine"
+                    @add-payment-line="addPaymentLine"
+                />
+            </ComponentWrapper>
 
-            <button type="submit"
-                    class="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
-                {{ $t('button.calculate') }}
-            </button>
-        </div>
+            <!-- ACTIONS -->
+            <div class="flex justify-end gap-3 py-8">
+                <button type="button"
+                        class="px-4 py-2 text-sm rounded-md bg-gray-200 cursor-pointer hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                    {{ $t('button.back') }}
+                </button>
 
+                <button type="button"
+                        @click="resetSettlement"
+                        class="px-4 py-2 text-sm rounded-md bg-gray-200 cursor-pointer hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                    {{ $t('button.refresh') }}
+                </button>
+
+                <button type="submit"
+                        class="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+                    {{ $t('button.calculate') }}
+                </button>
+            </div>
+        </form>
     </div>
 
 

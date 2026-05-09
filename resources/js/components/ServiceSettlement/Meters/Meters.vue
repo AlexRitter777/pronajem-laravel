@@ -6,7 +6,7 @@ import MetersLine from "./MetersLine.vue";
 
 const props = defineProps({
     label: {type: String, required: true},
-    invoicingYear: {type: [Object, null], required: true},
+    invoicingYear: {type: [Number, null], required: true},
     occupancyStartDate: {type: [String, null], required: false},
     occupancyEndDate: {type: [String, null], required: false},
     meterTypes: {type: Array, required: true},
@@ -20,7 +20,7 @@ const showMeters = computed(() => {
 
     if(!props.invoicingYear) return true;
 
-    if(props.occupancyStartDate === `${props.invoicingYear.name}-01-01` && props.occupancyEndDate === `${props.invoicingYear.name}-12-31`) {
+    if(props.occupancyStartDate === `${props.invoicingYear.toString()}-01-01` && props.occupancyEndDate === `${props.invoicingYear.toString()}-12-31`) {
         return false;
     }
 
@@ -53,6 +53,7 @@ const canAddMeters = computed(() => {
                             <MetersLine :meter="meter" :meter-types="meterTypes"/>
                         </div>
                         <button
+                            type="button"
                             :class="[
                                 'flex h-8 w-8 items-center justify-center text-indigo-600 shrink-0 hover:cursor-pointer hover:text-indigo-400',
                                 index === 0 ? 'invisible pointer-events-none' : ''
@@ -65,6 +66,7 @@ const canAddMeters = computed(() => {
                 </template>
 
                 <button
+                    type="button"
                     v-if="canAddMeters"
                     class="text-indigo-600 text-sm hover:cursor-pointer hover:text-indigo-400"
                     @click="$emit('add-meter-line')"
