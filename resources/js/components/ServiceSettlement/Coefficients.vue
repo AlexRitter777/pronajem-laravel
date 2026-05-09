@@ -21,7 +21,7 @@ const coefficientRows = computed(() => {
             {
                 label: trans('coefficients.all-costs'),
                 model: 'expensesCoefficient',
-                group: 'one-coefficient',
+                group: 'oneCoefficient',
             }
         ]
     }
@@ -30,22 +30,22 @@ const coefficientRows = computed(() => {
             {
                 label: trans('coefficients.housing-costs'),
                 model: 'expensesCoefficient',
-                group: 'many-coefficients',
+                group: 'manyCoefficients',
             },
             {
                 label: trans('coefficients.hot-water'),
                 model: 'hotWaterCoefficient',
-                group: 'many-coefficients',
+                group: 'manyCoefficients',
             },
             {
                 label: trans('coefficients.heating'),
                 model: 'heatingCoefficient',
-                group: 'many-coefficients',
+                group: 'manyCoefficients',
             },
             {
                 label: trans('coefficients.cold-water'),
                 model: 'coldWaterAndWasteCoefficient',
-                group: 'many-coefficients',
+                group: 'manyCoefficients',
             },
         ]
     }
@@ -64,7 +64,7 @@ function showCoefficientsUpdated(){
 <template>
 
     <div  class="rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
-        {{ $t('coefficients.info') }}
+        {{ $t('coefficients.info') }} <a class="underline" href="#" target="_blank"> {{ $t('coefficients.link')}}</a>
     </div>
 
 
@@ -94,7 +94,7 @@ function showCoefficientsUpdated(){
             v-if="showCoefficients"
         >
             <fieldset
-
+                class="mb-6"
             >
                 <div class="mt-6 space-y-6 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                     <div class="flex items-center">

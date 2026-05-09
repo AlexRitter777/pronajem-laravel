@@ -16,6 +16,7 @@ import {useMonths} from "../../composables/months.js";
 import ComponentWrapper from "./ComponentWrapper.vue";
 import Coefficients from "./Coefficients.vue";
 import dayjs from "dayjs";
+import BorderLine from "../UiElements/BorderLine.vue";
 
 const {saveItem, loading, errors} = useSaveItem();
 
@@ -300,7 +301,9 @@ function checkCoefficients() {
 
 function clearCoefficients() {
     settlement.coefficients = {
-        oneCoefficient: null,
+        oneCoefficient: {
+            expensesCoefficient: null,
+        },
         manyCoefficients: {
             expensesCoefficient: null,
             hotWaterCoefficient: null,
@@ -340,6 +343,7 @@ watch(settlement, (newValue, oldValue) => {
             @property-form-submitted="createAndInsertProperty"
         />
 
+        <BorderLine/>
         <!-- INVOICING PERIOD -->
         <OneInputRowWrapper
             :label="$t('service-settlement.invoicing-period')"
@@ -378,6 +382,8 @@ watch(settlement, (newValue, oldValue) => {
                 @coefficients-removed="clearCoefficients"
             />
         </OneInputRowWrapper>
+
+        <BorderLine/>
 
         <!-- METERS -->
         <ComponentWrapper>
