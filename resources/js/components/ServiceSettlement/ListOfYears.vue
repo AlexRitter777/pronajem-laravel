@@ -23,8 +23,7 @@ const years = computed(
 
 );
 
-
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'year-selected'])
 
 
 const selectedInvoicingYear = computed({
@@ -38,24 +37,13 @@ const selectedInvoicingYear = computed({
 </script>
 
 <template>
-    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6">
-        <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
-            {{ label }}
-        </label>
 
-        <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div class="sm:max-w-2xl w-full grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
-                <div class="grid grid-cols-1 gap-3">
-<!--                    <div aria-hidden="true"></div>-->
-                    <Listbox
-                        v-model="selectedInvoicingYear"
-                        :items="years"
-                        :placeholder="$t('service-settlement.placeholder-year')"
-                    />
-                </div>
-                <div class="h-8 w-8 invisible" aria-hidden="true"></div>
-            </div>
-        </div>
-    </div>
+    <Listbox
+        @update:modelValue="emit('year-selected')"
+        v-model="selectedInvoicingYear"
+        :items="years"
+        :placeholder="$t('service-settlement.placeholder-year')"
+    />
+
 </template>
 

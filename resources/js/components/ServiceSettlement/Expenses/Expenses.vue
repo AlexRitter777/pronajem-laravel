@@ -4,9 +4,7 @@ import ExpenseCombobox from "./ExpenseCombobox.vue";
 import TrashIcon from "../../Icons/TrashIcon.vue";
 import SimpleInput from "../../FormsElements/SimpleInput.vue";
 import PlusIcon from "../../Icons/PlusIcon.vue";
-import {ref} from "vue";
 import ExpenseModal from "./ExpenseModal.vue";
-import LandlordModal from "../SettlemntParticipants/LandlordModal.vue";
 
 const maxExpenses = 10;
 
@@ -34,7 +32,6 @@ function closeModal() {
 </script>
 
 <template>
-    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
 
         <div class="flex items-center">
             <label class="block text-sm font-medium text-gray-900 dark:text-white">
@@ -108,7 +105,7 @@ function closeModal() {
                     class="text-indigo-600 text-sm hover:cursor-pointer hover:text-indigo-400"
                     @click="$emit('add-expense-line')"
                 >
-                    ＋ {{ $t('expenses.add')}}
+                    ＋ {{ $t('service-settlement.expenses.add')}}
                 </button>
             </div>
         </div>
@@ -119,7 +116,6 @@ function closeModal() {
             @close-modal="closeModal"
             @submitted="(data, url) => $emit('modal-form-submitted', data, url)"
         />
-    </div>
 
 </template>
 

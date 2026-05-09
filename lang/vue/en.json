@@ -44,29 +44,71 @@
     "form.invoicing.period" : "Invoicing period",
     "form.tenant.occupancy" : "Tenant occupancy",
 
-    "service-settlement.title": "Property Service Settlement",
+    "form.loading" : "Loading...",
+    "service-settlement.title": "Property service settlement",
     "service-settlement.subtitle": "Interactive form",
     "service-settlement.property-address": "Property address",
-
     "service-settlement.tenant" : "Tenant",
     "service-settlement.landlord" : "Landlord",
+    "service-settlement.invoicing-period" : "Invoicing period",
+    "service-settlement.tenant-occupancy" : "Tenant occupancy period",
+    "service-settlement.meters" : "Meters",
+    "service-settlement.utilities" : "Utilities",
+    "service-settlement.expenses" : "Other costs",
+    "service-settlement.advanced-payments" : "Paid advances",
     "service-settlement.add-meter" : "Add meter",
     "service-settlement.meter-type" : "Meter type",
     "service-settlement.meter-number" : "Meter number",
     "service-settlement.meter-start" : "Start reading",
     "service-settlement.meter-end" : "End reading",
+    "service-settlement.amount" : "Amount",
+    "service-settlement.hot-water" : "Hot water",
+    "service-settlement.cold-water" : "Cold water",
+    "service-settlement.heating" : "Heating",
+    "service-settlement.cold-water-hot" : "Cold water for hot water",
     "service-settlement.placeholder-property" : "Start typing property address . . .",
     "service-settlement.placeholder-landlord" : "Start typing landlord name . . .",
     "service-settlement.placeholder-tenant" : "Start typing tenant name . . .",
-
+    "service-settlement.placeholder-year" : "Select year",
+    "service-settlement.placeholder-month" : "Select month",
+    "service-settlement.placeholder-expense" : "Select expense type",
     "service-settlement.enter-utility-costs": "Please enter the water and heating costs in the fields below.",
     "service-settlement.enter-utility-costs-description": "Copy the amounts from the annual settlement provided by your building manager or property management company. If some items are not included in the settlement, simply leave the fields empty.",
-
     "service-settlement.enter-expenses" : "Enter the remaining costs",
     "service-settlement.enter-expenses-description": "Please enter the remaining costs from the settlement provided by your building manager. Only include the costs that are transferred to the tenant.",
-    "service-settlement.enter-expenses-link" : "See which costs can be transferred to the tenant."
+    "service-settlement.enter-expenses-link" : "See which costs can be transferred to the tenant.",
+    "service-settlement.expenses.add" : "Add expense",
+    "service-settlement.payments.add" : "Add advance payment",
+    "service-settlement.expense.title" : "New expense type",
+    "service-settlement.expense.subtitle" : "Enter details for the new expense type.",
+    "month.january" : "January",
+    "month.february" : "February",
+    "month.march" : "March",
+    "month.april" : "April",
+    "month.may" : "May",
+    "month.june" : "June",
+    "month.july" : "July",
+    "month.august" : "August",
+    "month.september" : "September",
+    "month.october" : "October",
+    "month.november" : "November",
+    "month.december" : "December",
+    "button.back" : "Back",
+    "button.refresh" : "Refresh",
+    "button.calculate" : "Calculate",
+    "coefficients.info": "Since the tenant's property usage data may partly or fully not match the invoicing period year, you can use coefficients to adjust prices, for example with regard to inflation, price increases, or decreases. Learn more about using coefficients.",
+    "coefficients.use": "Use coefficients",
+    "coefficients.one": "One coefficient for all costs",
+    "coefficients.many": "Separate coefficients for cost groups",
+    "coefficients.all-costs": "All costs",
+    "coefficients.enter": "Enter coefficient",
+    "coefficients.housing-costs": "Housing costs",
+    "coefficients.hot-water": "Hot water",
+    "coefficients.heating": "Heating",
+    "coefficients.cold-water": "Cold water"
+
+
+
 
 
 }
-
-

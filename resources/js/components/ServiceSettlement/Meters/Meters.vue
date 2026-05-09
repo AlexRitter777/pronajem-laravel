@@ -5,6 +5,7 @@ import TrashIcon from "../../Icons/TrashIcon.vue";
 import MetersLine from "./MetersLine.vue";
 
 const props = defineProps({
+    label: {type: String, required: true},
     invoicingYear: {type: [Object, null], required: true},
     occupancyStartDate: {type: [String, null], required: false},
     occupancyEndDate: {type: [String, null], required: false},
@@ -38,9 +39,8 @@ const canAddMeters = computed(() => {
 
 <template>
 
-    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
         <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
-            Meters
+            {{ label}}
         </label>
 
         <div v-if="showMeters" class="mt-2 sm:col-span-2 sm:mt-0">
@@ -82,7 +82,7 @@ const canAddMeters = computed(() => {
                 The tenant occupied the property for the entire invoicing period, so meter readings do not need to be provided.
             </p>
         </div>
-    </div>
+<!--    </div>-->
 
 
 </template>

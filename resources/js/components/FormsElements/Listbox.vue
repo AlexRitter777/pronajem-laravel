@@ -30,7 +30,14 @@ const selected = computed({
         <ListboxLabel class="block text-sm/6 font-medium text-gray-900 dark:text-white">{{ label }}</ListboxLabel>
         <div class="relative">
             <ListboxButton class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus-visible:outline-indigo-500">
-                <span class="col-start-1 row-start-1 truncate pr-6">{{ selected?.name ? selected.name : placeholder }}</span>
+<!--                <span class="col-start-1 row-start-1 truncate pr-6">{{ selected?.name ? selected.name : placeholder }}</span>-->
+
+                <span
+                    class="col-start-1 row-start-1 truncate pr-6"
+                    :class="selected?.name ? 'text-gray-900' : 'text-gray-400'"
+                >
+                    {{ selected?.name || placeholder }}
+                </span>
                 <ChevronUpDownIcon class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4 dark:text-gray-400" aria-hidden="true" />
             </ListboxButton>
 

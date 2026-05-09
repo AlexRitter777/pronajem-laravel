@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:py-6 border-b border-gray-900/10 dark:border-white/10">
+
         <label class="block text-sm font-medium text-gray-900 dark:text-white sm:pt-1.5">
             {{ label }}
         </label>
@@ -55,7 +55,6 @@ defineProps({
                 />
             </div>
         </div>
-    </div>
 
 </template>
 

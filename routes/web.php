@@ -57,7 +57,7 @@ Route::get('/test-mail/password', function () {
 
 Route::middleware('auth')->group(function () {
 
-    //ToDo: Change this API route to translation
+    //ToDo: Change these API routes to english version
     Route::get('api/najemnici', [ApiTenantController::class, 'index'])->name('api.tenants.list');
     Route::post('api/' . __('tenants'), [ApiTenantController::class, 'store'])->name('api.tenants.store');
     Route::get('api/' . __('landlords'), [ApiLandlordController::class, 'index'])->name('api.landlords.list');
