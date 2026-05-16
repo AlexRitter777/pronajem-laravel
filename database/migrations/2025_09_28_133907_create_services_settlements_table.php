@@ -19,18 +19,21 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('landlord_id')
+                ->nullable()
                 ->constrained('landlords')
                 ->nullOnDelete();
             $table->string('landlord_name');
             $table->string('landlord_address');
 
             $table->foreignId('tenant_id')
+                ->nullable()
                 ->constrained('tenants')
                 ->nullOnDelete();
             $table->string('tenant_name');
             $table->string('tenant_address');
 
             $table->foreignId('property_id')
+                ->nullable()
                 ->constrained('properties')
                 ->nullOnDelete();
             $table->string('property_address', 500);
