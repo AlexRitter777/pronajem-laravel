@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
+
 
 class StoreServiceSettlementRequest extends FormRequest
 {
@@ -13,6 +15,23 @@ class StoreServiceSettlementRequest extends FormRequest
     {
         return true;
     }
+
+    public function prepareForValidation()
+    {
+
+        $utilities = $this->input('utilities');
+
+        if(!$utilities) return;
+
+        $this->merge([
+            'utility_hot_water' => $utilities['hotWater'] ?? null,
+            'utility_cold_water' => $utilities['coldWater'] ?? null,
+            'utility_heating' => $utilities['heating'] ?? null,
+            'utility_cold_water_for_hot' => $utilities['coldWaterForHot'] ?? null,
+        ]);
+
+    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -46,14 +65,50 @@ class StoreServiceSettlementRequest extends FormRequest
             'coefficients.manyCoefficients' => 'nullable|array',
             'coefficients.manyCoefficients.*' => 'nullable|numeric|min:0|max:10',
 
-            'meters' => 'required|array',
-            'meters.*.id' => 'required|string', //??
-            'meters.*.typeId' => 'required|int|exists:meter_types,id',
-            'meters.*.typeName' => 'required|string',
-            'meters.*.startValue' => 'required|numeric|min:0',
-            'meters.*.endValue' => 'required|numeric|min:0',
-            'meters.*.startYearValue' => 'required|numeric|min:0',
-            'meters.*.endYearValue' => 'required|numeric|min:0',
+            'has_meters' => 'required|boolean',
+            'meters' => 'present|array',
+            'meters.*.id' => 'exclude_if:has_meters,false|required',
+            'meters.*.typeId' => 'exclude_if:has_meters,false|required|integer|exists:meter_types,id',
+            'meters.*.startValue' => 'exclude_if:has_meters,false|required|numeric|min:0',
+            'meters.*.endValue' => 'exclude_if:has_meters,false|required|numeric|min:0|gte:meters.*.startValue',
+            'meters.*.startYearValue' => 'exclude_if:has_meters,false|required|numeric|min:0',
+            'meters.*.endYearValue' => 'exclude_if:has_meters,false|required|numeric|min:0|gte:meters.*.startYearValue',
+
+            'utilities' => 'nullable|array',
+            
+
+
+
         ];
     }
+
+    public function messages()
+    {
+        //
+    }
+
+    public function after()
+    {
+        return [
+            function (Validator $validator) {
+
+                $startOccupancyDate = $this->input('tenantOccupancyStartDate');
+                $endOccupancyDate = $this->input('tenantOccupancyEndDate');
+
+                if (!$startOccupancyDate || !$endOccupancyDate) {
+                    return;
+                }
+
+                $hasMeters = $this->boolean('has_meters');
+
+                $isActuallyFullYear = str_ends_with($startOccupancyDate, '-01-01')
+                    && str_ends_with($endOccupancyDate, '-12-31');
+
+                if (!$hasMeters && !$isActuallyFullYear) {
+                    $validator->errors()->add('has_meters', 'Something is wrong with the dates. Please refresh the page and try again.');
+                }
+            }
+        ];
+    }
+
 }

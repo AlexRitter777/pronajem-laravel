@@ -49,10 +49,6 @@ class DatabaseSeeder extends Seeder
                 $property->save();
             });
 
-        $this->call([
-//            ExpenseSeeder::class,
-            MeterTypeSeeder::class,
-        ]);
 
 
     }
