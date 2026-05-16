@@ -21,11 +21,25 @@ return new class extends Migration
             $table->integer('electricity_charge')->nullable();
             $table->integer('deposit_amount')->nullable();
             $table->date('contract_finished_at')->nullable();
-            $table->foreignId('landlord_id')->nullable()->constrained();
-            $table->foreignId('tenant_id')->nullable()->constrained();
-            $table->foreignId('electricity_supplier_id')->nullable()->constrained();
-            $table->foreignId('building_manager_id')->nullable()->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('landlord_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('tenant_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('electricity_supplier_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('building_manager_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->index('address');
             $table->timestamps();
         });

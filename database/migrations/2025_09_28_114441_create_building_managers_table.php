@@ -16,12 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('accountant_name')->nullable();
-            $table->string('accountant_phone')->nullable();
-            $table->string('accountant_email')->nullable();
-            $table->string('technician_name')->nullable();
-            $table->string('technician_phone')->nullable();
-            $table->string('technician_email')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
