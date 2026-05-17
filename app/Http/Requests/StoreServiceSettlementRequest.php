@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Domains\ServiceSettlement\Validation\Validators\MeterDateConsistencyValidator;
 use App\Enums\MeterType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -11,11 +12,6 @@ use Illuminate\Validation\Validator;
 class StoreServiceSettlementRequest extends FormRequest
 {
 
-    private array $presentedMeterTypes = [
-        MeterType::HOT_WATER->value => false,
-        MeterType::COLD_WATER->value => false,
-        MeterType::HEATING->value => false,
-    ];
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,26 +23,42 @@ class StoreServiceSettlementRequest extends FormRequest
     public function prepareForValidation()
     {
 
-        $utilities = $this->input('utilities');
-
-        if(!$utilities) return;
-
         $this->merge([
-            'utility_hot_water' => $utilities['hotWater'] ?? null,
-            'utility_cold_water' => $utilities['coldWater'] ?? null,
-            'utility_heating' => $utilities['heating'] ?? null,
-            'utility_cold_water_for_hot' => $utilities['coldWaterForHot'] ?? null,
+            $this->flattenEntities(),
         ]);
 
 
-        if(!$this->boolean('has_meters')) return;
+    }
 
+    private function flattenEntities() : array
+    {
+        return [
+            'landlord_id' => data_get($this->input('landlord'), 'id'),
+            'landlord_name' => data_get($this->input('landlord'), 'name'),
+
+            'tenant_id' => data_get($this->input('tenant'), 'id'),
+            'tenant_name' => data_get($this->input('tenant'), 'name'),
+
+            'property_id' => data_get($this->input('property'), 'id'),
+            'property_address' => data_get($this->input('property'), 'address'),
+
+            'utility_hot_water' => data_get($this->input('utilities'), 'hotWater'),
+            'utility_cold_water' => data_get($this->input('utilities'), 'coldWater'),
+            'utility_heating' => data_get($this->input('utilities'), 'heating'),
+            'utility_cold_water_for_hot' => data_get($this->input('utilities'), 'coldWaterForHot'),
+
+        ];
+    }
+
+    private function presentedMeterTypes() : array
+    {
         $meterTypes = collect($this->input('meters', []))->pluck('type');
 
-        foreach (MeterType::cases() as $type) {
-            $this->presentedMeterTypes[$type->value] = $meterTypes->contains($type->value);
-        }
-
+        return [
+            MeterType::HOT_WATER->value => $meterTypes->contains(MeterType::HOT_WATER->value),
+            MeterType::COLD_WATER->value => $meterTypes->contains(MeterType::COLD_WATER->value),
+            MeterType::HEATING->value => $meterTypes->contains(MeterType::HEATING->value),
+        ];
 
     }
 
@@ -58,18 +70,17 @@ class StoreServiceSettlementRequest extends FormRequest
      */
     public function rules(): array
     {
+        $presentedMeterTypes = $this->presentedMeterTypes();
+
         return [
-            'landlord' => 'required|array',
-            'landlord.id' => 'required|int|exists:landlords,id',
-            'landlord.name' => 'required|string',
+            'landlord_id' => 'required|int|exists:landlords,id',
+            'landlord_name' => 'required|string',
 
-            'tenant' => 'required|array',
-            'tenant.id' => 'required|int|exists:landlords,id',
-            'tenant.name' => 'required|string',
+            'tenant_id' => 'required|int|exists:tenants,id',
+            'tenant_name' => 'required|string',
 
-            'property' => 'required|array',
-            'property.id' => 'required|int|exists:properties,id',
-            'property.address' => 'required|string',
+            'property_id' => 'required|int|exists:properties,id',
+            'property_address' => 'required|string',
 
             'invoicingYear' => 'required|int',
             'tenantOccupancyStartDate' => 'required|date|before:tenantOccupancyEndDate',
@@ -83,53 +94,36 @@ class StoreServiceSettlementRequest extends FormRequest
             'coefficients.manyCoefficients' => 'nullable|array',
             'coefficients.manyCoefficients.*' => 'nullable|numeric|min:0|max:10',
 
-            'has_meters' => 'required|boolean',
+            'hasMeters' => 'required|boolean',
+
             'meters' => 'present|array',
-            'meters.*.id' => 'exclude_if:has_meters,false|required',
-            'meters.*.type' => ['exclude_if:has_meters,false', 'required', Rule::enum(MeterType::class)],
-            'meters.*.startValue' => 'exclude_if:has_meters,false|required|numeric|min:0',
-            'meters.*.endValue' => 'exclude_if:has_meters,false|required|numeric|min:0|gte:meters.*.startValue',
-            'meters.*.startYearValue' => 'exclude_if:has_meters,false|required|numeric|min:0',
-            'meters.*.endYearValue' => 'exclude_if:has_meters,false|required|numeric|min:0|gte:meters.*.startYearValue',
+            'meters.*.id' => 'exclude_if:hasMeters,false|required',
+            'meters.*.typeId' => ['exclude_if:hasMeters,false', 'required', Rule::enum(MeterType::class)],
+            'meters.*.meterNumber' => 'exclude_if:hasMeters,false|nullable|string',
+            'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0',
+            'meters.*.endValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startValue',
+            'meters.*.startYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0',
+            'meters.*.endYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startYearValue',
 
             'utilities' => 'present|array',
-            'utility_hot_water' => [Rule::requiredIf($this->presentedMeterTypes[MeterType::HOT_WATER->value]), 'numeric', 'min:0'],
-            'utility_cold_water' => [Rule::requiredIf($this->presentedMeterTypes[MeterType::COLD_WATER->value]), 'numeric', 'min:0'],
-            'utility_heating' => [Rule::requiredIf($this->presentedMeterTypes[MeterType::HEATING->value]), 'numeric', 'min:0'],
+            'utility_hot_water' => [Rule::requiredIf($presentedMeterTypes[MeterType::HOT_WATER->value]), 'numeric', 'min:0'],
+            'utility_cold_water' => [Rule::requiredIf($presentedMeterTypes[MeterType::COLD_WATER->value]), 'numeric', 'min:0'],
+            'utility_heating' => [Rule::requiredIf($presentedMeterTypes[MeterType::HEATING->value]), 'numeric', 'min:0'],
             'utility_cold_water_for_hot' => 'nullable|numeric|min:0',
 
-            // change meters component vue
-            // test
 
 
         ];
     }
 
-    public function messages()
-    {
-        //
-    }
 
     public function after()
     {
         return [
             function (Validator $validator) {
 
-                $startOccupancyDate = $this->input('tenantOccupancyStartDate');
-                $endOccupancyDate = $this->input('tenantOccupancyEndDate');
+                app(MeterDateConsistencyValidator::class)->validate($validator, $this);
 
-                if (!$startOccupancyDate || !$endOccupancyDate) {
-                    return;
-                }
-
-                $hasMeters = $this->boolean('has_meters');
-
-                $isActuallyFullYear = str_ends_with($startOccupancyDate, '-01-01')
-                    && str_ends_with($endOccupancyDate, '-12-31');
-
-                if (!$hasMeters && !$isActuallyFullYear) {
-                    $validator->errors()->add('has_meters', 'Something is wrong with the dates. Please refresh the page and try again.');
-                }
             }
         ];
     }

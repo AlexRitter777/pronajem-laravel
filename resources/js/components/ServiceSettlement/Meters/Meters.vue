@@ -1,6 +1,6 @@
 <script setup>
 
-import {computed, watchEffect} from "vue";
+import {computed, watch, watchEffect} from "vue";
 import TrashIcon from "../../Icons/TrashIcon.vue";
 import MetersLine from "./MetersLine.vue";
 
@@ -14,7 +14,7 @@ const props = defineProps({
 })
 
 
-defineEmits(['add-meter-line', 'remove-meter-line']);
+const emit = defineEmits(['add-meter-line', 'remove-meter-line','has-meters']);
 
 const showMeters = computed(() => {
 
@@ -27,7 +27,12 @@ const showMeters = computed(() => {
     return true;
 })
 
-
+watch(
+    showMeters,
+    value =>
+        emit('has-meters', value),
+    {immediate: true}
+)
 
 const maxMeters = 6;
 
@@ -84,7 +89,6 @@ const canAddMeters = computed(() => {
                 {{ $t('service-settlement.meter-not-required-description')}}
             </p>
         </div>
-<!--    </div>-->
 
 
 </template>

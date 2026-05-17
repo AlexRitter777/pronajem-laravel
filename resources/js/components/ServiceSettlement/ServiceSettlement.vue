@@ -50,11 +50,13 @@ function createInitialSettlement(){
                 coldWaterAndWasteCoefficient: null,
             },
         },
+        hasMeters: true,
         meters: [
             {
                 id : getUid(),
                 typeId : null,
                 typeName : null,
+                meterNumber : null,
                 startValue : null,
                 endValue : null,
                 startYearValue : null,
@@ -307,7 +309,9 @@ function clearCoefficients() {
 
 }
 
-
+function checkMetersPresence(hasMeters){
+    settlement.hasMeters = hasMeters;
+}
 
 // watch(settlement, (newValue, oldValue) => {
 //     console.log('Settlement changed', newValue);
@@ -409,6 +413,7 @@ async function calculateServiceSettlement() {
                     :meters="settlement.meters"
                     @add-meter-line="addMeterLine"
                     @remove-meter-line="removeMeterLine"
+                    @has-meters="checkMetersPresence"
                 />
             </ComponentWrapper>
 
