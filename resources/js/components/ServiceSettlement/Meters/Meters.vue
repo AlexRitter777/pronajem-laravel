@@ -78,10 +78,10 @@ const canAddMeters = computed(() => {
 
         <div v-else class="rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
             <p class="font-medium">
-                Meter readings are not required
+                {{ $t('service-settlement.meter-not-required-title')}}
             </p>
             <p class="mt-1">
-                The tenant occupied the property for the entire invoicing period, so meter readings do not need to be provided.
+                {{ $t('service-settlement.meter-not-required-description')}}
             </p>
         </div>
 <!--    </div>-->

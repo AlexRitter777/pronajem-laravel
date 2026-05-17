@@ -2,12 +2,20 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\MeterType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 
 class StoreServiceSettlementRequest extends FormRequest
 {
+
+    private array $presentedMeterTypes = [
+        MeterType::HOT_WATER->value => false,
+        MeterType::COLD_WATER->value => false,
+        MeterType::HEATING->value => false,
+    ];
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,6 +37,16 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_heating' => $utilities['heating'] ?? null,
             'utility_cold_water_for_hot' => $utilities['coldWaterForHot'] ?? null,
         ]);
+
+
+        if(!$this->boolean('has_meters')) return;
+
+        $meterTypes = collect($this->input('meters', []))->pluck('type');
+
+        foreach (MeterType::cases() as $type) {
+            $this->presentedMeterTypes[$type->value] = $meterTypes->contains($type->value);
+        }
+
 
     }
 
@@ -68,15 +86,20 @@ class StoreServiceSettlementRequest extends FormRequest
             'has_meters' => 'required|boolean',
             'meters' => 'present|array',
             'meters.*.id' => 'exclude_if:has_meters,false|required',
-            'meters.*.typeId' => 'exclude_if:has_meters,false|required|integer|exists:meter_types,id',
+            'meters.*.type' => ['exclude_if:has_meters,false', 'required', Rule::enum(MeterType::class)],
             'meters.*.startValue' => 'exclude_if:has_meters,false|required|numeric|min:0',
             'meters.*.endValue' => 'exclude_if:has_meters,false|required|numeric|min:0|gte:meters.*.startValue',
             'meters.*.startYearValue' => 'exclude_if:has_meters,false|required|numeric|min:0',
             'meters.*.endYearValue' => 'exclude_if:has_meters,false|required|numeric|min:0|gte:meters.*.startYearValue',
 
-            'utilities' => 'nullable|array',
-            
+            'utilities' => 'present|array',
+            'utility_hot_water' => [Rule::requiredIf($this->presentedMeterTypes[MeterType::HOT_WATER->value]), 'numeric', 'min:0'],
+            'utility_cold_water' => [Rule::requiredIf($this->presentedMeterTypes[MeterType::COLD_WATER->value]), 'numeric', 'min:0'],
+            'utility_heating' => [Rule::requiredIf($this->presentedMeterTypes[MeterType::HEATING->value]), 'numeric', 'min:0'],
+            'utility_cold_water_for_hot' => 'nullable|numeric|min:0',
 
+            // change meters component vue
+            // test
 
 
         ];

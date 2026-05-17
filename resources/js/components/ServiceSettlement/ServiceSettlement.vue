@@ -56,7 +56,9 @@ function createInitialSettlement(){
                 typeId : null,
                 typeName : null,
                 startValue : null,
-                endValue : null
+                endValue : null,
+                startYearValue : null,
+                endYearValue : null,
             },
         ],
         utilities: {
