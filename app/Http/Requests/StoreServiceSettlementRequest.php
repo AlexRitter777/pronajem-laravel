@@ -20,7 +20,7 @@ class StoreServiceSettlementRequest extends FormRequest
         return true;
     }
 
-    public function prepareForValidation()
+    public function prepareForValidation() : void
     {
 
         $this->merge([
@@ -52,8 +52,7 @@ class StoreServiceSettlementRequest extends FormRequest
 
     private function presentedMeterTypes() : array
     {
-        $meterTypes = collect($this->input('meters', []))->pluck('type');
-
+        $meterTypes = collect($this->input('meters', []))->pluck('typeId');
         return [
             MeterType::HOT_WATER->value => $meterTypes->contains(MeterType::HOT_WATER->value),
             MeterType::COLD_WATER->value => $meterTypes->contains(MeterType::COLD_WATER->value),
@@ -111,13 +110,24 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_heating' => [Rule::requiredIf($presentedMeterTypes[MeterType::HEATING->value]), 'numeric', 'min:0'],
             'utility_cold_water_for_hot' => 'nullable|numeric|min:0',
 
+            'expenses' => 'present|array',
+            'expenses.*.id' => 'required',
+            'expenses.*.expenseTypeId' => 'required|int|exists:expenses,id',
+            'expenses.*.expenseTypeName' => 'required|string',
+            'expenses.*.amount' => 'required|numeric|min:0',
+
+            'payments' => 'present|array',
+            'payments.*.id' => 'required',
+            'payments.*.month' => 'required|int|min:1|max:12',
+            'payments.*.year' => 'required|int',
+            'payments.*.amount' => 'nullable|numeric|min:0',
 
 
         ];
     }
 
 
-    public function after()
+    public function after() : array
     {
         return [
             function (Validator $validator) {

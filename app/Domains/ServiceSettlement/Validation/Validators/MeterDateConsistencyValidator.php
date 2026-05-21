@@ -25,7 +25,12 @@ class MeterDateConsistencyValidator
             && str_ends_with($endOccupancyDate, '-12-31');
 
         if (!$hasMeters && !$isActuallyFullYear) {
-            $validator->errors()->add('has_meters', __('Something is wrong with the dates. Please refresh the page and try again.'));
+
+            foreach ($validator->errors()->keys() as $key) {
+                $validator->errors()->forget($key);
+            }
+
+            $validator->errors()->add('common_error', __('The form state is invalid. Please refresh the page and try again'));
         }
 
     }

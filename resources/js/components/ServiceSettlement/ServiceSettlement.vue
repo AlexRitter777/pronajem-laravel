@@ -198,8 +198,11 @@ function addMeterLine() {
         id : getUid(),
         typeId : null,
         typeName : null,
+        meterNumber : null,
         startValue : null,
-        endValue : null
+        endValue : null,
+        startYearValue : null,
+        endYearValue : null,
     });
 }
 
