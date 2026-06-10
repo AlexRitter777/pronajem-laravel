@@ -1,11 +1,13 @@
 <script setup>
 
 import UtilitiesLine from "./UtilitiesLine.vue";
+import SimpleError from "../../FormsElements/SimpleError.vue";
 
 
 defineProps({
     label: {type: String, required: true},
     utilities: {type: Object, required: true},
+    errors: {type: Object, required: false, default: () =>({})}
 
 })
 
@@ -37,21 +39,24 @@ defineProps({
                 <UtilitiesLine
                     v-model="utilities.hotWater"
                     :utility-type="$t('service-settlement.hot-water')"
+                    :error="errors['utility_hot_water']"
                 />
-
                 <UtilitiesLine
                     v-model="utilities.coldWater"
                     :utility-type="$t('service-settlement.cold-water')"
+                    :error="errors['utility_cold_water']"
                 />
 
                 <UtilitiesLine
                     v-model="utilities.heating"
                     :utility-type="$t('service-settlement.heating')"
+                    :error="errors['utility_heating']"
                 />
 
                 <UtilitiesLine
                     v-model="utilities.coldWaterForHot"
                     :utility-type="$t('service-settlement.cold-water-hot')"
+                    :error="errors['utility_cold_water_for_hot']"
                 />
             </div>
         </div>

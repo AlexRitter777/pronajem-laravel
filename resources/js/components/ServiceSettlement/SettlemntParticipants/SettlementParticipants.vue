@@ -17,11 +17,12 @@ const props = defineProps({
     selectedLandlord: {type: [Object, null], default: null, required: true},
     selectedTenant: {type: [Object, null], default: null, required: true},
     modals: {type: Object, required: true},
+    errors: {type: Object, required: false, default: () =>({})}
 })
 
-// onMounted(() => {
-//     console.log(props.modals)
-// })
+onMounted(() => {
+    console.log(props.errors)
+})
 
 const emit = defineEmits(
     [
@@ -90,6 +91,7 @@ function closeModal(entity) {
 
     <property-combobox
         :properties="properties"
+        :error="errors.property_address"
         search-by="address"
         v-model="selectedProperty"
         @open-modal="showModalWindow"
@@ -97,6 +99,7 @@ function closeModal(entity) {
 
     <landlord-combobox
         :landlords="landlords"
+        :error="errors.landlord_name"
         search-by="name"
         v-model="selectedLandlord"
         @landlord-selected="selectedLandlord = $event"
@@ -105,6 +108,7 @@ function closeModal(entity) {
 
     <tenant-combobox
         :tenants="tenants"
+        :error="errors.tenant_name"
         search-by="name"
         v-model="selectedTenant"
         @tenant-selected="selectedTenant = $event"

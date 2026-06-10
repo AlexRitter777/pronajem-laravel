@@ -3,6 +3,8 @@
 import {computed, watch, watchEffect} from "vue";
 import TrashIcon from "../../Icons/TrashIcon.vue";
 import MetersLine from "./MetersLine.vue";
+import SimpleError from "../../FormsElements/SimpleError.vue";
+import useLineErrors from "../../../composables/line-errors.js";
 
 const props = defineProps({
     label: {type: String, required: true},
@@ -11,8 +13,10 @@ const props = defineProps({
     occupancyEndDate: {type: [String, null], required: false},
     meterTypes: {type: Array, required: true},
     meters: {type: Array, required: true},
+    errors: {type: Object, required: false, default: () =>({})}
 })
 
+const meterErrors = useLineErrors('meters');
 
 const emit = defineEmits(['add-meter-line', 'remove-meter-line','has-meters']);
 
@@ -40,6 +44,8 @@ const canAddMeters = computed(() => {
     return props.meters.length < maxMeters;
 })
 
+
+
 </script>
 
 <template>
@@ -55,7 +61,12 @@ const canAddMeters = computed(() => {
                 <template v-for="(meter, index) in meters" :key="meter.id">
                     <div class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
                         <div class="grid grid-cols-2 gap-3">
-                            <MetersLine :meter="meter" :meter-types="meterTypes"/>
+                            <MetersLine
+                                :meter="meter"
+                                :meter-types="meterTypes"
+                                :errors="meterErrors(props.errors, index)"
+                            />
+
                         </div>
                         <button
                             type="button"

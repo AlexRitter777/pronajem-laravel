@@ -9,6 +9,7 @@ const {months} = useMonths();
 const props = defineProps({
     label: {type: String, required: false},
     modelValue: {type: [Number, null], required: true},
+    error: {type: [Array, null], default: null, required: false},
 });
 
 
@@ -32,6 +33,7 @@ const selectedPaymentMonth = computed({
         v-model="selectedPaymentMonth"
         :items="months"
         :placeholder="$t('service-settlement.placeholder-month')"
+        :error="error"
     />
 
 </template>

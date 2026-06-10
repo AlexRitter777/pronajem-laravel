@@ -11,13 +11,15 @@ import {
 } from '@headlessui/vue'
 import CrossIcon from "../icons/crossIcon.vue";
 import PlusIcon from "../icons/PlusIcon.vue";
+import SimpleError from "./SimpleError.vue";
 
 const props = defineProps({
     title: {type: String, default: '', required:false},
     placeholder: {type: String, required: false, default: ''},
     items: {type: Array, required: true},
     searchBy: {type: String, required: true},
-    modelValue: {type: [Object, null], default: null, required: true}
+    modelValue: {type: [Object, null], default: null, required: true},
+    error: {type:[Array, null], default: null, required: false},
 
 })
 
@@ -95,9 +97,11 @@ function isDisabled(id){
         <div class="sm:col-span-2 ">
             <div class="sm:max-w-2xl relative w-full">
                 <ComboboxInput
-                    class="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base text-gray-900 outline-1 -outline-offset-1
-                     outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-
-                     600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500"
+                    class="block w-full rounded-md bg-white py-1.5 pr-12 pl-3 text-base outline-1 -outline-offset-1
+                      placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2  sm:text-sm/6 dark:bg-white/5 dark:text-white  dark:placeholder:text-gray-500 "
+                    :class="error
+                        ? 'outline-red-500 focus:outline-red-500 dark:outline-red-500 dark:focus:outline-red-500'
+                        : 'outline-gray-300 focus:outline-indigo-600 dark:outline-white/10 dark:focus:outline-indigo-500'"
                     @change="query = $event.target.value"
                     @focusout="clearQuery"
                     :display-value="(item) => item?.[searchBy]"
@@ -139,6 +143,7 @@ function isDisabled(id){
             </transition>
             </div>
         </div>
+        <SimpleError v-if="error" :error="error"/>
 
     </Combobox>
 </template>

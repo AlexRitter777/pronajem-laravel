@@ -4,15 +4,18 @@ import ListOfMonths from "./ListOfMonths.vue";
 import ListOfYears from "./ListOfYears.vue";
 import TrashIcon from "../Icons/TrashIcon.vue";
 import SimpleInput from "../FormsElements/SimpleInput.vue";
-
+import useLineErrors from "../../composables/line-errors.js";
 
 const maxPayments = 20;
 
-defineProps({
+const props = defineProps({
     label: {type: String, required: true},
     payments: {type: Array, required: true},
+    errors: {type: Object, required: false, default: () =>({})}
 
 })
+
+const paymentErrors = useLineErrors('payments');
 
 defineEmits(['remove-payments-line', 'add-payment-line'])
 
@@ -32,11 +35,18 @@ defineEmits(['remove-payments-line', 'add-payment-line'])
                     class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center"
                 >
                     <div class="grid grid-cols-3 gap-3">
-                        <ListOfMonths v-model="payment.month"/>
-                        <ListOfYears v-model="payment.year"/>
+                        <ListOfMonths
+                            v-model="payment.month"
+                            :error="paymentErrors(props.errors, index)?.month"
+                        />
+                        <ListOfYears
+                            v-model="payment.year"
+                            :error="paymentErrors(props.errors, index)?.year"
+                        />
                         <SimpleInput
                             v-model="payment.amount"
                             :placeholder="$t('service-settlement.amount')"
+                            :error="paymentErrors(props.errors, index)?.amount"
                         />
                     </div>
                     <button

@@ -1,6 +1,6 @@
 <script setup>
 
-import {onMounted, reactive, ref} from "vue";
+import {computed, nextTick, onMounted, reactive, ref} from "vue";
 import {getArrayOfItems, saveItems} from "../../utilites/api.js";
 import SettlementParticipants from "./SettlemntParticipants/SettlementParticipants.vue";
 import useSaveItem from "../../composables/saveItem.js";
@@ -17,6 +17,7 @@ import ComponentWrapper from "./ComponentWrapper.vue";
 import Coefficients from "./Coefficients.vue";
 import dayjs from "dayjs";
 import BorderLine from "../UiElements/BorderLine.vue";
+import scrollToMessage from "../../utilites/srcroll-into-view.js";
 
 const {saveItem, loading, errors} = useSaveItem();
 const {months} = useMonths();
@@ -25,10 +26,13 @@ const tenants = ref([]);
 const landlords = ref([]);
 const meterTypes=ref([]);
 const expensesTypes=ref([]);
-
+const validationErrors = ref({});
 const showCoefficients = ref(false);
 
+const loadingCalculateSettlement = ref(false);
+
 //use snapshots for displaying entities; id is only a reference for editing
+
 
 function createInitialSettlement(){
 
@@ -39,17 +43,7 @@ function createInitialSettlement(){
         invoicingYear: null,
         tenantOccupancyStartDate: null,
         tenantOccupancyEndDate: null,
-        coefficients: {
-            oneCoefficient: {
-                expensesCoefficient: null,
-            },
-            manyCoefficients: {
-                expensesCoefficient: null,
-                hotWaterCoefficient: null,
-                heatingCoefficient: null,
-                coldWaterAndWasteCoefficient: null,
-            },
-        },
+        coefficients: createInitialCoefficients(),
         hasMeters: true,
         meters: [
             {
@@ -89,6 +83,22 @@ function createInitialSettlement(){
     }
 }
 
+function createInitialCoefficients(){
+    return {
+        useOneCoefficient: false,
+        useManyCoefficients: false,
+        oneCoefficient: {
+            expensesCoefficient: null,
+        },
+        manyCoefficients: {
+            expensesCoefficient: null,
+            hotWaterCoefficient: null,
+            heatingCoefficient: null,
+            coldWaterAndWasteCoefficient: null,
+        }
+    }
+}
+
 const settlement = reactive(createInitialSettlement());
 
 function resetSettlement() {
@@ -105,6 +115,21 @@ const expenseModal = reactive(
 { show: false, loading: false, errors: {} },
 )
 
+const tenantOccupancyErrors = computed(() => {
+
+    const errors = {};
+
+    if(validationErrors.value.tenantOccupancyStartDate) {
+        errors.startDateError = validationErrors.value.tenantOccupancyStartDate;
+    }
+
+    if(validationErrors.value.tenantOccupancyEndDate){
+        errors.endDateError = validationErrors.value.tenantOccupancyEndDate;
+    }
+
+    return errors;
+
+})
 
 onMounted(async () => {
     //TODO: error handling for lists fetching..
@@ -192,7 +217,6 @@ async function createAndInsertExpense(data, url) {
 
 }
 
-
 function addMeterLine() {
     settlement.meters.push({
         id : getUid(),
@@ -225,7 +249,6 @@ function addExpenseLine() {
         }
     )
 }
-
 
 function removeExpenseLine(id) {
 
@@ -266,7 +289,6 @@ function addPaymentLine() {
     )
 }
 
-
 function removePaymentLine(id) {
     const index = settlement.payments.findIndex(payment => payment.id === id)
 
@@ -276,7 +298,7 @@ function removePaymentLine(id) {
 }
 
 function checkCoefficients() {
-    const invoicingYear = settlement.invoicingYear.toString();
+    const invoicingYear = settlement.invoicingYear?.toString();
     const tenantOccupancyStartDate = settlement.tenantOccupancyStartDate;
     const tenantOccupancyEndDate = settlement.tenantOccupancyEndDate;
 
@@ -298,43 +320,31 @@ function checkCoefficients() {
 }
 
 function clearCoefficients() {
-    settlement.coefficients = {
-        oneCoefficient: {
-            expensesCoefficient: null,
-        },
-        manyCoefficients: {
-            expensesCoefficient: null,
-            hotWaterCoefficient: null,
-            heatingCoefficient: null,
-            coldWaterAndWasteCoefficient: null,
-        },
-    };
-
+    settlement.coefficients =  createInitialCoefficients();
 }
 
 function checkMetersPresence(hasMeters){
     settlement.hasMeters = hasMeters;
 }
 
-// watch(settlement, (newValue, oldValue) => {
-//     console.log('Settlement changed', newValue);
-// }, {
-//     deep: true
-// });
-
-
 async function calculateServiceSettlement() {
+
     console.log(settlement)
+
+    loadingCalculateSettlement.value = true;
 
     try {
         const resp = await saveItems('/api/service-settlement', settlement);
         console.log(resp)
     }catch (e){
-        console.log(e)
+
+        validationErrors.value = e.response?.data?.errors ?? {};
+        await nextTick();
+        scrollToMessage();
+
     }
 
 }
-
 
 </script>
 
@@ -359,6 +369,7 @@ async function calculateServiceSettlement() {
                 :landlords="landlords"
                 :tenants="tenants"
                 :modals="modals"
+                :errors="validationErrors"
                 @modal-form-submitted="createAndInsertPerson"
                 @property-form-submitted="createAndInsertProperty"
             />
@@ -375,6 +386,7 @@ async function calculateServiceSettlement() {
                         });
                     "
                     v-model="settlement.invoicingYear"
+                    :error="validationErrors?.invoicingYear"
                 />
             </OneInputRowWrapper>
 
@@ -390,6 +402,9 @@ async function calculateServiceSettlement() {
                 v-model:start-date="settlement.tenantOccupancyStartDate"
                 v-model:end-date="settlement.tenantOccupancyEndDate"
                 :label="$t('service-settlement.tenant-occupancy')"
+                :start-date-error="tenantOccupancyErrors?.startDateError"
+                :end-date-error="tenantOccupancyErrors?.endDateError"
+
             />
 
 
@@ -400,6 +415,7 @@ async function calculateServiceSettlement() {
                 <Coefficients
                     :coefficients="settlement.coefficients"
                     @coefficients-removed="clearCoefficients"
+                    :errors="validationErrors"
                 />
             </OneInputRowWrapper>
 
@@ -417,6 +433,7 @@ async function calculateServiceSettlement() {
                     @add-meter-line="addMeterLine"
                     @remove-meter-line="removeMeterLine"
                     @has-meters="checkMetersPresence"
+                    :errors="validationErrors"
                 />
             </ComponentWrapper>
 
@@ -425,6 +442,7 @@ async function calculateServiceSettlement() {
                 <Utilities
                     :label="$t('service-settlement.utilities')"
                     :utilities="settlement.utilities"
+                    :errors="validationErrors"
                 />
             </ComponentWrapper>
 
@@ -435,6 +453,7 @@ async function calculateServiceSettlement() {
                     :expenses="settlement.expenses"
                     :label="$t('service-settlement.expenses')"
                     :modal="expenseModal"
+                    :errors="validationErrors"
                     @add-expense-line="addExpenseLine"
                     @remove-expense-line="removeExpenseLine"
                     @modal-form-submitted="createAndInsertExpense"
@@ -446,6 +465,7 @@ async function calculateServiceSettlement() {
                 <Payments
                     :payments="settlement.payments"
                     :label="$t('service-settlement.advanced-payments')"
+                    :errors="validationErrors"
                     @remove-payments-line="removePaymentLine"
                     @add-payment-line="addPaymentLine"
                 />

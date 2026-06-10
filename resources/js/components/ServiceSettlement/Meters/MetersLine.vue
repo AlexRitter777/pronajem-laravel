@@ -4,11 +4,13 @@
 import Listbox from "../../FormsElements/Listbox.vue";
 import {ref, watch} from "vue";
 import SimpleInput from "../../FormsElements/SimpleInput.vue";
+import SimpleError from "../../FormsElements/SimpleError.vue";
 
 
 const props = defineProps({
     meterTypes: {type: Array, required: true},
-    meter: {type: Object, required: false}
+    meter: {type: Object, required: false},
+    errors: {type: Object, required: false},
 })
 
 const selectedMeterType = ref(null);
@@ -91,26 +93,33 @@ watch(selectedEndYearValue, (value) => {
         :items="meterTypes"
         v-model="selectedMeterType"
         :placeholder="$t('service-settlement.meter-type')"
+        :error="errors.typeId"
     />
     <SimpleInput
         v-model="selectedMeterNumber"
         :placeholder="$t('service-settlement.meter-number')"
+        :error="errors.meterNumber"
     />
     <SimpleInput
         v-model="selectedStartValue"
         :placeholder="$t('service-settlement.meter-start')"
+        :error="errors.startValue"
     />
     <SimpleInput
         v-model="selectedEndValue"
         :placeholder="$t('service-settlement.meter-end')"
+        :error="errors.endValue"
+
     />
     <SimpleInput
         v-model="selectedStartYearValue"
         :placeholder="$t('service-settlement.meter-start-year')"
+        :error="errors.startYearValue"
     />
     <SimpleInput
         v-model="selectedEndYearValue"
         :placeholder="$t('service-settlement.meter-end-year')"
+        :error="errors.endYearValue"
     />
 
 </template>

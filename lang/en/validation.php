@@ -194,6 +194,40 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+
+        'account_number' => 'account number',
+        'current_password' => 'current password',
+
+        'landlord_name' => 'landlord',
+        'tenant_name' => 'tenant',
+        'property_address' => 'property address',
+        'tenantOccupancyStartDate' => 'start date',
+        'tenantOccupancyEndDate' => 'end date',
+
+        'coefficients.oneCoefficient.expensesCoefficient' => 'coefficient',
+        'coefficients.manyCoefficients.*' => 'coefficient',
+
+        'meters.*.typeId' => 'meter type',
+        'meters.*.meterNumber' => 'meter number',
+        'meters.*.startValue' => 'start value',
+        'meters.*.endValue' => 'end value',
+        'meters.*.startYearValue' => 'value at start of year',
+        'meters.*.endYearValue' => 'value at end of year',
+
+        'utility_hot_water' => 'hot water costs',
+        'utility_cold_water' => 'cold water costs',
+        'utility_heating' => 'heating costs',
+        'utility_cold_water_for_hot' => 'cold water for hot water costs',
+
+        'expenses.*.expenseTypeId' => 'expense type',
+        'expenses.*.amount' => 'amount',
+
+        'payments.*.month' => 'month',
+        'payments.*.year' => 'year',
+        'payments.*.amount' => 'amount',
+
+
+    ],
 
 ];

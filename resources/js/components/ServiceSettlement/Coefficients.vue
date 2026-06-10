@@ -1,13 +1,22 @@
 <script setup>
 
 import SimpleInput from "../FormsElements/SimpleInput.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch, watchEffect} from "vue";
 import FakeInput from "../FormsElements/FakeInput.vue";
 import {trans} from "laravel-vue-i18n";
+import SimpleError from "../FormsElements/SimpleError.vue";
 
 const props = defineProps({
     coefficients: {type: Object, required: true},
+    errors: {type: Object, required: false, default: () =>({})}
 })
+
+watch(() => props.errors, (value) => {
+    console.log(value)
+},
+    {deep: true}
+)
+
 
 const showCoefficients = ref(false);
 
@@ -49,7 +58,17 @@ const coefficientRows = computed(() => {
             },
         ]
     }
+
 })
+
+
+watch(coefficient, (value) => {
+    props.coefficients.useOneCoefficient = value === 'one-coefficient';
+    props.coefficients.useManyCoefficients = value === 'many-coefficients';
+},
+    {immediate: true}
+);
+
 
 
 
@@ -148,7 +167,16 @@ function showCoefficientsUpdated(){
                         type="number"
                         :placeholder="$t('coefficients.enter')"
                         v-model="coefficients[row.group][row.model]"
+                        :error="errors ? errors[`coefficients.${row.group}.${row.model}`] : null"
+                        :show-error="false"
                     />
+                    <template v-if="errors[`coefficients.${row.group}.${row.model}`]">
+                        <div></div>
+                        <SimpleError
+                            style="margin-top: -10px"
+                            :error="errors ? errors[`coefficients.${row.group}.${row.model}`] : null"
+                        />
+                    </template>
 
                 </div>
 

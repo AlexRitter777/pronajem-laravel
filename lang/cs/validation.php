@@ -16,7 +16,7 @@ return [
     'accepted' => 'The :attribute field must be accepted.',
     'accepted_if' => 'The :attribute field must be accepted when :other is :value.',
     'active_url' => 'The :attribute field must be a valid URL.',
-    'after' => 'The :attribute field must be a date after :date.',
+    'after' => 'Pole „:attribute" musí být pozdější než „:date".',
     'after_or_equal' => 'The :attribute field must be a date after or equal to :date.',
     'alpha' => 'The :attribute field must only contain letters.',
     'alpha_dash' => 'The :attribute field must only contain letters, numbers, dashes, and underscores.',
@@ -63,7 +63,7 @@ return [
     'gt' => [
         'array' => 'The :attribute field must have more than :value items.',
         'file' => 'The :attribute field must be greater than :value kilobytes.',
-        'numeric' => 'The :attribute field must be greater than :value.',
+        'numeric' => 'Hodnota pole „:attribute" musí být více než :value.',
         'string' => 'The :attribute field must be greater than :value characters.',
     ],
     'gte' => [
@@ -111,7 +111,7 @@ return [
     'min' => [
         'array' => 'The :attribute field must have at least :min items.',
         'file' => 'The :attribute field must be at least :min kilobytes.',
-        'numeric' => 'The :attribute field must be at least :min.',
+        'numeric' => 'Hodnota pole „:attribute" musí být alespoň :min.',
         'string' => 'Pole „:attribute“ musí mít alespoň 8 znaků.',
     ],
     'min_digits' => 'The :attribute field must have at least :min digits.',
@@ -211,6 +211,35 @@ return [
         'account_number' => 'číslo účtu',
         'password' => 'heslo',
         'current_password' => 'současné heslo',
+
+        'landlord_name' => 'pronajímatel',
+        'tenant_name' => 'nájemník',
+        'property_address' => 'adresa nemovitosti',
+        'tenantOccupancyStartDate' => 'počáteční datum',
+        'tenantOccupancyEndDate' => 'konečné datum',
+
+        'coefficients.oneCoefficient.expensesCoefficient' => 'koeficient',
+        'coefficients.manyCoefficients.*' => 'koeficient',
+
+        'meters.*.typeId' => 'typ měřidla',
+        'meters.*.meterNumber' => 'číslo měřidla',
+        'meters.*.startValue' => 'počáteční stav',
+        'meters.*.endValue' => 'konečný stav',
+        'meters.*.startYearValue' => 'stav na začátku roku',
+        'meters.*.endYearValue' => 'stav na konci roku',
+
+        'utility_hot_water' => 'náklady na teplou vodu',
+        'utility_cold_water' => 'náklady na studenou vodu',
+        'utility_heating' => 'náklady na vytápění',
+        'utility_cold_water_for_hot' => 'náklady na studenou vodu pro teplou vodu',
+
+        'expenses.*.expenseTypeId' => 'typ nákladu',
+        'expenses.*.amount' => 'částka',
+
+        'payments.*.month' => 'měsíc',
+        'payments.*.year' => 'rok',
+        'payments.*.amount' => 'částka',
+
 
     ],
 

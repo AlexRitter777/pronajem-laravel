@@ -1,12 +1,15 @@
 <script setup>
 import SimpleInput from "./SimpleInput.vue";
-import {computed} from "vue";
+import {computed, watch} from "vue";
+import SimpleError from "./SimpleError.vue";
 
 
 const props = defineProps({
     label: {type: String, required: false},
     startDate: {type: [String, null], required: true},
     endDate: {type: [String, null], required: true},
+    startDateError: {type: [Array, null], default: null, required: false},
+    endDateError: {type: [Array, null], default: null, required: false},
 })
 
 const emit = defineEmits(["update:startDate", "update:endDate"])
@@ -25,6 +28,8 @@ const endDate = computed({
     }
 });
 
+
+
 </script>
 
 <template>
@@ -40,14 +45,17 @@ const endDate = computed({
                     <SimpleInput
                         type="date"
                         v-model="startDate"
+                        :error="startDateError"
                     />
                     <SimpleInput
                         type="date"
                         v-model="endDate"
+                        :error="endDateError"
                     />
                 </div>
                 <div class="h-8 w-8 invisible" aria-hidden="true"></div>
             </div>
+
         </div>
     </div>
 

@@ -5,6 +5,7 @@ import TrashIcon from "../../Icons/TrashIcon.vue";
 import SimpleInput from "../../FormsElements/SimpleInput.vue";
 import PlusIcon from "../../Icons/PlusIcon.vue";
 import ExpenseModal from "./ExpenseModal.vue";
+import useLineErrors from "../../../composables/line-errors.js";
 
 const maxExpenses = 10;
 
@@ -13,8 +14,10 @@ const props = defineProps({
     expenses: {type: Array, required: true},
     expensesTypes: {type: Array, required: true},
     modal: {type: Object, required: true},
+    errors: {type: Object, required: false, default: () =>({})}
 })
 
+const expenseErrors = useLineErrors('expenses');
 
 const emit = defineEmits([
     'add-expense-line',
@@ -27,6 +30,8 @@ function closeModal() {
     props.modal.show = false;
     props.modal.errors = {};
 }
+
+
 
 
 </script>
@@ -78,6 +83,7 @@ function closeModal() {
                             }"
                             search-by="name"
                             :expenses="expensesTypes"
+                            :error="expenseErrors(errors, index)?.expenseTypeId"
                         />
 
 
@@ -85,6 +91,8 @@ function closeModal() {
                             type="number"
                             v-model="expense.amount"
                             :placeholder="$t('service-settlement.amount')"
+                            :error="expenseErrors(errors, index)?.amount"
+
                         />
 
 

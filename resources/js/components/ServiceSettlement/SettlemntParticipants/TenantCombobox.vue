@@ -7,7 +7,8 @@ import PlusIcon from "../../Icons/PlusIcon.vue";
 const props = defineProps({
     tenants: {type: Array, required: true},
     searchBy: {type: String, required: true},
-    modelValue: {type: [Object, null], default: null, required: true}
+    modelValue: {type: [Object, null], default: null, required: true},
+    error: {type:[Array, null], default: null, required: false},
 });
 
 const emit = defineEmits(['update:modelValue', 'tenant-selected', 'open-modal'])
@@ -42,6 +43,7 @@ const selectedTenant = computed({
                         :items="tenants"
                         :search-by="searchBy"
                         :placeholder="$t('service-settlement.placeholder-tenant')"
+                        :error="error"
                         v-model="selectedTenant"
                     >
                     </ComboBox>

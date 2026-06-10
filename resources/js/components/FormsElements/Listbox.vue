@@ -4,12 +4,14 @@ import {computed, watchEffect} from 'vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { ChevronUpDownIcon } from '@heroicons/vue/16/solid'
 import { CheckIcon } from '@heroicons/vue/20/solid'
+import SimpleError from "./SimpleError.vue";
 
 const props = defineProps({
     label: {type: String, required: false},
     modelValue: {type: [Object, null], required: true},
     items: {type: Array, required: true},
     placeholder: {type: String, default: 'Select Item', required: false},
+    error: {type: [Array, null], default: null, required: false},
 })
 
 
@@ -29,8 +31,16 @@ const selected = computed({
     <Listbox as="div" v-model="selected" by="id" >
         <ListboxLabel class="block text-sm/6 font-medium text-gray-900 dark:text-white">{{ label }}</ListboxLabel>
         <div class="relative">
-            <ListboxButton class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus-visible:outline-indigo-500">
-<!--                <span class="col-start-1 row-start-1 truncate pr-6">{{ selected?.name ? selected.name : placeholder }}</span>-->
+            <ListboxButton
+                class="
+                    grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3
+                     text-left text-gray-900 outline-1 -outline-offset-1 focus-visible:outline-2
+                      focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-white/5 dark:text-white
+                "
+                :class="error
+                        ? 'outline-red-500 focus:outline-red-500 dark:outline-red-500 dark:focus:outline-red-500'
+                        : 'outline-gray-300 focus:outline-indigo-600 dark:outline-white/10 dark:focus:outline-indigo-500'"
+            >
 
                 <span
                     class="col-start-1 row-start-1 truncate pr-6"
@@ -55,6 +65,10 @@ const selected = computed({
                 </ListboxOptions>
             </transition>
         </div>
+        <SimpleError
+            v-if="error"
+            :error="error"
+        />
     </Listbox>
 </template>
 

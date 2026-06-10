@@ -23,10 +23,9 @@ class StoreServiceSettlementRequest extends FormRequest
     public function prepareForValidation() : void
     {
 
-        $this->merge([
+        $this->merge(
             $this->flattenEntities(),
-        ]);
-
+        );
 
     }
 
@@ -82,16 +81,19 @@ class StoreServiceSettlementRequest extends FormRequest
             'property_address' => 'required|string',
 
             'invoicingYear' => 'required|int',
-            'tenantOccupancyStartDate' => 'required|date|before:tenantOccupancyEndDate',
-            'tenantOccupancyEndDate' => 'required|date',
+            'tenantOccupancyStartDate' => 'required|date',
+            'tenantOccupancyEndDate' => 'required|date|after:tenantOccupancyStartDate',
+
 
             'coefficients' => 'nullable|array',
+            'coefficients.useOneCoefficient' => 'required|boolean',
+            'coefficients.useManyCoefficients' => 'required|boolean',
 
             'coefficients.oneCoefficient' => 'nullable|array',
-            'coefficients.oneCoefficient.expensesCoefficient' => 'nullable|numeric|min:0|max:10',
+            'coefficients.oneCoefficient.expensesCoefficient' => 'exclude_if:coefficients.useOneCoefficient,false|required|numeric|min:0|max:10',
 
             'coefficients.manyCoefficients' => 'nullable|array',
-            'coefficients.manyCoefficients.*' => 'nullable|numeric|min:0|max:10',
+            'coefficients.manyCoefficients.*' => 'exclude_if:coefficients.useManyCoefficients,false|required|numeric|min:0|max:10',
 
             'hasMeters' => 'required|boolean',
 
@@ -105,21 +107,21 @@ class StoreServiceSettlementRequest extends FormRequest
             'meters.*.endYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startYearValue',
 
             'utilities' => 'present|array',
-            'utility_hot_water' => [Rule::requiredIf($presentedMeterTypes[MeterType::HOT_WATER->value]), 'numeric', 'min:0'],
-            'utility_cold_water' => [Rule::requiredIf($presentedMeterTypes[MeterType::COLD_WATER->value]), 'numeric', 'min:0'],
-            'utility_heating' => [Rule::requiredIf($presentedMeterTypes[MeterType::HEATING->value]), 'numeric', 'min:0'],
-            'utility_cold_water_for_hot' => 'nullable|numeric|min:0',
+            'utility_hot_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'required', 'numeric', 'gt:0'],
+            'utility_cold_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value]), 'required', 'numeric', 'gt:0'],
+            'utility_heating' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value]), 'required', 'numeric', 'gt:0'],
+            'utility_cold_water_for_hot' => 'nullable|numeric|gt:0',
 
             'expenses' => 'present|array',
             'expenses.*.id' => 'required',
             'expenses.*.expenseTypeId' => 'required|int|exists:expenses,id',
             'expenses.*.expenseTypeName' => 'required|string',
-            'expenses.*.amount' => 'required|numeric|min:0',
+            'expenses.*.amount' => 'required|numeric|gt:0',
 
             'payments' => 'present|array',
-            'payments.*.id' => 'required',
-            'payments.*.month' => 'required|int|min:1|max:12',
-            'payments.*.year' => 'required|int',
+            'payments.*.id' => 'nullable',
+            'payments.*.month' => 'nullable|int|min:1|max:12',
+            'payments.*.year' => 'nullable|int|digits:4',
             'payments.*.amount' => 'nullable|numeric|min:0',
 
 

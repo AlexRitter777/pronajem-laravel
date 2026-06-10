@@ -1,13 +1,13 @@
 <script setup>
 
     import {computed} from "vue";
-    import PlusIcon from "../../Icons/PlusIcon.vue";
     import ComboBox from "../../FormsElements/ComboBox.vue";
 
     const props = defineProps({
         expenses: {type: Array, required: true},
         searchBy: {type: String, required: true},
-        modelValue: {type: [Object, null], default: null, required: true}
+        modelValue: {type: [Object, null], default: null, required: true},
+        error: {type: [Array, null], default: null, required: false},
     })
 
     const emit = defineEmits(['update:modelValue'])
@@ -33,6 +33,7 @@
                         :search-by="searchBy"
                         :placeholder="$t('service-settlement.placeholder-expense')"
                         v-model="selectedExpense"
+                        :error="error"
                     >
                     </ComboBox>
 
