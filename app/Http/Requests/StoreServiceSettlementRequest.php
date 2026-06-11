@@ -27,6 +27,10 @@ class StoreServiceSettlementRequest extends FormRequest
             $this->flattenEntities(),
         );
 
+        $this->merge([
+            'payments' => $this->cleanPayments(),
+        ]);
+
     }
 
     private function flattenEntities() : array
@@ -49,6 +53,8 @@ class StoreServiceSettlementRequest extends FormRequest
         ];
     }
 
+
+
     private function presentedMeterTypes() : array
     {
         $meterTypes = collect($this->input('meters', []))->pluck('typeId');
@@ -60,6 +66,18 @@ class StoreServiceSettlementRequest extends FormRequest
 
     }
 
+    private function cleanPayments(): array
+    {
+        return collect($this->input('payments', []))
+            ->reject(fn ($p) => $this->isEmptyPayment($p))
+            ->values()
+            ->all();
+    }
+
+    private function isEmptyPayment(array $payment): bool
+    {
+        return ($payment['amount'] ?? null) === null;
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -122,7 +140,7 @@ class StoreServiceSettlementRequest extends FormRequest
             'payments.*.id' => 'nullable',
             'payments.*.month' => 'nullable|int|min:1|max:12',
             'payments.*.year' => 'nullable|int|digits:4',
-            'payments.*.amount' => 'nullable|numeric|min:0',
+            'payments.*.amount' => 'nullable|numeric|min:0|decimal:0,2',
 
 
         ];

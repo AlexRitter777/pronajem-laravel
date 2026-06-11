@@ -10,6 +10,6 @@ class ServiceSettlementController extends Controller
 {
     public function store(StoreServiceSettlementRequest $request)
     {
-        dd($request->all());
+        dd($request->validated());
     }
 }
