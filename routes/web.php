@@ -21,6 +21,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/' , function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::get('/' . __('dashboard'), function () {
     return view('dashboard');

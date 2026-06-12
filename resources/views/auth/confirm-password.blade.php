@@ -22,7 +22,7 @@
                     autocomplete="current-password"
                 />
             </div>
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-auth.input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
 
