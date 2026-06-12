@@ -138,8 +138,8 @@ class StoreServiceSettlementRequest extends FormRequest
 
             'payments' => 'present|array',
             'payments.*.id' => 'nullable',
-            'payments.*.month' => 'nullable|int|min:1|max:12',
-            'payments.*.year' => 'nullable|int|digits:4',
+            'payments.*.month' => 'required_with:payments.*.amount|int|min:1|max:12',
+            'payments.*.year' => 'required_with:payments.*.amount|nullable|int|digits:4',
             'payments.*.amount' => 'nullable|numeric|min:0|decimal:0,2',
 
 

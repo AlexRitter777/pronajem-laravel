@@ -20,7 +20,7 @@ watch(() => props.errors, (value) => {
 
 const showCoefficients = ref(false);
 
-const coefficient = ref('one-coefficient');
+const coefficient = ref('');
 
 const emit = defineEmits(['coefficients-removed']);
 
@@ -68,6 +68,12 @@ watch(coefficient, (value) => {
 },
     {immediate: true}
 );
+
+watch(showCoefficients, (value) => {
+    if(value){
+        coefficient.value = 'one-coefficient';
+    }
+})
 
 
 
