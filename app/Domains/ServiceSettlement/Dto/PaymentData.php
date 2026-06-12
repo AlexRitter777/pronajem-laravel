@@ -4,7 +4,7 @@ namespace App\Domains\ServiceSettlement\Dto;
 
 use Brick\Money\Money;
 
-final readonly class PaymentsData
+final readonly class PaymentData
 {
 
     public function __construct(

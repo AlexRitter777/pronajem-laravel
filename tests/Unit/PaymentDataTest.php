@@ -1,11 +1,11 @@
 <?php
 
-use App\Domains\ServiceSettlement\Dto\PaymentsData;
+use App\Domains\ServiceSettlement\Dto\PaymentData;
 use Brick\Money\Money;
 
 
 it('builds from a full array', function () {
-    $dto = PaymentsData::fromArray([
+    $dto = PaymentData::fromArray([
         'id' => 1,
         'month' => 3,
         'year' => 2025,
@@ -22,7 +22,7 @@ it('builds from a full array', function () {
 
 
 it('casts a float amount to Money without losing precision', function () {
-    $dto = PaymentsData::fromArray([
+    $dto = PaymentData::fromArray([
         'id' => 1,
         'month' => 3,
         'year' => 2025,
@@ -37,14 +37,14 @@ it('casts a float amount to Money without losing precision', function () {
 
 it('produces equal Money for string and float inputs of the same value', function () {
 
-    $fromString = PaymentsData::fromArray([
+    $fromString = PaymentData::fromArray([
         'id' => 1,
         'month' => 3,
         'year' => 2025,
         'amount' => '250.00',
     ]);
 
-    $fromFloat  = PaymentsData::fromArray([
+    $fromFloat  = PaymentData::fromArray([
         'id' => 1,
         'month' => 3,
         'year' => 2025,
