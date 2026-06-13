@@ -205,8 +205,7 @@ return [
         'tenantOccupancyStartDate' => 'start date',
         'tenantOccupancyEndDate' => 'end date',
 
-        'coefficients.oneCoefficient.expensesCoefficient' => 'coefficient',
-        'coefficients.manyCoefficients.*' => 'coefficient',
+        'coefficients.*' => 'coefficient',
 
         'meters.*.typeId' => 'meter type',
         'meters.*.meterNumber' => 'meter number',

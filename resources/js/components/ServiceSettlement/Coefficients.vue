@@ -30,7 +30,7 @@ const coefficientRows = computed(() => {
             {
                 label: trans('coefficients.all-costs'),
                 model: 'expensesCoefficient',
-                group: 'oneCoefficient',
+                group: 'values',
             }
         ]
     }
@@ -39,22 +39,22 @@ const coefficientRows = computed(() => {
             {
                 label: trans('coefficients.housing-costs'),
                 model: 'expensesCoefficient',
-                group: 'manyCoefficients',
+                group: 'values',
             },
             {
                 label: trans('coefficients.hot-water'),
                 model: 'hotWaterCoefficient',
-                group: 'manyCoefficients',
+                group: 'values',
             },
             {
                 label: trans('coefficients.heating'),
                 model: 'heatingCoefficient',
-                group: 'manyCoefficients',
+                group: 'values',
             },
             {
                 label: trans('coefficients.cold-water'),
                 model: 'coldWaterAndWasteCoefficient',
-                group: 'manyCoefficients',
+                group: 'values',
             },
         ]
     }
@@ -173,14 +173,14 @@ function showCoefficientsUpdated(){
                         type="number"
                         :placeholder="$t('coefficients.enter')"
                         v-model="coefficients[row.group][row.model]"
-                        :error="errors ? errors[`coefficients.${row.group}.${row.model}`] : null"
+                        :error="errors ? errors[`coefficients.${row.model}`] : null"
                         :show-error="false"
                     />
-                    <template v-if="errors[`coefficients.${row.group}.${row.model}`]">
+                    <template v-if="errors[`coefficients.${row.model}`]">
                         <div></div>
                         <SimpleError
                             style="margin-top: -10px"
-                            :error="errors ? errors[`coefficients.${row.group}.${row.model}`] : null"
+                            :error="errors ? errors[`coefficients.${row.model}`] : null"
                         />
                     </template>
 

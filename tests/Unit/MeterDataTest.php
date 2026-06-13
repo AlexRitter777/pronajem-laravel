@@ -38,16 +38,3 @@ it('sets id to null for a new meter', function () {
     expect($dto->id)->toBeNull();
 });
 
-it('allows null meter number', function () {
-    $dto = MeterData::fromArray([
-        'id' => 7,
-        'meterTypeId' => 2,
-        'meterTypeName' => 'Teplá voda',
-        'startValue' => '0',
-        'endValue' => '0',
-        'startYearValue' => '0',
-        'endYearValue' => '0',
-    ]);
-
-    expect($dto->meterNumber)->toBeNull();
-});

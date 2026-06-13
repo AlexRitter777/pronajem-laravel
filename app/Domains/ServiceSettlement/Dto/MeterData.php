@@ -13,7 +13,7 @@ final readonly class MeterData
         public ?int $id,
         public int $meterTypeId,
         public string $meterTypeName,
-        public ?int $meterNumber,
+        public int $meterNumber,
         public BigDecimal $startValue,
         public BigDecimal $endValue,
         public BigDecimal $startYearValue,

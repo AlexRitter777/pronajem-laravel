@@ -87,10 +87,7 @@ function createInitialCoefficients(){
     return {
         useOneCoefficient: false,
         useManyCoefficients: false,
-        oneCoefficient: {
-            expensesCoefficient: null,
-        },
-        manyCoefficients: {
+        values: {
             expensesCoefficient: null,
             hotWaterCoefficient: null,
             heatingCoefficient: null,

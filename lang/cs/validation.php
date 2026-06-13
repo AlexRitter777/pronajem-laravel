@@ -40,7 +40,7 @@ return [
     'date' => 'The :attribute field must be a valid date.',
     'date_equals' => 'The :attribute field must be a date equal to :date.',
     'date_format' => 'The :attribute field must match the format :format.',
-    'decimal' => 'The :attribute field must have :decimal decimal places.',
+    'decimal' => 'Pole „:attribute" musí mít :decimal desetinných míst.',
     'declined' => 'The :attribute field must be declined.',
     'declined_if' => 'The :attribute field must be declined when :other is :value.',
     'different' => 'The :attribute field and :other must be different.',
@@ -218,8 +218,7 @@ return [
         'tenantOccupancyStartDate' => 'počáteční datum',
         'tenantOccupancyEndDate' => 'konečné datum',
 
-        'coefficients.oneCoefficient.expensesCoefficient' => 'koeficient',
-        'coefficients.manyCoefficients.*' => 'koeficient',
+        'coefficients.*' => 'koeficient',
 
         'meters.*.typeId' => 'typ měřidla',
         'meters.*.meterNumber' => 'číslo měřidla',

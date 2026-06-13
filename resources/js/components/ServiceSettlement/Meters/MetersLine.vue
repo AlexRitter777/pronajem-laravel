@@ -4,7 +4,6 @@
 import Listbox from "../../FormsElements/Listbox.vue";
 import {ref, watch} from "vue";
 import SimpleInput from "../../FormsElements/SimpleInput.vue";
-import SimpleError from "../../FormsElements/SimpleError.vue";
 
 
 const props = defineProps({
@@ -32,7 +31,7 @@ watch(
             item => String(item.id) === String(props.meter.typeId)
         ) ?? null
 
-        selectedMeterNumber.value = props.meter.number ?? null
+        selectedMeterNumber.value = props.meter.meterNumber ?? null
 
         selectedStartValue.value = props.meter.startValue ?? null
 
@@ -55,7 +54,7 @@ watch(selectedMeterType, (value) => {
 
 watch(selectedMeterNumber, (value) => {
 
-    props.meter.number = (value && value !=='') ? value : null;
+    props.meter.meterNumber = (value && value !=='') ? value : null;
 
 })
 

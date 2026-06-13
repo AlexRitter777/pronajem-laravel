@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Domains\ServiceSettlement\Validation\Validators\CoefficientModeValidator;
 use App\Domains\ServiceSettlement\Validation\Validators\MeterDateConsistencyValidator;
 use App\Enums\MeterType;
 use Illuminate\Foundation\Http\FormRequest;
@@ -45,6 +46,10 @@ class StoreServiceSettlementRequest extends FormRequest
             'property_id' => data_get($this->input('property'), 'id'),
             'property_address' => data_get($this->input('property'), 'address'),
 
+            'useOneCoefficient' => data_get($this->input('coefficients'), 'useOneCoefficient'),
+            'useManyCoefficients' => data_get($this->input('coefficients'), 'useManyCoefficients'),
+            'coefficients' =>data_get($this->input('coefficients'), 'values'),
+
             'utility_hot_water' => data_get($this->input('utilities'), 'hotWater'),
             'utility_cold_water' => data_get($this->input('utilities'), 'coldWater'),
             'utility_heating' => data_get($this->input('utilities'), 'heating'),
@@ -52,7 +57,6 @@ class StoreServiceSettlementRequest extends FormRequest
 
         ];
     }
-
 
 
     private function presentedMeterTypes() : array
@@ -74,7 +78,7 @@ class StoreServiceSettlementRequest extends FormRequest
             ->all();
     }
 
-    private function isEmptyPayment(array $payment): bool
+        private function isEmptyPayment(array $payment): bool
     {
         return ($payment['amount'] ?? null) === null;
     }
@@ -103,18 +107,22 @@ class StoreServiceSettlementRequest extends FormRequest
             'tenantOccupancyEndDate' => 'required|date|after:tenantOccupancyStartDate',
 
 
-            'coefficients' => 'nullable|array',
-            'coefficients.useOneCoefficient' => 'required|boolean',
-            'coefficients.useManyCoefficients' => 'required|boolean',
+            'useOneCoefficient' => 'required|boolean',
+            'useManyCoefficients' => 'required|boolean',
 
-            'coefficients.oneCoefficient' => 'nullable|array',
-            'coefficients.oneCoefficient.expensesCoefficient' => 'exclude_if:coefficients.useOneCoefficient,false|required|numeric|min:0|max:10',
-
-            'coefficients.manyCoefficients' => 'nullable|array',
-            'coefficients.manyCoefficients.*' => 'exclude_if:coefficients.useManyCoefficients,false|required|numeric|min:0|max:10',
+            'coefficients' => 'present|array',
+            'coefficients.expensesCoefficient' => [
+                Rule::excludeIf(fn () =>
+                    $this->input('useOneCoefficient') === false
+                    && $this->input('useManyCoefficients') === false
+                ),
+                'required', 'numeric', 'gt:0', 'max:10' ,'decimal:0,2',
+            ],
+            'coefficients.hotWaterCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:0|max:10',
+            'coefficients.heatingCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:0|max:10',
+            'coefficients.coldWaterAndWasteCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:0|max:10',
 
             'hasMeters' => 'required|boolean',
-
             'meters' => 'present|array',
             'meters.*.id' => 'exclude_if:hasMeters,false|required',
             'meters.*.typeId' => ['exclude_if:hasMeters,false', 'required', Rule::enum(MeterType::class)],
@@ -154,6 +162,7 @@ class StoreServiceSettlementRequest extends FormRequest
             function (Validator $validator) {
 
                 app(MeterDateConsistencyValidator::class)->validate($validator, $this);
+                app(CoefficientModeValidator::class)->validate($validator, $this);
 
             }
         ];
