@@ -31,3 +31,18 @@ it('builds in ONE mode with only expenses coefficient, rest null', function () {
         ->and($dto->heatingCoefficient)->toBeNull()
         ->and($dto->hotWaterAndWasteCoefficient)->toBeNull();
 });
+
+it('build without coefficients', function () {
+
+    $dto = CoefficientData::fromArray([
+        'useManyCoefficients' => false,
+        'useOneCoefficient' => false,
+    ]);
+
+    expect($dto->mode)->toBe(CoefficientMode::NONE)
+        ->and($dto->expensesCoefficient)->toBeNull()
+        ->and($dto->hotWaterCoefficient)->toBeNull()
+        ->and($dto->heatingCoefficient)->toBeNull()
+        ->and($dto->hotWaterAndWasteCoefficient)->toBeNull();
+
+});

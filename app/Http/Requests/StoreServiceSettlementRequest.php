@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Domains\ServiceSettlement\Validation\Validators\CoefficientModeValidator;
 use App\Domains\ServiceSettlement\Validation\Validators\MeterDateConsistencyValidator;
 use App\Enums\MeterType;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -86,7 +87,7 @@ class StoreServiceSettlementRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -133,11 +134,10 @@ class StoreServiceSettlementRequest extends FormRequest
             'meters.*.startYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,2',
             'meters.*.endYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startYearValue|decimal:0,3',
 
-            'utilities' => 'present|array',
             'utility_hot_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'required', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
             'utility_cold_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_heating' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
-            'utility_cold_water_for_hot' => 'nullable|numeric|gt:0|decimal:0,2',
+            'utility_cold_water_for_hot' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
 
             'expenses' => 'present|array',
             'expenses.*.id' => 'required',

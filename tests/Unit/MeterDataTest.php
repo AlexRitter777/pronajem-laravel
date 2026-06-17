@@ -1,13 +1,14 @@
 <?php
 
 use App\Domains\ServiceSettlement\Dto\MeterData;
+use App\Enums\MeterType;
 use Brick\Math\BigDecimal;
 
 it('builds from a full array', function () {
     $dto = MeterData::fromArray([
         'id' => 7,
-        'meterTypeId' => 2,
-        'meterTypeName' => 'Teplá voda',
+        'typeId' =>'hot_water',
+        'typeName' => 'Teplá voda',
         'meterNumber' => 12345,
         'startValue' => '100.500',
         'endValue' => '150.750',
@@ -16,7 +17,7 @@ it('builds from a full array', function () {
     ]);
 
     expect($dto->id)->toBe(7)
-        ->and($dto->meterTypeId)->toBe(2)
+        ->and($dto->meterTypeId)->toBe(MeterType::HOT_WATER)
         ->and($dto->meterTypeName)->toBe('Teplá voda')
         ->and($dto->meterNumber)->toBe(12345)
         ->and($dto->startValue)->toBeInstanceOf(BigDecimal::class)
@@ -26,8 +27,8 @@ it('builds from a full array', function () {
 
 it('sets id to null for a new meter', function () {
     $dto = MeterData::fromArray([
-        'meterTypeId' => 2,
-        'meterTypeName' => 'Teplá voda',
+        'typeId' => 'hot_water',
+        'typeName' => 'Teplá voda',
         'meterNumber' => 12345,
         'startValue' => '0',
         'endValue' => '0',

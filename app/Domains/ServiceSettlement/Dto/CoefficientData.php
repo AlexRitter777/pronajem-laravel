@@ -12,7 +12,7 @@ final readonly class CoefficientData
 
     public function __construct(
         public CoefficientMode $mode,
-        public BigDecimal $expensesCoefficient,
+        public ?BigDecimal $expensesCoefficient,
         public ?BigDecimal $hotWaterCoefficient,
         public ?BigDecimal $heatingCoefficient,
         public ?BigDecimal $hotWaterAndWasteCoefficient,
@@ -28,7 +28,7 @@ final readonly class CoefficientData
 
         return new self(
             mode: $mode,
-            expensesCoefficient: BigDecimal::of((string) $data['expensesCoefficient']),
+            expensesCoefficient: isset($data['expensesCoefficient']) ? BigDecimal::of((string) $data['expensesCoefficient']) : null,
             hotWaterCoefficient: isset($data['hotWaterCoefficient']) ? BigDecimal::of((string) $data['hotWaterCoefficient']) : null,
             heatingCoefficient: isset($data['heatingCoefficient']) ? BigDecimal::of((string) $data['heatingCoefficient']) : null,
             hotWaterAndWasteCoefficient: isset($data['hotWaterAndWasteCoefficient']) ? BigDecimal::of((string) $data['hotWaterAndWasteCoefficient']) : null,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\ServiceSettlement\Dto;
 
+use App\Enums\MeterType;
 use Brick\Math\BigDecimal;
 
 final readonly class MeterData
@@ -11,7 +12,7 @@ final readonly class MeterData
 
     public function __construct(
         public ?int $id,
-        public int $meterTypeId,
+        public MeterType $meterTypeId,
         public string $meterTypeName,
         public int $meterNumber,
         public BigDecimal $startValue,
@@ -26,8 +27,8 @@ final readonly class MeterData
     {
         return new self(
             id: is_numeric($data['id'] ?? null) ? (int) $data['id'] : null,
-            meterTypeId: $data['meterTypeId'],
-            meterTypeName: $data['meterTypeName'],
+            meterTypeId: MeterType::from($data['typeId']),
+            meterTypeName: $data['typeName'],
             meterNumber: $data['meterNumber'] ?? null,
             startValue: BigDecimal::of((string) $data['startValue']),
             endValue: BigDecimal::of((string) $data['endValue']),
