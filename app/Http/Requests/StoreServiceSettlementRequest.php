@@ -132,10 +132,15 @@ class StoreServiceSettlementRequest extends FormRequest
             'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,2',
             'meters.*.endValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startValue|decimal:0,3',
 
-            'utility_hot_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'required', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
-            'utility_cold_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
-            'utility_heating' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
-            'utility_cold_water_for_hot' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
+            'utility_hot_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
+            'utility_cold_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
+            'utility_heating' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
+            'utility_cold_water_for_hot' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
+
+//            'utility_hot_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'required', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
+//            'utility_cold_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
+//            'utility_heating' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
+//            'utility_cold_water_for_hot' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
 
             'expenses' => 'present|array',
             'expenses.*.id' => 'required',

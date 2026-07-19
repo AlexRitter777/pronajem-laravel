@@ -45,22 +45,8 @@ function createInitialSettlement(){
         tenantOccupancyEndDate: null,
         coefficients: createInitialCoefficients(),
         hasMeters: true,
-        meters: [
-            {
-                id : getUid(),
-                typeId : null,
-                typeName : null,
-                meterNumber : null,
-                startValue : null,
-                endValue : null,
-            },
-        ],
-        utilities: {
-            hotWater: null,
-            coldWater: null,
-            heating: null,
-            coldWaterForHot: null,
-         },
+        meters: createInitialMeters(),
+        utilities: createInitialUtilities(),
         expenses: [
             {
                 id : getUid(),
@@ -92,6 +78,28 @@ function createInitialCoefficients(){
             coldWaterAndWasteCoefficient: null,
         }
     }
+}
+
+function createInitialUtilities(){
+    return {
+        hotWater: null,
+        coldWater: null,
+        heating: null,
+        coldWaterForHot: null,
+    }
+}
+
+function createInitialMeters(){
+    return [
+            {
+                id : getUid(),
+                typeId : null,
+                typeName : null,
+                meterNumber : null,
+                startValue : null,
+                endValue : null,
+            },
+        ]
 }
 
 const settlement = reactive(createInitialSettlement());
@@ -320,6 +328,11 @@ function clearCoefficients() {
 
 function checkMetersPresence(hasMeters){
     settlement.hasMeters = hasMeters;
+    if(!hasMeters) {
+        settlement.meters = createInitialMeters();
+    }else {
+        settlement.utilities = createInitialUtilities();
+    }
 }
 
 async function calculateServiceSettlement() {
@@ -441,6 +454,7 @@ const showMeters = computed(() => {
             <!-- UTILITIES -->
             <ComponentWrapper>
                 <Utilities
+                    v-if="!settlement.hasMeters"
                     :label="$t('service-settlement.utilities')"
                     :utilities="settlement.utilities"
                     :errors="validationErrors"

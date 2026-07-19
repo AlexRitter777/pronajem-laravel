@@ -33,20 +33,16 @@ it('builds from a full array', function () {
             [
                 'typeId' => 'hot_water',
                 'typeName' => 'Teplá voda',
-                'meterNumber' => 12345,
+                'meterNumber' => '12345',
                 'startValue' => '5',
                 'endValue' => '15.5',
-                'startYearValue' => '1',
-                'endYearValue' => '20',
             ],
             [
                 'typeId' => 'cold_water',
                 'typeName' => 'Studená voda',
-                'meterNumber' => 12345,
+                'meterNumber' => '12345',
                 'startValue' => '5',
                 'endValue' => '15.5',
-                'startYearValue' => '1',
-                'endYearValue' => '20',
             ],
 
         ],
@@ -154,11 +150,9 @@ it('sets null for optional fields and empty array for payments', function () {
             [
                 'typeId' => 'hot_water',
                 'typeName' => 'Teplá voda',
-                'meterNumber' => 12345,
+                'meterNumber' => '12345',
                 'startValue' => '5',
                 'endValue' => '15.5',
-                'startYearValue' => '1',
-                'endYearValue' => '20',
             ],
 
         ],
