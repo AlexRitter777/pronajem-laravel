@@ -16,8 +16,6 @@ const selectedMeterType = ref(null);
 const selectedMeterNumber = ref(null);
 const selectedStartValue = ref(null);
 const selectedEndValue = ref(null);
-const selectedStartYearValue = ref(null);
-const selectedEndYearValue = ref(null);
 
 watch(
     () => props.meter,
@@ -36,10 +34,6 @@ watch(
         selectedStartValue.value = props.meter.startValue ?? null
 
         selectedEndValue.vale = props.meter.endValue ?? null
-
-        selectedStartYearValue.value = props.meter.startYearValue ?? null
-
-        selectedEndYearValue.vale = props.meter.endYearValue ?? null
 
     },
     { immediate: true }
@@ -70,17 +64,6 @@ watch(selectedEndValue, (value) => {
 
 })
 
-watch(selectedStartYearValue, (value) => {
-
-    props.meter.startYearValue = (value && value !=='') ? value : null;
-
-})
-
-watch(selectedEndYearValue, (value) => {
-
-    props.meter.endYearValue = (value && value !=='') ? value : null;
-
-})
 
 
 
@@ -110,15 +93,6 @@ watch(selectedEndYearValue, (value) => {
         :error="errors.endValue"
 
     />
-    <SimpleInput
-        v-model="selectedStartYearValue"
-        :placeholder="$t('service-settlement.meter-start-year')"
-        :error="errors.startYearValue"
-    />
-    <SimpleInput
-        v-model="selectedEndYearValue"
-        :placeholder="$t('service-settlement.meter-end-year')"
-        :error="errors.endYearValue"
-    />
+
 
 </template>

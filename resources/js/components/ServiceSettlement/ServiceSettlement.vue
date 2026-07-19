@@ -53,8 +53,6 @@ function createInitialSettlement(){
                 meterNumber : null,
                 startValue : null,
                 endValue : null,
-                startYearValue : null,
-                endYearValue : null,
             },
         ],
         utilities: {

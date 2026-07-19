@@ -3,7 +3,6 @@
 import {computed, watch, watchEffect} from "vue";
 import TrashIcon from "../../Icons/TrashIcon.vue";
 import MetersLine from "./MetersLine.vue";
-import SimpleError from "../../FormsElements/SimpleError.vue";
 import useLineErrors from "../../../composables/line-errors.js";
 
 const props = defineProps({

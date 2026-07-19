@@ -17,8 +17,6 @@ final readonly class MeterData
         public int $meterNumber,
         public BigDecimal $startValue,
         public BigDecimal $endValue,
-        public BigDecimal $startYearValue,
-        public BigDecimal $endYearValue,
     ) {
     }
 
@@ -32,8 +30,6 @@ final readonly class MeterData
             meterNumber: $data['meterNumber'] ?? null,
             startValue: BigDecimal::of((string) $data['startValue']),
             endValue: BigDecimal::of((string) $data['endValue']),
-            startYearValue: BigDecimal::of((string) $data['startYearValue']),
-            endYearValue: BigDecimal::of((string)$data['endYearValue'])
         );
     }
 

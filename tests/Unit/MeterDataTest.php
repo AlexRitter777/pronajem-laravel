@@ -12,8 +12,6 @@ it('builds from a full array', function () {
         'meterNumber' => 12345,
         'startValue' => '100.500',
         'endValue' => '150.750',
-        'startYearValue' => '90.000',
-        'endYearValue' => '160.250',
     ]);
 
     expect($dto->id)->toBe(7)
@@ -32,8 +30,6 @@ it('sets id to null for a new meter', function () {
         'meterNumber' => 12345,
         'startValue' => '0',
         'endValue' => '0',
-        'startYearValue' => '0',
-        'endYearValue' => '0',
     ]);
 
     expect($dto->id)->toBeNull();

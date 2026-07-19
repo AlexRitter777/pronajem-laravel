@@ -131,8 +131,6 @@ class StoreServiceSettlementRequest extends FormRequest
             'meters.*.meterNumber' => 'exclude_if:hasMeters,false|required|string',
             'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,2',
             'meters.*.endValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startValue|decimal:0,3',
-            'meters.*.startYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,2',
-            'meters.*.endYearValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startYearValue|decimal:0,3',
 
             'utility_hot_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'required', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
             'utility_cold_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
