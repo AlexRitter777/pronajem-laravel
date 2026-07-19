@@ -47,6 +47,7 @@ function createInitialSettlement(){
         hasMeters: true,
         meters: createInitialMeters(),
         utilities: createInitialUtilities(),
+        utilityRates: createInitialUtilityRates(),
         expenses: [
             {
                 id : getUid(),
@@ -100,6 +101,25 @@ function createInitialMeters(){
                 endValue : null,
             },
         ]
+}
+
+function createInitialUtilityRates(){
+    return {
+        hotWaterRate: {
+            fixed_amount: null,
+            unit_price: null,
+        },
+        heatingRate: {
+            fixed_amount: null,
+            unit_price: null,
+        },
+        coldWaterRate: {
+            unit_price: null,
+        },
+        coldWaterForHotRate: {
+            unit_price: null,
+        },
+    }
 }
 
 const settlement = reactive(createInitialSettlement());
