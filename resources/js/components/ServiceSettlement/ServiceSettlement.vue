@@ -44,6 +44,7 @@ function createInitialSettlement(){
         tenantOccupancyStartDate: null,
         tenantOccupancyEndDate: null,
         coefficients: createInitialCoefficients(),
+        heatingCoefficients: createInitialHeatingCoefficients(),
         hasMeters: true,
         meters: createInitialMeters(),
         utilities: createInitialUtilities(),
@@ -106,20 +107,26 @@ function createInitialMeters(){
 function createInitialUtilityRates(){
     return {
         hotWaterRate: {
-            fixed_amount: null,
-            unit_price: null,
+            fixedAmount: null,
+            unitPrice: null,
         },
         heatingRate: {
-            fixed_amount: null,
-            unit_price: null,
+            fixedAmount: null,
+            unitPrice: null,
         },
         coldWaterRate: {
-            unit_price: null,
+            unitPrice: null,
         },
         coldWaterForHotRate: {
-            unit_price: null,
+            unitPrice: null,
         },
     }
+}
+
+function createInitialHeatingCoefficients(){
+    return [
+        {id: 1, value: null},
+    ]
 }
 
 const settlement = reactive(createInitialSettlement());
