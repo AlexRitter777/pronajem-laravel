@@ -7,31 +7,20 @@ import useLineErrors from "../../../composables/line-errors.js";
 
 const props = defineProps({
     label: {type: String, required: true},
-    invoicingYear: {type: [Number, null], required: true},
-    occupancyStartDate: {type: [String, null], required: false},
-    occupancyEndDate: {type: [String, null], required: false},
     meterTypes: {type: Array, required: true},
     meters: {type: Array, required: true},
-    errors: {type: Object, required: false, default: () =>({})}
+    errors: {type: Object, required: false, default: () =>({})},
+    showMeters: {type: Boolean, required: true}
 })
 
 const meterErrors = useLineErrors('meters');
 
 const emit = defineEmits(['add-meter-line', 'remove-meter-line','has-meters']);
 
-const showMeters = computed(() => {
 
-    if(!props.invoicingYear) return true;
-
-    if(props.occupancyStartDate === `${props.invoicingYear.toString()}-01-01` && props.occupancyEndDate === `${props.invoicingYear.toString()}-12-31`) {
-        return false;
-    }
-
-    return true;
-})
 
 watch(
-    showMeters,
+    () => props.showMeters,
     value =>
         emit('has-meters', value),
     {immediate: true}

@@ -341,6 +341,14 @@ async function calculateServiceSettlement() {
 
 }
 
+const showMeters = computed(() => {
+
+    if(!settlement.invoicingYear) return true;
+
+    return !(settlement.tenantOccupancyStartDate === `${settlement.invoicingYear.toString()}-01-01` && settlement.tenantOccupancyEndDate === `${settlement.invoicingYear.toString()}-12-31`);
+
+})
+
 </script>
 
 <template>
@@ -420,11 +428,9 @@ async function calculateServiceSettlement() {
             <ComponentWrapper>
                 <Meters
                     :label="$t('service-settlement.meters')"
-                    :invoicing-year="settlement.invoicingYear"
-                    :occupancy-start-date="settlement.tenantOccupancyStartDate"
-                    :occupancy-end-date="settlement.tenantOccupancyEndDate"
                     :meter-types="meterTypes"
                     :meters="settlement.meters"
+                    :show-meters="showMeters"
                     @add-meter-line="addMeterLine"
                     @remove-meter-line="removeMeterLine"
                     @has-meters="checkMetersPresence"
