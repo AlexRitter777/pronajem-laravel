@@ -18,6 +18,7 @@ import Coefficients from "./Coefficients.vue";
 import dayjs from "dayjs";
 import BorderLine from "../UiElements/BorderLine.vue";
 import scrollToMessage from "../../utilites/srcroll-into-view.js";
+import UtilityRates from "./Expenses/UtilityRates.vue";
 
 const {saveItem, loading, errors} = useSaveItem();
 const {months} = useMonths();
@@ -33,6 +34,12 @@ const loadingCalculateSettlement = ref(false);
 
 //use snapshots for displaying entities; id is only a reference for editing
 
+
+const METER_TYPES = {
+    hot_water: 'hot_water',
+    heating: 'heating',
+    cold_water: 'cold_water',
+}
 
 function createInitialSettlement(){
 
@@ -140,6 +147,21 @@ const modals = reactive({
     tenant: { show: false, loading: false, errors: {} },
     property: { show: false, loading: false, errors: {} },
 })
+
+
+const showHotWaterRates = computed(() =>
+    settlement.meters.some(meter => meter.typeId === METER_TYPES.hot_water)
+);
+
+const showHeatingRates = computed(() =>
+    settlement.meters.some(meter => meter.typeId === METER_TYPES.heating)
+)
+
+const showColdWaterRates = computed(() =>
+    settlement.meters.some(meter => meter.typeId === METER_TYPES.cold_water)
+)
+
+
 
 const expenseModal = reactive(
 { show: false, loading: false, errors: {} },
@@ -485,6 +507,14 @@ const showMeters = computed(() => {
                     :label="$t('service-settlement.utilities')"
                     :utilities="settlement.utilities"
                     :errors="validationErrors"
+                />
+                <UtilityRates
+                    v-else
+                    :utility-rates="settlement.utilityRates"
+                    :show-hot-water-rates="showHotWaterRates"
+                    :show-heating-rates="showHeatingRates"
+                    :show-cold-water-rates="showColdWaterRates"
+                    :label="$t('service-settlement.utilities')"
                 />
             </ComponentWrapper>
 
