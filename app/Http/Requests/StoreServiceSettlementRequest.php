@@ -56,6 +56,14 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_heating' => data_get($this->input('utilities'), 'heating'),
             'utility_cold_water_for_hot' => data_get($this->input('utilities'), 'coldWaterForHot'),
 
+            'firstCoefficient' => data_get($this->input('heatingCoefficients'), 'firstCoefficient'),
+            'secondCoefficient' => data_get($this->input('heatingCoefficients'), 'secondCoefficient'),
+            'thirdCoefficient' => data_get($this->input('heatingCoefficients'), 'thirdCoefficient'),
+
+            'meterStartYearValue' => data_get($this->input('annualConsumptionComponent'), 'meterStartYearValue'),
+            'meterEndYearValue' => data_get($this->input('annualConsumptionComponent'), 'meterEndYearValue'),
+            'annualConsumption' => data_get($this->input('annualConsumptionComponent'), 'annualConsumption'),
+
         ];
     }
 
@@ -137,10 +145,15 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_heating' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_cold_water_for_hot' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
 
-//            'utility_hot_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'required', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
-//            'utility_cold_water' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
-//            'utility_heating' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value]), 'required', 'numeric', 'gt:0', 'decimal:0,2'],
-//            'utility_cold_water_for_hot' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value]), 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
+            'hasHeatingCoefficients' => 'required|boolean',
+            'firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+            'secondCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+            'thirdCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+
+            'hasAnnualConsumptionComponent' => 'required|boolean',
+            'meterStartYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,2',
+            'meterEndYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|gte:meterStartYearValue|decimal:0,2',
+            'annualConsumption' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,2',
 
             'expenses' => 'present|array',
             'expenses.*.id' => 'required',
