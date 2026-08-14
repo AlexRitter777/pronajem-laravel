@@ -156,13 +156,20 @@ class StoreServiceSettlementRequest extends FormRequest
             'hotWaterRate' => 'present|array',
             'hotWaterRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
             'hotWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
+            'coldWaterForHotRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
 
             'coldWaterRate' => 'present|array',
             'coldWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
 
             'heatingRate' => 'present|array',
             'heatingRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
-            'heatingRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
+            'heatingRate.unitPrice' => [
+                Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters || $this->input('hasAnnualConsumptionComponent')),
+                'required',
+                'numeric',
+                'gte:0',
+                'decimal:0,4'
+            ],
 
             'hasHeatingCoefficients' => 'required|boolean',
             'firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
