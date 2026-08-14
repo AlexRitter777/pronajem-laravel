@@ -54,8 +54,8 @@
     "service-settlement.meter-number": "Číslo měřidla",
     "service-settlement.meter-start": "Počáteční stav",
     "service-settlement.meter-end": "Konečný stav",
-    "service-settlement.meter-start-year": "Stav na začátku roku",
-    "service-settlement.meter-end-year": "Stav na konci roku",
+    "service-settlement.meter-start-year": "Stav měřidla na začátku roku",
+    "service-settlement.meter-end-year": "Stav na měřidla konci roku",
     "service-settlement.meter-not-required-title": "Stavy měřidel není potřeba zadávat",
     "service-settlement.meter-not-required-description": "Nájemce užíval nemovitost po celé zúčtovací období, proto není potřeba zadávat stavy měřidel.",
     "service-settlement.amount": "Částka",
@@ -79,6 +79,10 @@
     "service-settlement.expense.title": "Nový typ nákladu",
     "service-settlement.expense.subtitle": "Vyplňte název nového typu nákladu.",
     "service-settlement.coefficients" : "Koeficienty pro úpravu nákladů",
+    "service-settlement.value": "Hodnota",
+    "service-settlement.annual.unit.amount": "Spotřební složka za rok",
+    "service-settlement.fixed-part" :"Základní složka",
+    "service-settlement.unit-price" : "Cena za jednotku",
     "month.january": "Leden",
     "month.february": "Únor",
     "month.march": "Březen",
@@ -94,6 +98,7 @@
     "button.back" : "Zpět",
     "button.refresh" : "Resetovat",
     "button.calculate" : "Vypočítat",
+    "coefficient" : "Koeficient",
     "coefficients.info": "Vzhledem k tomu, že data užívání nemovitosti nájemcem částečně nebo zcela neodpovídají roku zúčtovacího období, můžete použít koeficienty pro úpravu cen, například s ohledem na inflaci, zvýšení nebo snížení cen.",
     "coefficients.link": "Více o použití koeficientů.",
     "coefficients.use": "Použít koeficienty",
@@ -104,8 +109,14 @@
     "coefficients.housing-costs": "Náklady na bydlení",
     "coefficients.hot-water": "Teplá voda",
     "coefficients.heating": "Topení",
-    "coefficients.cold-water": "Studená voda"
-
+    "coefficients.cold-water": "Studená voda",
+    "heating-coefficients-title": "Koeficienty pro vytápění",
+    "heating-coefficients-description": "Zadejte jeden až tři přepočtové koeficienty z vyúčtování správce, pokud jsou uvedeny. Koeficienty se při výpočtu vynásobí.",
+    "heating-coefficients-link": "Více o koeficientech.",
+    "manual-consumption-title": "Ruční zadání spotřební složky",
+    "manual-consumption-description": "V některých případech se spotřební složka nepočítá jako spotřeba × cena, ale stanovuje se jinak (např. podle průměrné spotřeby domu). Zadejte proto počáteční a konečný stav měřidla a celkovou částku spotřební složky — cena za jednotku se dopočítá.",
+    "manual-consumption-link": "Více informací",
+    "manual-consumption-toggle": "Zadat spotřební složku ručně"
 
 }
 

@@ -1,7 +1,8 @@
 <script setup>
 
 import UtilitiesLine from "./UtilitiesLine.vue";
-import {watch} from "vue";
+import {ref, watch} from "vue";
+import SimpleInput from "../../FormsElements/SimpleInput.vue";
 
 const props = defineProps({
     label: {type: String, required: true},
@@ -9,10 +10,18 @@ const props = defineProps({
     showHotWaterRates: {type: Boolean, required: true},
     showHeatingRates: {type: Boolean, required: true},
     showColdWaterRates: {type: Boolean, required: true},
+    heatingCoefficients: {type: Object, required: true},
+    hasHeatingCoefficients: {type: Boolean, required: true},
+    hasAnnualConsumptionComponent: {type: Boolean, required: true},
+    annualConsumptionComponent: {type: Object, required: true},
     errors: {type: Object, required: false, default: () =>({})}
 
 })
 
+const hasHeatingCoefficientsValue = ref();
+const hasAnnualConsumptionComponentValue = ref();
+
+defineEmits(['hasHeatingCoefficientsUpdated', 'hasAnnualConsumptionComponentUpdated']);
 
 watch(() => props.showHotWaterRates, value => {
     if (!value) {
@@ -34,6 +43,28 @@ watch(() => props.showColdWaterRates, value => {
         props.utilityRates.coldWaterRate.unitPrice = null;
     }
 })
+
+watch(() => props.hasHeatingCoefficients, value => {
+    hasHeatingCoefficientsValue.value = value;
+    if (!value) {
+        props.heatingCoefficients.firstCoefficient = null;
+        props.heatingCoefficients.secondCoefficient = null;
+        props.heatingCoefficients.thirdCoefficient = null;
+    }
+},
+    {immediate: true}
+)
+
+watch(() => props.hasAnnualConsumptionComponent, value => {
+        hasAnnualConsumptionComponentValue.value = value;
+        if (!value) {
+            props.annualConsumptionComponent.meterStartYearValue = null;
+            props.annualConsumptionComponent.meterEndYearValue = null;
+            props.annualConsumptionComponent.annualConsumption = null;
+        }
+    },
+    {immediate: true}
+)
 
 </script>
 
@@ -79,6 +110,20 @@ watch(() => props.showColdWaterRates, value => {
                 />
             </div>
 
+
+            <!-- Studená voda -->
+            <div v-if="showColdWaterRates" class="space-y-3">
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+                    {{ $t('service-settlement.cold-water') }}
+                </h3>
+                <UtilitiesLine
+                    v-model="props.utilityRates.coldWaterRate.unitPrice"
+                    :utility-type="$t('service-settlement.unit-price')"
+                    :error="errors['utility_cold_water']"
+                />
+            </div>
+
+
             <!-- Topení -->
             <div v-if="showHeatingRates" class="space-y-3">
                 <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
@@ -94,19 +139,139 @@ watch(() => props.showColdWaterRates, value => {
                     :utility-type="$t('service-settlement.unit-price')"
                     :error="errors['utility_heating']"
                 />
+
+                <!-- Heating coefficients-->
+
+                <div class="flex justify-between">
+                    <div class="w-full rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
+                        <p class="font-medium">
+                            {{ $t('heating-coefficients-title') }}
+                        </p>
+                        <p class="mt-1">
+                            {{ $t('heating-coefficients-description') }}
+                            <a class="underline" href=""  target="_blank">{{ $t('heating-coefficients-link') }}</a>
+                        </p>
+                    </div>
+                    <div class="h-8 w-12 invisible" aria-hidden="true"></div>
+                </div>
+
+                <div class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+
+                    <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <label class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">{{ $t('coefficients.use') }}</label>
+                        </span>
+
+                        <div class="group relative inline-flex w-11 shrink-0 rounded-full bg-gray-200 p-0.5 inset-ring inset-ring-gray-900/5 outline-offset-2 outline-indigo-600 transition-colors duration-200 ease-in-out has-checked:bg-indigo-600 has-focus-visible:outline-2 dark:bg-white/5 dark:inset-ring-white/10 dark:outline-indigo-500 dark:has-checked:bg-indigo-500">
+                            <span class="size-5 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition-transform duration-200 ease-in-out group-has-checked:translate-x-5"></span>
+                            <input
+                                type="checkbox"
+                                class="absolute inset-0 size-full appearance-none focus:outline-hidden"
+                                v-model="hasHeatingCoefficientsValue"
+                                @change="$emit('hasHeatingCoefficientsUpdated', hasHeatingCoefficientsValue)"
+                                id="show-coefficients"
+                                aria-labelledby="coefficients-label"
+                                aria-describedby="coefficients-description"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <template v-if="hasHeatingCoefficients">
+                    <div class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+                        <div class="grid grid-cols-2 gap-3">
+                            <SimpleInput
+                                v-model="heatingCoefficients.firstCoefficient"
+                                type="number"
+                                :placeholder="$t('coefficient') + ' 1'"
+                                :error="error"
+                            />
+                            <SimpleInput
+                                v-model="heatingCoefficients.secondCoefficient"
+                                type="number"
+                                :placeholder="$t('coefficient') + ' 2'"
+                                :error="error"
+                            />
+                        </div>
+
+                    </div>
+
+                    <div class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <SimpleInput
+                                v-model="heatingCoefficients.thirdCoefficient"
+                                type="number"
+                                :placeholder="$t('coefficient') + ' 3'"
+                                :error="error"
+                            />
+                        </div>
+                    </div>
+                </template>
+                <!-- End Heating coefficients-->
+
+                <!-- Corrected unit price-->
+
+                <div class="flex justify-between">
+                    <div class="w-full rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
+                        <p class="font-medium">
+                            {{ $t('manual-consumption-title') }}
+                        </p>
+                        <p class="mt-1">
+                            {{ $t('manual-consumption-description') }}
+                            <a class="underline" href=""  target="_blank">{{ $t('manual-consumption-link') }}</a>
+                        </p>
+                    </div>
+                    <div class="h-8 w-12 invisible" aria-hidden="true"></div>
+                </div>
+                <div class="grid grid-cols-[minmax(0,1fr)_2rem] gap-3 items-center">
+
+                    <div class="flex items-center justify-between">
+                        <span class="flex grow flex-col">
+                          <label class="text-sm/6 font-medium text-gray-900 dark:text-white" id="availability-label">{{ $t('manual-consumption-toggle') }}</label>
+                        </span>
+
+                        <div class="group relative inline-flex w-11 shrink-0 rounded-full bg-gray-200 p-0.5 inset-ring inset-ring-gray-900/5 outline-offset-2 outline-indigo-600 transition-colors duration-200 ease-in-out has-checked:bg-indigo-600 has-focus-visible:outline-2 dark:bg-white/5 dark:inset-ring-white/10 dark:outline-indigo-500 dark:has-checked:bg-indigo-500">
+                            <span class="size-5 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition-transform duration-200 ease-in-out group-has-checked:translate-x-5"></span>
+                            <input
+                                type="checkbox"
+                                class="absolute inset-0 size-full appearance-none focus:outline-hidden"
+                                v-model="hasAnnualConsumptionComponentValue"
+                                @change="$emit('hasAnnualConsumptionComponentUpdated', hasAnnualConsumptionComponentValue)"
+                                id="show-coefficients"
+                                aria-labelledby="coefficients-label"
+                                aria-describedby="coefficients-description"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <template
+                    v-if="hasAnnualConsumptionComponent"
+                >
+                    <UtilitiesLine
+                        v-model="annualConsumptionComponent.meterStartYearValue"
+                        :utility-type="$t('service-settlement.meter-start-year')"
+                        :placeholder="$t('service-settlement.value')"
+                        :error="errors['utility_heating']"
+                    />
+                    <UtilitiesLine
+                        v-model="annualConsumptionComponent.meterEndYearValue"
+                        :utility-type="$t('service-settlement.meter-end-year')"
+                        :placeholder="$t('service-settlement.value')"
+                        :error="errors['utility_heating']"
+                    />
+                    <UtilitiesLine
+                        v-model="annualConsumptionComponent.annualConsumption"
+                        :utility-type="$t('service-settlement.annual.unit.amount')"
+                        :error="errors['utility_heating']"
+                    />
+                </template>
+                <!-- End Corrected unit price-->
+
             </div>
 
-            <!-- Studená voda -->
-            <div v-if="showColdWaterRates" class="space-y-3">
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
-                    {{ $t('service-settlement.cold-water') }}
-                </h3>
-                <UtilitiesLine
-                    v-model="props.utilityRates.coldWaterRate.unitPrice"
-                    :utility-type="$t('service-settlement.unit-price')"
-                    :error="errors['utility_cold_water']"
-                />
-            </div>
+
 
         </div>
     </div>

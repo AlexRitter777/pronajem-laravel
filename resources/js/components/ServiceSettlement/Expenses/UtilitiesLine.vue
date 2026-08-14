@@ -1,11 +1,14 @@
 <script setup>
 
 import SimpleInput from "../../FormsElements/SimpleInput.vue";
-import {computed} from "vue";
+import {computed, onMounted} from "vue";
+import { trans } from 'laravel-vue-i18n'
+
 
 
 const props = defineProps({
     utilityType: {type: String, required: true},
+    placeholder: {type: String, required: false, default: () => trans('service-settlement.amount')},
     modelValue: {type: [String, null], required: true},
     error: {type: [Array, null], default: null, required: false},
 });
@@ -18,7 +21,6 @@ const amount = computed( {
         emit('update:modelValue', value)
     }
 });
-
 
 </script>
 
@@ -33,7 +35,7 @@ const amount = computed( {
             <SimpleInput
                 type="number"
                 v-model="amount"
-                :placeholder="$t('service-settlement.amount')"
+                :placeholder="placeholder"
                 :error="error"
             />
 

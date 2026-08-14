@@ -51,7 +51,10 @@ function createInitialSettlement(){
         tenantOccupancyStartDate: null,
         tenantOccupancyEndDate: null,
         coefficients: createInitialCoefficients(),
+        hasHeatingCoefficients: false,
         heatingCoefficients: createInitialHeatingCoefficients(),
+        hasAnnualConsumptionComponent: false,
+        annualConsumptionComponent: createAnnualConsumptionComponent(),
         hasMeters: true,
         meters: createInitialMeters(),
         utilities: createInitialUtilities(),
@@ -131,9 +134,19 @@ function createInitialUtilityRates(){
 }
 
 function createInitialHeatingCoefficients(){
-    return [
-        {id: 1, value: null},
-    ]
+    return {
+        firstCoefficient : null,
+        secondCoefficient : null,
+        thirdCoefficient : null
+    }
+}
+
+function createAnnualConsumptionComponent(){
+    return {
+        meterStartYearValue: null,
+        meterEndYearValue: null,
+        annualConsumption: null,
+    }
 }
 
 const settlement = reactive(createInitialSettlement());
@@ -514,6 +527,12 @@ const showMeters = computed(() => {
                     :show-hot-water-rates="showHotWaterRates"
                     :show-heating-rates="showHeatingRates"
                     :show-cold-water-rates="showColdWaterRates"
+                    :heating-coefficients="settlement.heatingCoefficients"
+                    :has-heating-coefficients="settlement.hasHeatingCoefficients"
+                    :has-annual-consumption-component="settlement.hasAnnualConsumptionComponent"
+                    :annual-consumption-component="settlement.annualConsumptionComponent"
+                    @has-heating-coefficients-updated="settlement.hasHeatingCoefficients = $event"
+                    @has-annual-consumption-component-updated="settlement.hasAnnualConsumptionComponent = $event"
                     :label="$t('service-settlement.utilities')"
                 />
             </ComponentWrapper>
