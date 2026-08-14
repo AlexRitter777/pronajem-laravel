@@ -534,6 +534,7 @@ const showMeters = computed(() => {
                     @has-heating-coefficients-updated="settlement.hasHeatingCoefficients = $event"
                     @has-annual-consumption-component-updated="settlement.hasAnnualConsumptionComponent = $event"
                     :label="$t('service-settlement.utilities')"
+                    :errors="validationErrors"
                 />
             </ComponentWrapper>
 

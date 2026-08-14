@@ -94,19 +94,19 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                     {{ $t('service-settlement.hot-water') }}
                 </h3>
                 <UtilitiesLine
-                    v-model="props.utilityRates.hotWaterRate.fixedAmount"
+                    v-model="utilityRates.hotWaterRate.fixedAmount"
                     :utility-type="$t('service-settlement.fixed-part')"
-                    :error="errors['utility_hot_water']"
+                    :error="errors['hotWaterRate.fixedAmount']"
                 />
                 <UtilitiesLine
-                    v-model="props.utilityRates.hotWaterRate.unitPrice"
+                    v-model="utilityRates.hotWaterRate.unitPrice"
                     :utility-type="$t('service-settlement.unit-price')"
-                    :error="errors['utility_hot_water']"
+                    :error="errors['hotWaterRate.unitPrice']"
                 />
                 <UtilitiesLine
-                    v-model="props.utilityRates.coldWaterForHotRate.unitPrice"
+                    v-model="utilityRates.coldWaterForHotRate.unitPrice"
                     :utility-type="$t('service-settlement.cold-water-hot')"
-                    :error="errors['utility_cold_water_for_hot']"
+                    :error="errors['coldWaterForHotRate.unitPrice']"
                 />
             </div>
 
@@ -117,9 +117,9 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                     {{ $t('service-settlement.cold-water') }}
                 </h3>
                 <UtilitiesLine
-                    v-model="props.utilityRates.coldWaterRate.unitPrice"
+                    v-model="utilityRates.coldWaterRate.unitPrice"
                     :utility-type="$t('service-settlement.unit-price')"
-                    :error="errors['utility_cold_water']"
+                    :error="errors['coldWaterRate.unitPrice']"
                 />
             </div>
 
@@ -130,14 +130,14 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                     {{ $t('service-settlement.heating') }}
                 </h3>
                 <UtilitiesLine
-                    v-model="props.utilityRates.heatingRate.fixedAmount"
+                    v-model="utilityRates.heatingRate.fixedAmount"
                     :utility-type="$t('service-settlement.fixed-part')"
-                    :error="errors['utility_heating']"
+                    :error="errors['heatingRate.fixedAmount']"
                 />
                 <UtilitiesLine
-                    v-model="props.utilityRates.heatingRate.unitPrice"
+                    v-model="utilityRates.heatingRate.unitPrice"
                     :utility-type="$t('service-settlement.unit-price')"
-                    :error="errors['utility_heating']"
+                    :error="errors['heatingRate.unitPrice']"
                 />
 
                 <!-- Heating coefficients-->
@@ -184,13 +184,13 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                                 v-model="heatingCoefficients.firstCoefficient"
                                 type="number"
                                 :placeholder="$t('coefficient') + ' 1'"
-                                :error="error"
+                                :error="error['firstCoefficient']"
                             />
                             <SimpleInput
                                 v-model="heatingCoefficients.secondCoefficient"
                                 type="number"
                                 :placeholder="$t('coefficient') + ' 2'"
-                                :error="error"
+                                :error="error['secondCoefficient']"
                             />
                         </div>
 
@@ -203,7 +203,7 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                                 v-model="heatingCoefficients.thirdCoefficient"
                                 type="number"
                                 :placeholder="$t('coefficient') + ' 3'"
-                                :error="error"
+                                :error="error['thirdCoefficient']"
                             />
                         </div>
                     </div>
@@ -253,18 +253,18 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                         v-model="annualConsumptionComponent.meterStartYearValue"
                         :utility-type="$t('service-settlement.meter-start-year')"
                         :placeholder="$t('service-settlement.value')"
-                        :error="errors['utility_heating']"
+                        :error="errors['meterStartYearValue']"
                     />
                     <UtilitiesLine
                         v-model="annualConsumptionComponent.meterEndYearValue"
                         :utility-type="$t('service-settlement.meter-end-year')"
                         :placeholder="$t('service-settlement.value')"
-                        :error="errors['utility_heating']"
+                        :error="errors['meterEndYearValue']"
                     />
                     <UtilitiesLine
                         v-model="annualConsumptionComponent.annualConsumption"
                         :utility-type="$t('service-settlement.annual.unit.amount')"
-                        :error="errors['utility_heating']"
+                        :error="errors['annualConsumption']"
                     />
                 </template>
                 <!-- End Corrected unit price-->
