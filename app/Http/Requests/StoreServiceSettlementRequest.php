@@ -56,6 +56,11 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_heating' => data_get($this->input('utilities'), 'heating'),
             'utility_cold_water_for_hot' => data_get($this->input('utilities'), 'coldWaterForHot'),
 
+            'hotWaterRate' => data_get($this->input('utilityRates'), 'hotWaterRate'),
+            'coldWaterRate' => data_get($this->input('utilityRates'), 'coldWaterRate'),
+            'heatingRate' => data_get($this->input('utilityRates'), 'heatingRate'),
+            'coldWaterForHotRate' => data_get($this->input('utilityRates'), 'coldWaterForHotRate'),
+
             'firstCoefficient' => data_get($this->input('heatingCoefficients'), 'firstCoefficient'),
             'secondCoefficient' => data_get($this->input('heatingCoefficients'), 'secondCoefficient'),
             'thirdCoefficient' => data_get($this->input('heatingCoefficients'), 'thirdCoefficient'),
@@ -100,6 +105,7 @@ class StoreServiceSettlementRequest extends FormRequest
     public function rules(): array
     {
         $presentedMeterTypes = $this->presentedMeterTypes();
+        $hasMeters = $this->input('hasMeters');
 
         return [
             'landlord_id' => 'required|int|exists:landlords,id',
@@ -144,6 +150,19 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_cold_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_heating' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_cold_water_for_hot' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
+
+            'utilityRates' => 'present|array',
+
+            'hotWaterRate' => 'present|array',
+            'hotWaterRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
+            'hotWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
+
+            'coldWaterRate' => 'present|array',
+            'coldWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
+
+            'heatingRate' => 'present|array',
+            'heatingRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
+            'heatingRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
 
             'hasHeatingCoefficients' => 'required|boolean',
             'firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
