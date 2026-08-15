@@ -135,6 +135,7 @@ class StoreServiceSettlementRequest extends FormRequest
 
             'hasMeters' => 'required|boolean',
             'meters' => 'present|array',
+            'meters.*' => 'exclude_if:hasMeters,false|array',
             'meters.*.id' => 'exclude_if:hasMeters,false|required',
             'meters.*.typeId' => ['exclude_if:hasMeters,false', 'required', Rule::enum(MeterType::class)],
             'meters.*.typeName' => 'exclude_if:hasMeters,false|required|string',

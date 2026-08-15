@@ -128,7 +128,7 @@ it('builds from a full array', function () {
 
 });
 
-it('sets null for optional fields and empty array for payments', function () {
+it('sets null for optional fields and empty array for payments and meters', function () {
 
 
     $dto = ServiceSettlementData::fromArray([
@@ -146,16 +146,7 @@ it('sets null for optional fields and empty array for payments', function () {
             'useOneCoefficient' => false,
             'useManyCoefficients' => false,
         ],
-        'meters' => [
-            [
-                'typeId' => 'hot_water',
-                'typeName' => 'Teplá voda',
-                'meterNumber' => '12345',
-                'startValue' => '5',
-                'endValue' => '15.5',
-            ],
-
-        ],
+        'meters' => [],
 
         'expenses' => [
             [
@@ -197,8 +188,7 @@ it('sets null for optional fields and empty array for payments', function () {
         ->and($dto->coefficients)->toBeInstanceOf(CoefficientData::class)
 
         ->and($dto->meterData)->tobeArray()
-        ->toHaveCount(1)
-            ->each->toBeInstanceOf(MeterData::class)
+            ->toHaveCount(0)
 
         ->and($dto->expenseData)->toBeArray()
         ->toHaveCount(2)
@@ -213,3 +203,5 @@ it('sets null for optional fields and empty array for payments', function () {
     ;
 
 });
+
+
