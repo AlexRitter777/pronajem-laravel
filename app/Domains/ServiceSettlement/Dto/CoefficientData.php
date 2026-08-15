@@ -18,14 +18,8 @@ final readonly class CoefficientData
         public ?BigDecimal $hotWaterAndWasteCoefficient,
     ){}
 
-    public static function fromArray(array $data) : self
+    public static function fromArray(array $data, CoefficientMode $mode) : self
     {
-        $mode = match (true) {
-            ($data['useManyCoefficients'] ?? false) => CoefficientMode::MANY,
-            ($data['useOneCoefficient'] ?? false)   => CoefficientMode::ONE,
-            default                                  => CoefficientMode::NONE,
-        };
-
         return new self(
             mode: $mode,
             expensesCoefficient: isset($data['expensesCoefficient']) ? BigDecimal::of((string) $data['expensesCoefficient']) : null,

@@ -61,10 +61,6 @@ class StoreServiceSettlementRequest extends FormRequest
             'heatingRate' => data_get($this->input('utilityRates'), 'heatingRate'),
             'coldWaterForHotRate' => data_get($this->input('utilityRates'), 'coldWaterForHotRate'),
 
-//            'firstCoefficient' => data_get($this->input('heatingCoefficients'), 'firstCoefficient'),
-//            'secondCoefficient' => data_get($this->input('heatingCoefficients'), 'secondCoefficient'),
-//            'thirdCoefficient' => data_get($this->input('heatingCoefficients'), 'thirdCoefficient'),
-
             'meterStartYearValue' => data_get($this->input('annualConsumptionComponent'), 'meterStartYearValue'),
             'meterEndYearValue' => data_get($this->input('annualConsumptionComponent'), 'meterEndYearValue'),
             'annualConsumption' => data_get($this->input('annualConsumptionComponent'), 'annualConsumption'),

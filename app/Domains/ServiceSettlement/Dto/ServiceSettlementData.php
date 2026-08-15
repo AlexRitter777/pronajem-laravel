@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\ServiceSettlement\Dto;
 
+use App\Domains\ServiceSettlement\Enums\CoefficientMode;
 use Brick\Money\Money;
 use Carbon\CarbonImmutable;
 
@@ -26,6 +27,7 @@ final readonly class ServiceSettlementData
         public CarbonImmutable $tenantOccupancyEndDate,
 
         public CoefficientData $coefficients,
+
         public array $meterData,
         public array $paymentData,
 
@@ -33,6 +35,8 @@ final readonly class ServiceSettlementData
         public ?Money $utilityColdWater,
         public ?Money $utilityHeating,
         public ?Money $utilityColdWaterForHot,
+
+        public ?HeatingCoefficientsData $heatingCoefficientsData,
 
         public array $expenseData,
 
@@ -55,16 +59,29 @@ final readonly class ServiceSettlementData
             invoicingYear: CarbonImmutable::createFromFormat('Y', $data['invoicingYear']),
             tenantOccupancyStartDate: CarbonImmutable::parse($data['tenantOccupancyStartDate']),
             tenantOccupancyEndDate: CarbonImmutable::parse($data['tenantOccupancyEndDate']),
-            coefficients:  CoefficientData::fromArray($data['coefficients']),
+            coefficients:  self::makeCoefficientsData($data['coefficients']),
             meterData: $meterData,
             paymentData: $paymentData,
             utilityHotWater: isset($data['utility_hot_water']) ? Money::of((string) $data['utility_hot_water'], 'CZK') : null,
             utilityColdWater: isset($data['utility_cold_water']) ? Money::of((string) $data['utility_cold_water'], 'CZK') : null,
             utilityHeating: isset($data['utility_heating']) ? Money::of((string) $data['utility_heating'], 'CZK') : null,
             utilityColdWaterForHot: isset($data['utility_cold_water_for_hot']) ? Money::of((string) $data['utility_cold_water_for_hot'], 'CZK') : null,
+            heatingCoefficientsData: HeatingCoefficientsData::fromArray($data['heatingCoefficients'] ?? []),
             expenseData: $expenseData,
 
         );
+    }
+
+
+    private static function makeCoefficientsData(array $data) : CoefficientData
+    {
+        $mode = match (true) {
+            ($data['useManyCoefficients'] ?? false) => CoefficientMode::MANY,
+            ($data['useOneCoefficient'] ?? false)   => CoefficientMode::ONE,
+            default                                  => CoefficientMode::NONE,
+        };
+
+        return CoefficientData::fromArray($data['coefficients'] ?? [], $mode);
     }
 
 
