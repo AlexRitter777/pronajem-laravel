@@ -148,8 +148,6 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_heating' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_cold_water_for_hot' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
 
-            'utilityRates' => 'present|array',
-
             'hotWaterRate' => 'present|array',
             'hotWaterRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
             'hotWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
