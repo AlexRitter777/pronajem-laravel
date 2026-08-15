@@ -256,9 +256,9 @@ return [
         'heatingRate.unitPrice' => 'jednotková cena vytápění',
 
         'hasHeatingCoefficients' => 'použití koeficientů vytápění',
-        'firstCoefficient' => 'první koeficient vytápění',
-        'secondCoefficient' => 'druhý koeficient vytápění',
-        'thirdCoefficient' => 'třetí koeficient vytápění',
+        'heatingCoefficients.firstCoefficient' => 'první koeficient vytápění',
+        'heatingCoefficients.secondCoefficient' => 'druhý koeficient vytápění',
+        'heatingCoefficients.thirdCoefficient' => 'třetí koeficient vytápění',
 
         'hasAnnualConsumptionComponent' => 'použití roční složky spotřeby',
         'meterStartYearValue' => 'stav měřidla na začátku roku',

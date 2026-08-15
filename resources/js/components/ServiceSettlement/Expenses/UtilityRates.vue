@@ -184,13 +184,13 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                                 v-model="heatingCoefficients.firstCoefficient"
                                 type="number"
                                 :placeholder="$t('coefficient') + ' 1'"
-                                :error="errors['firstCoefficient']"
+                                :error="errors['heatingCoefficients.firstCoefficient']"
                             />
                             <SimpleInput
                                 v-model="heatingCoefficients.secondCoefficient"
                                 type="number"
                                 :placeholder="$t('coefficient') + ' 2'"
-                                :error="errors['secondCoefficient']"
+                                :error="errors['heatingCoefficients.secondCoefficient']"
                             />
                         </div>
 
@@ -203,7 +203,7 @@ watch(() => props.hasAnnualConsumptionComponent, value => {
                                 v-model="heatingCoefficients.thirdCoefficient"
                                 type="number"
                                 :placeholder="$t('coefficient') + ' 3'"
-                                :error="errors['thirdCoefficient']"
+                                :error="errors['heatingCoefficients.thirdCoefficient']"
                             />
                         </div>
                     </div>

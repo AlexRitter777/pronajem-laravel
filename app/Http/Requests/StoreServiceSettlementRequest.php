@@ -61,9 +61,9 @@ class StoreServiceSettlementRequest extends FormRequest
             'heatingRate' => data_get($this->input('utilityRates'), 'heatingRate'),
             'coldWaterForHotRate' => data_get($this->input('utilityRates'), 'coldWaterForHotRate'),
 
-            'firstCoefficient' => data_get($this->input('heatingCoefficients'), 'firstCoefficient'),
-            'secondCoefficient' => data_get($this->input('heatingCoefficients'), 'secondCoefficient'),
-            'thirdCoefficient' => data_get($this->input('heatingCoefficients'), 'thirdCoefficient'),
+//            'firstCoefficient' => data_get($this->input('heatingCoefficients'), 'firstCoefficient'),
+//            'secondCoefficient' => data_get($this->input('heatingCoefficients'), 'secondCoefficient'),
+//            'thirdCoefficient' => data_get($this->input('heatingCoefficients'), 'thirdCoefficient'),
 
             'meterStartYearValue' => data_get($this->input('annualConsumptionComponent'), 'meterStartYearValue'),
             'meterEndYearValue' => data_get($this->input('annualConsumptionComponent'), 'meterEndYearValue'),
@@ -172,9 +172,10 @@ class StoreServiceSettlementRequest extends FormRequest
             ],
 
             'hasHeatingCoefficients' => 'required|boolean',
-            'firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
-            'secondCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
-            'thirdCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+            'heatingCoefficients' => 'present|array',
+            'heatingCoefficients.firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+            'heatingCoefficients.secondCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+            'heatingCoefficients.thirdCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
 
             'hasAnnualConsumptionComponent' => 'required|boolean',
             'meterStartYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,2',
