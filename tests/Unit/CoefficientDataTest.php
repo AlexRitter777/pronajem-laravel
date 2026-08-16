@@ -8,7 +8,7 @@ it('builds in MANY mode with all coefficients', function () {
         'expensesCoefficient' => '1.5',
         'hotWaterCoefficient' => '2.0',
         'heatingCoefficient' => '0.75',
-        'hotWaterAndWasteCoefficient' => '1.25',
+        'coldWaterAndWasteCoefficient' => '1.25',
         ],
         CoefficientMode::MANY,
     );
@@ -17,7 +17,7 @@ it('builds in MANY mode with all coefficients', function () {
         ->and($dto->expensesCoefficient->isEqualTo('1.5'))->toBeTrue()
         ->and($dto->hotWaterCoefficient->isEqualTo('2.0'))->toBeTrue()
         ->and($dto->heatingCoefficient->isEqualTo('0.75'))->toBeTrue()
-        ->and($dto->hotWaterAndWasteCoefficient->isEqualTo('1.25'))->toBeTrue();
+        ->and($dto->coldWaterAndWasteCoefficient->isEqualTo('1.25'))->toBeTrue();
 });
 
 it('builds in ONE mode with only expenses coefficient, rest null', function () {
@@ -31,7 +31,7 @@ it('builds in ONE mode with only expenses coefficient, rest null', function () {
         ->and($dto->expensesCoefficient->isEqualTo('1.5'))->toBeTrue()
         ->and($dto->hotWaterCoefficient)->toBeNull()
         ->and($dto->heatingCoefficient)->toBeNull()
-        ->and($dto->hotWaterAndWasteCoefficient)->toBeNull();
+        ->and($dto->coldWaterAndWasteCoefficient)->toBeNull();
 });
 
 it('build without coefficients', function () {
@@ -43,6 +43,6 @@ it('build without coefficients', function () {
         ->and($dto->expensesCoefficient)->toBeNull()
         ->and($dto->hotWaterCoefficient)->toBeNull()
         ->and($dto->heatingCoefficient)->toBeNull()
-        ->and($dto->hotWaterAndWasteCoefficient)->toBeNull();
+        ->and($dto->coldWaterAndWasteCoefficient)->toBeNull();
 
 });

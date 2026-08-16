@@ -15,7 +15,7 @@ final readonly class CoefficientData
         public ?BigDecimal $expensesCoefficient,
         public ?BigDecimal $hotWaterCoefficient,
         public ?BigDecimal $heatingCoefficient,
-        public ?BigDecimal $hotWaterAndWasteCoefficient,
+        public ?BigDecimal $coldWaterAndWasteCoefficient,
     ){}
 
     public static function fromArray(array $data, CoefficientMode $mode) : self
@@ -25,7 +25,7 @@ final readonly class CoefficientData
             expensesCoefficient: isset($data['expensesCoefficient']) ? BigDecimal::of((string) $data['expensesCoefficient']) : null,
             hotWaterCoefficient: isset($data['hotWaterCoefficient']) ? BigDecimal::of((string) $data['hotWaterCoefficient']) : null,
             heatingCoefficient: isset($data['heatingCoefficient']) ? BigDecimal::of((string) $data['heatingCoefficient']) : null,
-            hotWaterAndWasteCoefficient: isset($data['hotWaterAndWasteCoefficient']) ? BigDecimal::of((string) $data['hotWaterAndWasteCoefficient']) : null,
+            coldWaterAndWasteCoefficient: isset($data['coldWaterAndWasteCoefficient']) ? BigDecimal::of((string) $data['coldWaterAndWasteCoefficient']) : null,
         );
     }
 

@@ -6,6 +6,7 @@ use App\Domains\ServiceSettlement\Dto\HeatingCoefficientsData;
 use App\Domains\ServiceSettlement\Dto\MeterData;
 use App\Domains\ServiceSettlement\Dto\PaymentData;
 use App\Domains\ServiceSettlement\Dto\ServiceSettlementData;
+use App\Domains\ServiceSettlement\Enums\CoefficientMode;
 use Carbon\CarbonImmutable;
 
 
@@ -76,8 +77,7 @@ it('builds from a full array without meters data', function () {
         ->and($dto->propertyId)->toBe(12)
         ->and($dto->propertyAddress)->toBe('Sazovicka 492/5, Praha 5')
 
-        ->and($dto->invoicingYear->format('Y'))->toBe('2025')
-        ->and($dto->invoicingYear)->toBeInstanceOf(CarbonImmutable::class)
+        ->and($dto->invoicingYear)->toBe(2025)
 
         ->and($dto->tenantOccupancyStartDate->format('Y-m-d'))->toBe('2025-01-01')
         ->and($dto->tenantOccupancyStartDate)->toBeInstanceOf(CarbonImmutable::class)
@@ -85,7 +85,9 @@ it('builds from a full array without meters data', function () {
         ->and($dto->tenantOccupancyEndDate)->toBeInstanceOf(CarbonImmutable::class)
 
         ->and($dto->coefficients)->toBeInstanceOf(CoefficientData::class)
-        ->and($dto->meterData)->tobeArray()
+        ->and($dto->coefficients->mode)->toBe(CoefficientMode::NONE)
+
+        ->and($dto->meterData)->toBeArray()
         ->toHaveCount(0)
 
         ->and($dto->expenseData)->toBeArray()
@@ -113,10 +115,10 @@ it('builds from a full array without meters data', function () {
 
         ->and($dto->hasAnnualConsumptionComponent)->toBeFalse()
 
-        ->and($dto->utilityHotWater)->isEqualTo('100.55')
-        ->and($dto->utilityColdWater)->isEqualTo('1200.55')
-        ->and($dto->utilityHeating)->isEqualTo('1500.55')
-        ->and($dto->utilityColdWaterForHot)->isEqualTo('1235')
+        ->and($dto->utilityHotWater->isEqualTo('100.55'))->toBeTrue()
+        ->and($dto->utilityColdWater->isEqualTo('1200.55'))->toBeTrue()
+        ->and($dto->utilityHeating->isEqualTo('1500.55'))->toBeTrue()
+        ->and($dto->utilityColdWaterForHot->isEqualTo('1235'))->toBeTrue()
     ;
 
 
@@ -138,13 +140,13 @@ it('builds from a full array with meters data', function () {
         'invoicingYear' => 2025,
         'tenantOccupancyStartDate' => '2025-01-01',
         'tenantOccupancyEndDate' => '2025-10-25',
+        'useOneCoefficient' => false,
+        'useManyCoefficients' => true,
         'coefficients' => [
-            'useOneCoefficient' => false,
-            'useManyCoefficients' => true,
             'expensesCoefficient' => '1.5',
             'hotWaterCoefficient' => '2.0',
             'heatingCoefficient' => '0.75',
-            'hotWaterAndWasteCoefficient' => '1.25',
+            'coldWaterAndWasteCoefficient' => '1.25',
         ],
         'meters' => [
             [
@@ -232,18 +234,23 @@ it('builds from a full array with meters data', function () {
         ->and($dto->propertyId)->toBe(12)
         ->and($dto->propertyAddress)->toBe('Sazovicka 492/5, Praha 5')
 
-        ->and($dto->invoicingYear->format('Y'))->toBe('2025')
-        ->and($dto->invoicingYear)->toBeInstanceOf(CarbonImmutable::class)
+        ->and($dto->invoicingYear)->toBe(2025)
 
         ->and($dto->tenantOccupancyStartDate->format('Y-m-d'))->toBe('2025-01-01')
         ->and($dto->tenantOccupancyStartDate)->toBeInstanceOf(CarbonImmutable::class)
         ->and($dto->tenantOccupancyEndDate->format('Y-m-d'))->toBe('2025-10-25')
         ->and($dto->tenantOccupancyEndDate)->toBeInstanceOf(CarbonImmutable::class)
 
-        ->and($dto->coefficients)->toBeInstanceOf(CoefficientData::class)
-        ->and($dto->meterData)->tobeArray()
+        ->and($dto->meterData)->toBeArray()
             ->toHaveCount(2)
             ->each->toBeInstanceOf(MeterData::class)
+
+        ->and($dto->coefficients)->toBeInstanceOf(CoefficientData::class)
+        ->and($dto->coefficients->mode)->toBe(CoefficientMode::MANY)
+        ->and($dto->coefficients->hotWaterCoefficient->isEqualTo('2.0'))->toBeTrue()
+        ->and($dto->coefficients->heatingCoefficient->isEqualTo('0.75'))->toBeTrue()
+        ->and($dto->coefficients->coldWaterAndWasteCoefficient->isEqualTo('1.25'))->toBeTrue()
+        ->and($dto->coefficients->expensesCoefficient->isEqualTo('1.5'))->toBeTrue()
 
         ->and($dto->expenseData)->toBeArray()
             ->toHaveCount(2)
@@ -288,10 +295,8 @@ it('sets null for optional fields and empty array for payments and meters', func
         'invoicingYear' => 2026,
         'tenantOccupancyStartDate' => '2025-01-01',
         'tenantOccupancyEndDate' => '2025-10-25',
-        'coefficients' => [
-            'useOneCoefficient' => false,
-            'useManyCoefficients' => false,
-        ],
+        'useOneCoefficient' => false,
+        'useManyCoefficients' => false,
         'meters' => [],
 
         'expenses' => [
@@ -322,9 +327,7 @@ it('sets null for optional fields and empty array for payments and meters', func
         ->and($dto->propertyId)->toBe(12)
 
         ->and($dto->propertyAddress)->toBe('Sazovicka 492/5, Praha 5')
-        ->and($dto->invoicingYear->format('Y'))->toBe('2026')
-
-        ->and($dto->invoicingYear)->toBeInstanceOf(CarbonImmutable::class)
+        ->and($dto->invoicingYear)->toBe(2026)
 
         ->and($dto->tenantOccupancyStartDate->format('Y-m-d'))->toBe('2025-01-01')
         ->and($dto->tenantOccupancyStartDate)->toBeInstanceOf(CarbonImmutable::class)
@@ -334,7 +337,7 @@ it('sets null for optional fields and empty array for payments and meters', func
 
         ->and($dto->coefficients)->toBeInstanceOf(CoefficientData::class)
 
-        ->and($dto->meterData)->tobeArray()
+        ->and($dto->meterData)->toBeArray()
             ->toHaveCount(0)
 
         ->and($dto->expenseData)->toBeArray()
@@ -368,13 +371,11 @@ it('builds from a full array with meters data and consumption component', functi
         'invoicingYear' => 2025,
         'tenantOccupancyStartDate' => '2025-01-01',
         'tenantOccupancyEndDate' => '2025-10-25',
+        'useOneCoefficient' => true,
+        'useManyCoefficients' => false,
         'coefficients' => [
-            'useOneCoefficient' => false,
-            'useManyCoefficients' => true,
             'expensesCoefficient' => '1.5',
-            'hotWaterCoefficient' => '2.0',
-            'heatingCoefficient' => '0.75',
-            'hotWaterAndWasteCoefficient' => '1.25',
+
         ],
         'meters' => [
             [
@@ -466,8 +467,7 @@ it('builds from a full array with meters data and consumption component', functi
         ->and($dto->propertyId)->toBe(12)
         ->and($dto->propertyAddress)->toBe('Sazovicka 492/5, Praha 5')
 
-        ->and($dto->invoicingYear->format('Y'))->toBe('2025')
-        ->and($dto->invoicingYear)->toBeInstanceOf(CarbonImmutable::class)
+        ->and($dto->invoicingYear)->toBe(2025)
 
         ->and($dto->tenantOccupancyStartDate->format('Y-m-d'))->toBe('2025-01-01')
         ->and($dto->tenantOccupancyStartDate)->toBeInstanceOf(CarbonImmutable::class)
@@ -475,7 +475,11 @@ it('builds from a full array with meters data and consumption component', functi
         ->and($dto->tenantOccupancyEndDate)->toBeInstanceOf(CarbonImmutable::class)
 
         ->and($dto->coefficients)->toBeInstanceOf(CoefficientData::class)
-        ->and($dto->meterData)->tobeArray()
+        ->and($dto->coefficients->mode)->toBe(CoefficientMode::ONE)
+        ->and($dto->coefficients->expensesCoefficient->isEqualTo('1.5'))->toBeTrue()
+
+
+        ->and($dto->meterData)->toBeArray()
         ->toHaveCount(2)
         ->each->toBeInstanceOf(MeterData::class)
 

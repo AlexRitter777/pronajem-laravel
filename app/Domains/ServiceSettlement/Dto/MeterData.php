@@ -14,7 +14,7 @@ final readonly class MeterData
         public ?int $id,
         public MeterType $meterTypeId,
         public string $meterTypeName,
-        public string $meterNumber,
+        public ?string $meterNumber,
         public BigDecimal $startValue,
         public BigDecimal $endValue,
     ) {

@@ -14,22 +14,25 @@ final readonly class ServiceSettlementData
 
     public function __construct(
 
-        public int $landlordId,
+        public ?int $landlordId,
         public string $landlordName,
 
-        public int $tenantId,
+        public ?int $tenantId,
         public string $tenantName,
 
-        public int $propertyId,
+        public ?int $propertyId,
         public string $propertyAddress,
 
-        public CarbonImmutable $invoicingYear,
+        public int $invoicingYear,
         public CarbonImmutable $tenantOccupancyStartDate,
         public CarbonImmutable $tenantOccupancyEndDate,
 
         public CoefficientData $coefficients,
 
+        /** @var MeterData[] */
         public array $meterData,
+
+        /** @var PaymentData[] */
         public array $paymentData,
 
         public ?Money $utilityHotWater,
@@ -53,6 +56,7 @@ final readonly class ServiceSettlementData
         public ?BigDecimal $meterEndYearValue,
         public ?Money $annualConsumption,
 
+        /** @var ExpenseData[] */
         public array $expenseData,
 
     ){}
@@ -60,21 +64,21 @@ final readonly class ServiceSettlementData
     public static function fromArray(array $data) : self
     {
         $meterData = array_map(fn (array $m) => MeterData::fromArray($m), $data['meters'] ?? []);
-        $expenseData = array_map(fn (array $e) => ExpenseData::fromArray($e), $data['expenses']);
+        $expenseData = array_map(fn (array $e) => ExpenseData::fromArray($e), $data['expenses'] ?? []);
         $paymentData = !empty($data['payments']) ? array_map(fn (array $p) => PaymentData::fromArray($p), $data['payments']) : [];
 
         return new self(
 
-            landlordId: $data['landlord_id'],
+            landlordId: $data['landlord_id'] ?? null,
             landlordName: $data['landlord_name'],
-            tenantId: $data['tenant_id'],
+            tenantId: $data['tenant_id'] ?? null,
             tenantName: $data['tenant_name'],
-            propertyId: $data['property_id'],
+            propertyId: $data['property_id'] ?? null,
             propertyAddress: $data['property_address'],
-            invoicingYear: CarbonImmutable::createFromFormat('Y', $data['invoicingYear']),
+            invoicingYear: (int) $data['invoicingYear'],
             tenantOccupancyStartDate: CarbonImmutable::parse($data['tenantOccupancyStartDate']),
             tenantOccupancyEndDate: CarbonImmutable::parse($data['tenantOccupancyEndDate']),
-            coefficients:  self::makeCoefficientsData($data['coefficients']),
+            coefficients:  self::makeCoefficientsData($data),
 
             meterData: $meterData,
             paymentData: $paymentData,

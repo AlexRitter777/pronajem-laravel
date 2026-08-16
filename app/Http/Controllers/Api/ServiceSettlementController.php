@@ -11,7 +11,7 @@ class ServiceSettlementController extends Controller
 {
     public function store(StoreServiceSettlementRequest $request)
     {
-
+        dd($request->validated());
         $data = ServiceSettlementData::fromArray($request->validated());
 
         dd($data);

@@ -104,13 +104,13 @@ class StoreServiceSettlementRequest extends FormRequest
         $hasMeters = $this->input('hasMeters');
 
         return [
-            'landlord_id' => 'required|int|exists:landlords,id',
+            'landlord_id' => 'nullable|int|exists:landlords,id',
             'landlord_name' => 'required|string',
 
-            'tenant_id' => 'required|int|exists:tenants,id',
+            'tenant_id' => 'nullable|int|exists:tenants,id',
             'tenant_name' => 'required|string',
 
-            'property_id' => 'required|int|exists:properties,id',
+            'property_id' => 'nullable|int|exists:properties,id',
             'property_address' => 'required|string',
 
             'invoicingYear' => 'required|int',
@@ -140,10 +140,10 @@ class StoreServiceSettlementRequest extends FormRequest
             'meters.*.typeId' => ['exclude_if:hasMeters,false', 'required', Rule::enum(MeterType::class)],
             'meters.*.typeName' => 'exclude_if:hasMeters,false|required|string',
             'meters.*.meterNumber' => 'exclude_if:hasMeters,false|required|string',
-            'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,2',
+            'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,3',
             'meters.*.endValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startValue|decimal:0,3',
 
-            'utility_hot_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'min:0', 'decimal:0,2'],
+            'utility_hot_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0',  'decimal:0,2'],
             'utility_cold_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_heating' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
             'utility_cold_water_for_hot' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
@@ -186,7 +186,7 @@ class StoreServiceSettlementRequest extends FormRequest
             'payments' => 'present|array',
             'payments.*.id' => 'nullable',
             'payments.*.month' => 'required_with:payments.*.amount|int|min:1|max:12',
-            'payments.*.year' => 'required_with:payments.*.amount|nullable|int|digits:4',
+            'payments.*.year' => 'required_with:payments.*.amount|int|digits:4',
             'payments.*.amount' => 'nullable|numeric|min:0|decimal:0,2',
 
 
