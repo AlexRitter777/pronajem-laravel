@@ -61,4 +61,8 @@ class Landlord extends Model
         return $this->hasMany(DepositSettlement::class);
     }
 
+    public function servicesSettlements(): HasMany
+    {
+        return $this->hasMany(ServicesSettlement::class);
+    }
 }
