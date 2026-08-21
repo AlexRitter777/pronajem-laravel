@@ -80,14 +80,22 @@ const canAddMeters = computed(() => {
             </div>
         </div>
 
-        <div v-else class="rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
-            <p class="font-medium">
-                {{ $t('service-settlement.meter-not-required-title')}}
-            </p>
-            <p class="mt-1">
-                {{ $t('service-settlement.meter-not-required-description')}}
-            </p>
+
+    <div v-else class="mt-2 sm:col-span-2 sm:mt-0">
+        <div class="sm:max-w-2xl w-full space-y-3">
+            <div class="flex justify-between mb-6">
+                <div  class="rounded-md bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-800 dark:text-blue-300">
+                    <p class="font-medium">
+                        {{ $t('service-settlement.meter-not-required-title')}}
+                    </p>
+                    <p class="mt-1">
+                        {{ $t('service-settlement.meter-not-required-description')}}
+                    </p>
+                </div>
+                <div class="h-8 w-12 invisible"></div>
+            </div>
         </div>
+    </div>
 
 
 </template>
