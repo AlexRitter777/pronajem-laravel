@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Property extends Model
 {
+    use FormatsMoney;
+
     /** @use HasFactory<\Database\Factories\PropertyFactory> */
     use HasFactory;
-    use FormatsMoney;
 
     protected $fillable = [
         'type',
@@ -31,7 +32,7 @@ class Property extends Model
     ];
 
     protected $casts = [
-        'contract_finished_at' => 'datetime',
+        'contract_finished_at' => 'immutable_datetime',
     ];
 
     public function landlord(): BelongsTo
@@ -54,58 +55,28 @@ class Property extends Model
         return $this->belongsTo(ElectricitySupplier::class);
     }
 
-    public function annualServiceSettlements() : hasMany
+    public function servicesSettlements(): HasMany
     {
-        return $this->hasMany(AnnualServiceSettlement::class);
+        return $this->hasMany(ServicesSettlement::class);
     }
 
-    public function customServiceSettlements() : hasMany
-    {
-        return $this->hasMany(CustomServiceSettlement::class);
-
-    }
-
-    public function electricitySettlements() : hasMany
-    {
-        return $this->hasMany(ElectricitySettlement::class);
-    }
-
-    public function universalSettlements() : HasMany
-    {
-        return $this->hasMany(UniversalSettlement::class);
-    }
-
-
-    public function summarySettlements() : HasMany
-    {
-        return $this->hasMany(SummarySettlement::class);
-    }
-
-    public function depositSettlements() : HasMany
-    {
-        return $this->hasMany(DepositSettlement::class);
-    }
-
-    public function rent_amount_formatted() : string
+    public function rent_amount_formatted(): string
     {
         return $this->formatMoney($this->rent_amount, 'Kč');
     }
 
-    public function service_charge_formatted() : string
+    public function service_charge_formatted(): string
     {
         return $this->formatMoney($this->service_charge, 'Kč');
     }
 
-    public function electricity_charge_formatted() : string
+    public function electricity_charge_formatted(): string
     {
         return $this->formatMoney($this->electricity_charge, 'Kč');
     }
 
-    public function deposit_amount_formatted() : string
+    public function deposit_amount_formatted(): string
     {
         return $this->formatMoney($this->deposit_amount, 'Kč');
     }
-
-
-
 }

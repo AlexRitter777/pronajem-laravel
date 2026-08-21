@@ -52,36 +52,6 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function annualServiceSettlements(): hasMany
-    {
-        $this->hasMany(AnnualServiceSettlement::class);
-    }
-
-    public function customServiceSettlements(): hasMany
-    {
-        $this->hasMany(CustomServiceSettlement::class);
-    }
-
-    public function universalSettlements(): hasMany
-    {
-        $this->hasMany(UniversalSettlement::class);
-    }
-
-    public function electricitySettlements(): hasMany
-    {
-        $this->hasMany(ElectricitySettlement::class);
-    }
-
-    public function depositSettlements(): HasMany
-    {
-        $this->hasMany(DepositSettlement::class);
-    }
-
-    public function summarySettlements(): hasMany
-    {
-        $this->hasMany(SummarySettlement::class);
-    }
-
     public function tenants(): HasMany
     {
         return $this->hasMany(Tenant::class);
@@ -112,9 +82,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Expense::class);
     }
 
+    public function servicesSettlements(): HasMany
+    {
+        return $this->hasMany(ServicesSettlement::class);
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-
 }
