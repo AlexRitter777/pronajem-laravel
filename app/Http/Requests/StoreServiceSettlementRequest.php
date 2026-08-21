@@ -127,11 +127,11 @@ class StoreServiceSettlementRequest extends FormRequest
                     $this->input('useOneCoefficient') === false
                     && $this->input('useManyCoefficients') === false
                 ),
-                'required', 'numeric', 'gt:0', 'max:10' ,'decimal:0,2',
+                'required', 'numeric', 'min:-10', 'max:10' ,'decimal:0,3', 'not_in:0',
             ],
-            'coefficients.hotWaterCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:0|max:10',
-            'coefficients.heatingCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:0|max:10',
-            'coefficients.coldWaterAndWasteCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:0|max:10',
+            'coefficients.hotWaterCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:-10|max:10|decimal:0,3|not_in:0',
+            'coefficients.heatingCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:-10|max:10|decimal:0,3|not_in:0',
+            'coefficients.coldWaterAndWasteCoefficient' => 'exclude_if:useManyCoefficients,false|required|numeric|min:-10|max:10|decimal:0,3|not_in:0',
 
             'hasMeters' => 'required|boolean',
             'meters' => 'present|array',
@@ -140,8 +140,8 @@ class StoreServiceSettlementRequest extends FormRequest
             'meters.*.typeId' => ['exclude_if:hasMeters,false', 'required', Rule::enum(MeterType::class)],
             'meters.*.typeName' => 'exclude_if:hasMeters,false|required|string',
             'meters.*.meterNumber' => 'exclude_if:hasMeters,false|required|string',
-            'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,3',
-            'meters.*.endValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startValue|decimal:0,3',
+            'meters.*.startValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|decimal:0,4',
+            'meters.*.endValue' => 'exclude_if:hasMeters,false|required|numeric|min:0|gte:meters.*.startValue|decimal:0,4',
 
             'utility_hot_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0',  'decimal:0,2'],
             'utility_cold_water' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
@@ -149,7 +149,7 @@ class StoreServiceSettlementRequest extends FormRequest
             'utility_cold_water_for_hot' => ['exclude_if:hasMeters,true', 'nullable', 'numeric', 'gt:0', 'decimal:0,2'],
 
             'hotWaterRate' => 'present|array',
-            'hotWaterRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
+            'hotWaterRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,4'],
             'hotWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
             'coldWaterForHotRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HOT_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
 
@@ -157,7 +157,7 @@ class StoreServiceSettlementRequest extends FormRequest
             'coldWaterRate.unitPrice' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::COLD_WATER->value] || !$hasMeters), 'required', 'numeric', 'gte:0',  'decimal:0,4'],
 
             'heatingRate' => 'present|array',
-            'heatingRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,2'],
+            'heatingRate.fixedAmount' => [Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters), 'required', 'numeric', 'gte:0', 'decimal:0,4'],
             'heatingRate.unitPrice' => [
                 Rule::excludeIf(!$presentedMeterTypes[MeterType::HEATING->value] || !$hasMeters || $this->input('hasAnnualConsumptionComponent')),
                 'required',
@@ -168,13 +168,13 @@ class StoreServiceSettlementRequest extends FormRequest
 
             'hasHeatingCoefficients' => 'required|boolean',
             'heatingCoefficients' => 'present|array',
-            'heatingCoefficients.firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
-            'heatingCoefficients.secondCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
-            'heatingCoefficients.thirdCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'min:0', 'max:5', 'decimal:0,4'],
+            'heatingCoefficients.firstCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'gt:0', 'max:10', 'decimal:0,4'],
+            'heatingCoefficients.secondCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'gt:0', 'max:10', 'decimal:0,4'],
+            'heatingCoefficients.thirdCoefficient' => ['exclude_if:hasHeatingCoefficients,false', 'nullable', 'numeric', 'gt:0', 'max:10', 'decimal:0,4'],
 
             'hasAnnualConsumptionComponent' => 'required|boolean',
-            'meterStartYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,2',
-            'meterEndYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|gte:meterStartYearValue|decimal:0,2',
+            'meterStartYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,4',
+            'meterEndYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|gte:meterStartYearValue|decimal:0,4',
             'annualConsumption' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,2',
 
             'expenses' => 'present|array',
@@ -205,5 +205,8 @@ class StoreServiceSettlementRequest extends FormRequest
             }
         ];
     }
+
+
+
 
 }
