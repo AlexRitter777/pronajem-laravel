@@ -39,25 +39,43 @@ return new class extends Migration
             $table->string('property_address', 500);
             $table->string('property_type', 100)->nullable();
 
-            $table->year('invoicing_year');
+            $table->unsignedInteger('invoicing_year');
             $table->date('tenant_occupancy_start_date');
             $table->date('tenant_occupancy_end_date');
 
-            $table->enum('coefficient_mode', ['none', 'single', 'detailed'])
-                ->default('none');
+            $table->enum('coefficient_mode', ['none', 'one', 'many'])
+                ->nullable()
+                ->default(null);
 
-            $table->decimal('coef_expenses', 5, 4)->nullable();
-            $table->decimal('coef_hot_water', 5, 4)->nullable();
-            $table->decimal('coef_heating', 5, 4)->nullable();
-            $table->decimal('coef_cold_water_waste', 5, 4)->nullable();
+            $table->decimal('coef_expenses', 5, 3)->nullable();
+            $table->decimal('coef_hot_water', 5, 3)->nullable();
+            $table->decimal('coef_heating', 5, 3)->nullable();
+            $table->decimal('coef_cold_water_waste', 5, 3)->nullable();
 
             $table->decimal('utility_hot_water', 10, 2)->nullable();
             $table->decimal('utility_cold_water', 10, 2)->nullable();
             $table->decimal('utility_heating', 10, 2)->nullable();
             $table->decimal('utility_cold_water_for_hot', 10, 2)->nullable();
 
-            $table->json('result_snapshot')->nullable();
-            $table->string('algorithm_version', 10)->nullable();
+            $table->decimal('hot_water_fixed_amount', 10, 4)->nullable();
+            $table->decimal('hot_water_unit_price', 10, 4)->nullable();
+            $table->decimal('cold_water_for_hot_unit_price', 10, 4)->nullable();
+            $table->decimal('cold_water_unit_price', 10, 4)->nullable();
+            $table->decimal('heating_fixed_amount', 10, 4)->nullable();
+            $table->decimal('heating_unit_price', 10, 4)->nullable();
+
+            $table->boolean('has_heating_coefficients');
+            $table->decimal('heating_coefficient_first', 6, 4)->nullable();
+            $table->decimal('heating_coefficient_second', 6, 4)->nullable();
+            $table->decimal('heating_coefficient_third', 6, 4)->nullable();
+
+            $table->boolean('has_annual_consumption');
+            $table->decimal('meter_start_year_value', 10, 4)->nullable();
+            $table->decimal('meter_end_year_value', 10, 4)->nullable();
+            $table->decimal('annual_consumption', 10, 2)->nullable();
+
+            $table->decimal('result_balance', 10, 2);
+            $table->string('notes')->nullable();
 
             $table->timestamps();
         });
@@ -68,6 +86,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('annual_service_settlements');
+        Schema::dropIfExists('services_settlements');
     }
 };
