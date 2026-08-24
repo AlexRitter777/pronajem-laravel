@@ -28,6 +28,9 @@ final class DateResolver
 
         return new PeriodResult(
             isFullYear: $this->isFullYear($tenantOccupancyStartDate, $tenantOccupancyEndDate),
+            tenantOccupancyStartDate: $tenantOccupancyStartDate,
+            tenantOccupancyEndDate: $tenantOccupancyEndDate,
+            invoicingYear: $invoicingYear->toInt(),
             occupancyDays: $occupancyDays,
             invoicingYearDays: $invoicingYear->daysInYear(),
         );

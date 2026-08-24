@@ -17,7 +17,11 @@ it('resolves dates and full year period', function () {
 
     expect($result->isFullYear)->toBeTrue()
         ->and($result->occupancyDays)->toBe(365)
-        ->and($result->invoicingYearDays)->toBe(365);
+        ->and($result->invoicingYearDays)->toBe(365)
+        ->and($result->invoicingYear)->toBe(2023)
+        ->and($result->tenantOccupancyStartDate->format('Y-m-d'))->toBe('2023-01-01')
+        ->and($result->tenantOccupancyEndDate->format('Y-m-d'))->toBe('2023-12-31')
+    ;
 
 
 });
@@ -35,7 +39,11 @@ it('resolves dates and partial year period', function () {
 
     expect($result->isFullYear)->toBeFalse()
         ->and($result->occupancyDays)->toBe(230)
-        ->and($result->invoicingYearDays)->toBe(366);
+        ->and($result->invoicingYearDays)->toBe(366)
+        ->and($result->invoicingYear)->toBe(2024)
+        ->and($result->tenantOccupancyStartDate->format('Y-m-d'))->toBe('2024-03-10')
+        ->and($result->tenantOccupancyEndDate->format('Y-m-d'))->toBe('2024-10-25')
+    ;
 
 });
 
