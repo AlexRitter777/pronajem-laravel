@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domains\ServiceSettlement\Calculation;
+namespace App\Domains\ServiceSettlement\Dto\Calculation;
 
 final readonly class PeriodResult
 {

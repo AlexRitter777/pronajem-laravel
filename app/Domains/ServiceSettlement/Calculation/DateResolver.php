@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\ServiceSettlement\Calculation;
 
+use App\Domains\ServiceSettlement\Dto\Calculation\PeriodResult;
 use App\Domains\Shared\ValueObjects\SettlementYear;
 use Carbon\CarbonImmutable;
 
