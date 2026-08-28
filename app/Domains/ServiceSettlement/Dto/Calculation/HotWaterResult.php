@@ -14,7 +14,6 @@ final readonly class HotWaterResult
         public Money $fixedAmountPerDay,
         public Money $fixedAmountPerPeriod,
 
-        public BigDecimal $tenantConsumption,
         public Money $unitPrice,
         public Money $consumptionAmount,
 

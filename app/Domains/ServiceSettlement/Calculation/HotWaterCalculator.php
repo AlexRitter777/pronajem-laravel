@@ -38,7 +38,6 @@ final class HotWaterCalculator
             annualFixedAmount: $hotWaterFixedAmount,
             fixedAmountPerDay: $fixedAmountPerDay,
             fixedAmountPerPeriod: $fixedAmountPerPeriod,
-            tenantConsumption: $tenantConsumption,
             unitPrice: $hotWaterUnitPrice,
             consumptionAmount: $consumptionAmount,
             coldWaterForHotUnitPrice: $coldWaterForHotUnitPrice,
