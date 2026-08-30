@@ -174,7 +174,7 @@ class StoreServiceSettlementRequest extends FormRequest
 
             'hasAnnualConsumptionComponent' => 'required|boolean',
             'meterStartYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,4',
-            'meterEndYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|gte:meterStartYearValue|decimal:0,4',
+            'meterEndYearValue' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|gt:meterStartYearValue|decimal:0,4',
             'annualConsumption' => 'exclude_if:hasAnnualConsumptionComponent,false|required|numeric|min:0|decimal:0,2',
 
             'expenses' => 'present|array',
