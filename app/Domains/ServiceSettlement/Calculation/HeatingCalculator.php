@@ -6,6 +6,7 @@ namespace App\Domains\ServiceSettlement\Calculation;
 
 use App\Domains\ServiceSettlement\Dto\Calculation\HeatingResult;
 use Brick\Math\BigDecimal;
+use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 
 final class HeatingCalculator
@@ -23,19 +24,23 @@ final class HeatingCalculator
     ) : HeatingResult
     {
 
-        $fixedAmountPerDay = $heatingFixedAmount->dividedBy($daysInYear);
+        $fixedAmountPerDay = $heatingFixedAmount->getAmount()
+            ->dividedBy($daysInYear, 4, RoundingMode::HALF_UP);
 
-        $fixedAmountPerPeriod = $fixedAmountPerDay->multipliedBy($occupancyDays);
+        $fixedAmountPerPeriod = Money::of($fixedAmountPerDay->multipliedBy($occupancyDays)
+            ->toScale(2, RoundingMode::HALF_UP), 'CZK');
 
         $annualConsumption = null;
         $calculatedUnitPrice = null;
 
         if($hasAnnualConsumptionComponent) {
             $annualConsumption = $endYearReading->minus($startYearReading);
-            $calculatedUnitPrice = $annualConsumptionAmount->dividedBy($annualConsumption);
-            $consumptionAmount = $calculatedUnitPrice->multipliedBy($tenantConsumption);
+            $calculatedUnitPrice = $annualConsumptionAmount->getAmount()
+                ->dividedBy($annualConsumption, 4, RoundingMode::HALF_UP);
+            $consumptionAmount = Money::of($calculatedUnitPrice->multipliedBy($tenantConsumption)
+                ->toScale(2, RoundingMode::HALF_UP), 'CZK');
         }else{
-            $consumptionAmount = $heatingUnitPrice->multipliedBy($tenantConsumption);
+            $consumptionAmount = $heatingUnitPrice->multipliedBy($tenantConsumption, RoundingMode::HALF_UP);
         }
 
         $totalAmount = $fixedAmountPerPeriod->plus($consumptionAmount);

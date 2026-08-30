@@ -11,7 +11,7 @@ final readonly class HeatingResult
 {
     public function __construct(
         public Money $annualFixedAmount,
-        public Money $fixedAmountPerDay,
+        public BigDecimal $fixedAmountPerDay,
         public Money $fixedAmountPerPeriod,
 
         public bool $hasAnnualConsumptionComponent,
@@ -22,7 +22,7 @@ final readonly class HeatingResult
         public ?BigDecimal $startYearReading,
         public ?BigDecimal $endYearReading,
         public ?BigDecimal $annualConsumption,
-        public ?Money $calculatedUnitPrice,
+        public ?BigDecimal $calculatedUnitPrice,
 
         public Money $consumptionAmount,
         public Money $totalAmount,
